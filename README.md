@@ -1,5 +1,5 @@
 # Algorithm Animator
-University of Glasgow Level 4 Individual Project: Algorithm Animator ([website](https://amazonpriime.github.io/alg)).
+University of Glasgow Level 4 Individual Project: Algorithm Animator.
 
 The project's deployed site can be accessed [here](https://amazonpriime.github.io/alg).
 * Hosted on Github pages @ `https://amazonpriime.github.io/alg`
