@@ -1,8 +1,8 @@
 # Algorithm Animator
 University of Glasgow Level 4 Individual Project: Algorithm Animator.
 
-The project's deployed site can be accessed [here](https://amazonpriime.github.io/alg).
-* Hosted on Github pages @ `https://amazonpriime.github.io/alg`
+The project's deployed site can be accessed [here](https://amazonpriime.github.io/indproj).
+* Hosted on Github pages @ `https://amazonpriime.github.io/indproj`
 
 ### Motivation for Algorithm Animator
 The motivation behind creating Algorithm Animator is...
@@ -27,4 +27,4 @@ Guide to setting up the website locally to be worked on or tested on personal de
 ### Technologies
 The technology used to create this project with their justification.
 * ReactJS
-    * Used React as it is a great way to produce static websites with deep complexity as state management is very useful. 
+    * Used React as it is a great way to produce static websites with deep complexity as state management is very useful.
