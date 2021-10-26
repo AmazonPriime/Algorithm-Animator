@@ -4,27 +4,41 @@ University of Glasgow Level 4 Individual Project: Algorithm Animator.
 The project's deployed site can be accessed [here](https://amazonpriime.github.io/indproj).
 * Hosted on Github pages @ `https://amazonpriime.github.io/indproj`
 
-### Motivation for Algorithm Animator
+### Motivation for Algorithm Animator [TBA]
 The motivation behind creating Algorithm Animator is...
 
-### Aim of Algorithm Animator
+### Aim of Algorithm Animator [TBA]
 Algorithm Animator aims to help students...
 
 ### Features (✓ *done* | ✘ *not done*)
 * MVP Features
-    * (✓) one
-    * (✘) two
+    * (✘) Playback Controls
+      * (✘) play
+      * (✘) pause
+      * (✘) step forward
+      * (✘) step backwards
+      * (✘) speed multiplier
+    * (✘) Code Animation
+    * (✘) Pre-defined Inputs
+    * (✘) Custom UI Input
+      * (✘) add nodes
+      * (✘) edit nodes
+      * (✘) add edges
+      * (✘) delete edges
+    * (✘) Randomised Input
 * Extra Features
-    * (✘) one
-    * (✘) two
+    * (✘) Custom File Imports
+    * (✘) Algorithm Details
+      * (✘) general explanation
+      * (✘) time complexity explanation
+    * (✘) Animation of Additional Languages
+      * (✘) python
+      * (✘) java
+    * (✘) Other Algorithms
+      * (✘) sorting
 
-### Setup Website
+### Setup Website [TBA]
 Guide to setting up the website locally to be worked on or tested on personal device.
-1. Step 1
-2. `python[3] step_two.py`
-3. `npm|yarn run step_three`
 
-### Technologies
+### Technologies [TBA]
 The technology used to create this project with their justification.
-* ReactJS
-    * Used React as it is a great way to produce static websites with deep complexity as state management is very useful.
