@@ -9,7 +9,6 @@ on:
 jobs:
   build:
     name: Build Project
-
     runs-on: ubuntu-latest
 
     steps:
@@ -37,7 +36,7 @@ jobs:
 
   deploy:
     name: Deploy Project
-
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
