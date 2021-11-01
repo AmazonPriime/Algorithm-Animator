@@ -24,8 +24,9 @@ jobs:
 
       # Build the project
       - name: Build project
-        run: yarn
-        run: yarn build
+        run: |
+          yarn
+          yarn build
 
       # Upload build folder for the deploy job
       - name: Upload build folder
