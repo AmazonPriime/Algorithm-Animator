@@ -3,6 +3,7 @@ University of Glasgow Level 4 Individual Project: Algorithm Animator.
 
 The project's deployed site can be accessed [here](https://amazonpriime.github.io/indproj).
 * Hosted on Github pages @ `https://amazonpriime.github.io/indproj`
+* Development version @ `https://amazonpriime.github.io/indproj-dev`
 
 ### Motivation for Algorithm Animator [TBA]
 The motivation behind creating Algorithm Animator is...
