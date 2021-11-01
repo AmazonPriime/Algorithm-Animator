@@ -90,3 +90,4 @@ dist
 .tern-port
 # build files
 *.lock
+package-lock.json
