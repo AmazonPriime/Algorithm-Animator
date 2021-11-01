@@ -8,17 +8,52 @@ on:
 
 jobs:
   build:
+    name: Build Project
+
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      # Sets up Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'yarn'
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      # Build the project
+      - name: Build project
+        run: yarn
+        run: yarn build
+
+      # Upload build folder for the deploy job
+      - name: Upload build folder
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: build/
+
+  deploy:
+    name: Deploy Project
+
+    runs-on: ubuntu-latest
+
+    steps:
+      -uses: actions/checkout@v2
+
+      # Download the build folder
+      - name: Download build folder
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: build/
+
+      # Deploy to gh pages website
+      - uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          repository-name: AmazonPriime/amazonpriime.github.io
+          folder: build
+          target-folder: indproj-dev
+          clean: true
+          token: ${{ secrets.PAT }}
