@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
+import ReactTooltip from 'react-tooltip';
 import './Header.css';
 
 class Header extends Component {
@@ -26,10 +27,21 @@ class Header extends Component {
         >
           Source
         </a>
-        <span className="mode-icons">
-          <FontAwesomeIcon className={darkMode ? 'selected icon' : 'icon'} icon={faMoon} />
-          <FontAwesomeIcon className={darkMode ? 'icon' : 'selected icon'} icon={faSun} />
+        <span data-tip data-for="notFunctional" className="mode-icons">
+          <FontAwesomeIcon
+            className={darkMode ? 'selected icon' : 'icon'}
+            icon={faMoon}
+            onClick={() => this.setState({ darkMode: !darkMode })}
+          />
+          <FontAwesomeIcon
+            className={darkMode ? 'icon' : 'selected icon'}
+            icon={faSun}
+            onClick={() => this.setState({ darkMode: !darkMode })}
+          />
         </span>
+        <ReactTooltip id="notFunctional" effect="solid">
+          Feature in development
+        </ReactTooltip>
       </div>
     );
   }
