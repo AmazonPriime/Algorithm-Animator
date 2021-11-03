@@ -7,5 +7,8 @@
 /**/
 
 .content {
-  margin-top: 65px;
+  margin-top: 66px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

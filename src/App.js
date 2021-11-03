@@ -9,10 +9,6 @@ function App() {
       <Header />
       <div className="content">
         <p>Main content</p>
-        <p>Main content</p>
-        <p>Main content</p>
-        <p>Main content</p>
-        <p>Main content</p>
       </div>
       <Footer />
     </div>
