@@ -1,0 +1,24 @@
+name: Lint Project Codebase
+
+on: [push]
+
+jobs:
+  lint:
+    name: Lint Project Codebase
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Sets up Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'yarn'
+
+      # Lint the code
+      - name: Lint project code
+        run: |
+          yarn
+          yarn lint
