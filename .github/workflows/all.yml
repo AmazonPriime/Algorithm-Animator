@@ -1,0 +1,44 @@
+name: Lint and Test
+
+on:
+  push:
+    branches-ignore:
+      - 'develop'
+      - 'main'
+  pull_request:
+    branches-ignore:
+      - 'develop'
+      - 'main'
+
+jobs:
+  lint:
+    name: Run Linter
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Uses yarn caching
+      - uses: c-hive/gha-yarn-cache@v2
+
+      # Lint the code
+      - name: Lint project code
+        run: |
+          yarn
+          yarn lint
+
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Uses yarn caching
+      - uses: c-hive/gha-yarn-cache@v2
+
+      # Run the tests
+      - name: Run tests for project
+        run: |
+          yarn
+          echo 'Now running tests...'
