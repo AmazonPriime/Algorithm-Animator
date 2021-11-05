@@ -6,7 +6,7 @@ const footer = () => (
   <div className="footer" id="footer">
     <a
       className="developer"
-      href={ config.developerUrl }
+      href={config.developerUrl}
       target="__blank"
       rel="noopener noreferrer"
       id="developer"
@@ -25,7 +25,7 @@ const footer = () => (
     { ' ' }
     <a
       className="link"
-      href={ config.sourceCode }
+      href={config.sourceCode}
       target="__blank"
       rel="noopener noreferrer"
       id="sourceCode"

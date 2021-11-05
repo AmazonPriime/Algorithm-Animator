@@ -1,4 +1,4 @@
 module.exports = {
   developerUrl: 'https://github.com/AmazonPriime',
-  sourceCode: 'https://github.com/AmazonPriime/Algorithm-Animator'
+  sourceCode: 'https://github.com/AmazonPriime/Algorithm-Animator',
 };

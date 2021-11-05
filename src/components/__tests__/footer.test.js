@@ -1,4 +1,4 @@
-import { render, screen, cleanup, queryByAttribute } from '@testing-library/react';
+import { render, cleanup, queryByAttribute } from '@testing-library/react';
 import config from '../../constant/config';
 import Footer from '../Footer';
 
