@@ -1,4 +1,4 @@
-name: [PROD] Build and Deploy
+name: PROD Build and Deploy
 
 on:
   push:
@@ -29,7 +29,7 @@ jobs:
         with:
           name: build
           path: build/
-          
+
   deploy:
     name: Deploy Project
     runs-on: ubuntu-latest
