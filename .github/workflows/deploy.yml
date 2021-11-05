@@ -2,9 +2,9 @@ name: Build and Deploy Website
 
 on:
   push:
-    branches: [ develop, feature/github_actions ]
+    branches: [ develop ]
   pull_request:
-    branches: [ develop, feature/github_actions ]
+    branches: [ develop ]
 
 jobs:
   build:
