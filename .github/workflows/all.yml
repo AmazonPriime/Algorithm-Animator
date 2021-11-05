@@ -32,5 +32,5 @@ jobs:
       # Run the tests
       - name: Run tests for project
         run: |
-          yarn
+          yarn lint
           echo 'Now running tests...'
