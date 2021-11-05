@@ -2,7 +2,7 @@ import React from 'react';
 import './Footer.css';
 
 const footer = () => (
-  <div className="footer">
+  <div className="footer" data-testid="footer">
     <a
       className="developer"
       href="https://github.com/AmazonPriime"

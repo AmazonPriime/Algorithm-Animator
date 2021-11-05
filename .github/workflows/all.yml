@@ -41,4 +41,4 @@ jobs:
       - name: Run tests for project
         run: |
           yarn
-          echo 'Now running tests...'
+          yarn test --watchAll=false
