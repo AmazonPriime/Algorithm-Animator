@@ -1,6 +1,9 @@
 import { render, screen, cleanup } from '@testing-library/react';
 import Footer from '../Footer';
 
+afterEach(() => {
+  cleanup();
+});
 
 test('render footer component', () => {
   render(<Footer />);
