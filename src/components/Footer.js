@@ -1,18 +1,20 @@
 import React from 'react';
+import config from '../constant/config';
 import './Footer.css';
 
 const footer = () => (
-  <div className="footer" data-testid="footer">
+  <div className="footer" id="footer">
     <a
       className="developer"
-      href="https://github.com/AmazonPriime"
+      href={ config.developerUrl }
       target="__blank"
       rel="noopener noreferrer"
+      id="developer"
     >
       Luke Holland
     </a>
     { ' ' }
-    <span className="year">
+    <span className="year" id="year">
       2021-
       { new Date().getFullYear() }
     </span>
@@ -23,9 +25,10 @@ const footer = () => (
     { ' ' }
     <a
       className="link"
-      href="https://github.com/AmazonPriime/Algorithm-Animator"
+      href={ config.sourceCode }
       target="__blank"
       rel="noopener noreferrer"
+      id="sourceCode"
     >
       Source Code
     </a>
