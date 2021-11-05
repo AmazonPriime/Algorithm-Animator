@@ -17,12 +17,16 @@ jobs:
           node-version: '14'
           cache: 'yarn'
 
-      # Cache node_modules
-      - uses: c-hive/gha-yarn-cache@v2
-
       # Install dependencies
       - name: Install dependencies
         run: yarn
+
+      # Upload node_modules folder for the lint job
+      - name: Upload build folder
+        uses: actions/upload-artifact@v2
+        with:
+          name: node_modules
+          path: node_modules/
 
   lint:
     name: Run Linter
@@ -31,6 +35,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
+      # Download the node_modules folder
+      - name: Download node_modules folder
+        uses: actions/download-artifact@v2
+        with:
+          name: node_modules
+          path: node_modules/
 
       # Sets up Node.js
       - name: Setup Node.js
