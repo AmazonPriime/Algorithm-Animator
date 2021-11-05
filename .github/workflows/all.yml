@@ -1,0 +1,48 @@
+name: Lint and Test on Push
+
+on: [push]
+
+jobs:
+  install:
+    name: Install Dependencies
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Sets up Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'yarn'
+
+      # Install dependencies
+      - name: Install dependencies
+        run: yarn
+
+      # Cache node_modules for the remaining jobs
+      - name: Cache node_modules folder
+        uses: actions/cache@v2
+        with:
+          path: node_modules/
+          key: ${{ runner.os }}-modules
+          restore-keys: ${{ runner.os }}-modules-
+
+  lint:
+    name: Run Linter
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Sets up Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'yarn'
+
+      # Lint the code
+      - name: Lint project code
+        run: yarn lint
