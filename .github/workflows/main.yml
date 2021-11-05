@@ -1,10 +1,10 @@
-name: Test, Build and Deploy Dev Website
+name: Test, Build and Deploy Prod Website
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ main ]
   pull_request:
-    branches: [ develop ]
+    branches: [ main ]
 
 jobs:
   lint:
@@ -84,6 +84,6 @@ jobs:
           repository-name: AmazonPriime/amazonpriime.github.io
           branch: main
           folder: build
-          target-folder: indproj-dev
+          target-folder: indproj
           clean: true
           token: ${{ secrets.PAT }}
