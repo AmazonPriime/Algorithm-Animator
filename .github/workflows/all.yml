@@ -10,12 +10,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # Sets up Node.js
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          cache: 'yarn'
+      # Uses yarn caching
+      - uses: c-hive/gha-yarn-cache@v2
 
       # Lint the code
       - name: Lint project code
@@ -30,12 +26,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # Sets up Node.js
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          cache: 'yarn'
+      # Uses yarn caching
+      - uses: c-hive/gha-yarn-cache@v2
 
       # Run the tests
       - name: Run tests for project
