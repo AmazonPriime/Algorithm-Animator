@@ -1,10 +1,7 @@
 # Algorithm Animator
 ![prod](https://github.com/AmazonPriime/Algorithm-Animator/actions/workflows/prod.yml/badge.svg)
-
 ![dev](https://github.com/AmazonPriime/Algorithm-Animator/actions/workflows/develop.yml/badge.svg)
-
 ![all](https://github.com/AmazonPriime/Algorithm-Animator/actions/workflows/all.yml/badge.svg)
-
 
 University of Glasgow Level 4 Individual Project: Algorithm Animator.
 
