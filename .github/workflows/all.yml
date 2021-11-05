@@ -1,4 +1,4 @@
-name: Lint and Test
+name: Testing
 
 on:
   push:
@@ -21,11 +21,13 @@ jobs:
       # Uses yarn caching
       - uses: c-hive/gha-yarn-cache@v2
 
+      # Install dependencies
+      - name: Install dependencies
+        run: yarn
+
       # Lint the code
       - name: Lint project code
-        run: |
-          yarn
-          yarn lint
+        run: yarn lint
 
   test:
     name: Run Tests
@@ -37,8 +39,10 @@ jobs:
       # Uses yarn caching
       - uses: c-hive/gha-yarn-cache@v2
 
+      # Install dependencies
+      - name: Install dependencies
+        run: yarn
+
       # Run the tests
       - name: Run tests for project
-        run: |
-          yarn
-          echo 'Now running tests...'
+        run: yarn test --watchAll=false
