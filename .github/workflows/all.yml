@@ -17,17 +17,12 @@ jobs:
           node-version: '14'
           cache: 'yarn'
 
+      # Cache node_modules
+      - uses: c-hive/gha-yarn-cache@v2
+
       # Install dependencies
       - name: Install dependencies
         run: yarn
-
-      # Cache node_modules for the remaining jobs
-      - name: Cache node_modules folder
-        uses: actions/cache@v2
-        with:
-          path: node_modules/
-          key: ${{ runner.os }}-modules
-          restore-keys: ${{ runner.os }}-modules-
 
   lint:
     name: Run Linter
