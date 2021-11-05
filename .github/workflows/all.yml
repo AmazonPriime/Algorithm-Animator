@@ -33,4 +33,4 @@ jobs:
       - name: Run tests for project
         run: |
           yarn
-          echo 'running tests...'
+          echo 'Now running tests...'
