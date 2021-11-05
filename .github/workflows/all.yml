@@ -1,14 +1,6 @@
 name: Testing
 
-on:
-  push:
-    branches-ignore:
-      - 'develop'
-      - 'main'
-  pull_request:
-    branches-ignore:
-      - 'develop'
-      - 'main'
+on: [push]
 
 jobs:
   lint:
