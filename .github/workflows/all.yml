@@ -1,6 +1,11 @@
 name: Lint and Test on Push
 
-on: [push]
+on:
+  push:
+    branches-ignore:
+      - 'develop'
+      - 'main'
+      - 'update/workflow_revamp'
 
 jobs:
   lint:
