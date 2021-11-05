@@ -5,8 +5,11 @@ on:
     branches-ignore:
       - 'develop'
       - 'main'
-      - 'update/workflow_revamp'
-
+  pull-request:
+    branches-ignore:
+      - 'develop'
+      - 'main'
+    
 jobs:
   lint:
     name: Run Linter
