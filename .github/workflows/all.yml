@@ -5,11 +5,11 @@ on:
     branches-ignore:
       - 'develop'
       - 'main'
-  pull-request:
+  pull_request:
     branches-ignore:
       - 'develop'
       - 'main'
-    
+
 jobs:
   lint:
     name: Run Linter
