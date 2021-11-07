@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import ReactTooltip from 'react-tooltip';
 import Modal from 'react-bootstrap/Modal';
+import About from './About';
 import config from '../constant/config';
 import './Header.css';
 
@@ -35,7 +36,7 @@ class Header extends Component {
         <button
           type="button"
           className="link"
-          onClick={() => this.handleShow(<p>about modal</p>)}
+          onClick={() => this.handleShow(<About />)}
         >
           About
         </button>
@@ -72,7 +73,11 @@ class Header extends Component {
         <ReactTooltip id="notFunctional" effect="solid">
           Feature in development
         </ReactTooltip>
-        <Modal show={modalShow} onHide={() => this.handleClose()}>
+        <Modal
+          size="lg"
+          show={modalShow}
+          onHide={() => this.handleClose()}
+        >
           { modalContent }
         </Modal>
       </div>
