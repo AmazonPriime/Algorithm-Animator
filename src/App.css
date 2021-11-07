@@ -12,3 +12,17 @@
   justify-content: center;
   align-items: center;
 }
+
+.plainLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.plainLink:hover {
+  cursor: pointer;
+  color: var(--color-1-light);
+}
+
+.heading {
+  font-size: 1.35em;
+}
