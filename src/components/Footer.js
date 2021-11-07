@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap/Modal';
+import About from './About';
 import config from '../constant/config';
 import './Footer.css';
 
@@ -45,7 +46,7 @@ class Footer extends Component {
         <button
           type="button"
           className="link"
-          onClick={() => this.handleShow(<p>about modal</p>)}
+          onClick={() => this.handleShow(<About />)}
         >
           About
         </button>
