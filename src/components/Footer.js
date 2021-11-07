@@ -67,7 +67,11 @@ class Footer extends Component {
         >
           Source Code
         </a>
-        <Modal show={modalShow} onHide={() => this.handleClose()}>
+        <Modal
+          size="lg"
+          show={modalShow}
+          onHide={() => this.handleClose()}
+        >
           { modalContent }
         </Modal>
       </div>
