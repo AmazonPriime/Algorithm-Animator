@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import ReactTooltip from 'react-tooltip';
+import Modal from 'react-bootstrap/Modal';
 import config from '../constant/config';
 import './Header.css';
 
@@ -10,16 +11,41 @@ class Header extends Component {
     super(props);
     this.state = {
       darkMode: false,
+      modalContent: '',
+      modalShow: false,
     };
   }
 
+  handleClose() {
+    this.setState({ modalShow: false });
+  }
+
+  handleShow(modalContent) {
+    this.setState({
+      modalShow: true,
+      modalContent,
+    });
+  }
+
   render() {
-    const { darkMode } = this.state;
+    const { darkMode, modalShow, modalContent } = this.state;
     return (
       <div className="header" id="header">
         <span className="title">Algorithm Animator</span>
-        <button type="button" className="link">About</button>
-        <button type="button" className="link">Contact</button>
+        <button
+          type="button"
+          className="link"
+          onClick={() => this.handleShow(<p>about modal</p>)}
+        >
+          About
+        </button>
+        <button
+          type="button"
+          className="link"
+          onClick={() => this.handleShow(<p>contact modal</p>)}
+        >
+          Contact
+        </button>
         <a
           className="link"
           href={config.sourceCode}
@@ -46,6 +72,9 @@ class Header extends Component {
         <ReactTooltip id="notFunctional" effect="solid">
           Feature in development
         </ReactTooltip>
+        <Modal show={modalShow} onHide={() => this.handleClose()}>
+          { modalContent }
+        </Modal>
       </div>
     );
   }
