@@ -4,6 +4,7 @@ import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import ReactTooltip from 'react-tooltip';
 import Modal from 'react-bootstrap/Modal';
 import About from './About';
+import Contact from './Contact';
 import config from '../constant/config';
 import './Header.css';
 
@@ -43,7 +44,7 @@ class Header extends Component {
         <button
           type="button"
           className="link"
-          onClick={() => this.handleShow(<p>contact modal</p>)}
+          onClick={() => this.handleShow(<Contact />)}
         >
           Contact
         </button>
