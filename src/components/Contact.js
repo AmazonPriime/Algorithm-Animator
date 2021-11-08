@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './Contact.css';
 
-const about = () => (
+const about = (props) => (
   <div>
     <Modal.Header closeButton>
       <span className="heading">
@@ -31,7 +31,7 @@ const about = () => (
       </Form>
     </Modal.Body>
     <Modal.Footer>
-      <Button variant="secondary">Close</Button>
+      <Button variant="secondary" onClick={() => props.onClose()}>Close</Button>
     </Modal.Footer>
   </div>
 );
