@@ -4,4 +4,5 @@ module.exports = {
   sourceCode: 'https://github.com/AmazonPriime/Algorithm-Animator',
   linkedin: 'https://www.linkedin.com/in/luke-holland-/',
   contactChars: 10,
+  formspreeEndpoint: 'https://formspree.io/f/xgerjqba',
 };

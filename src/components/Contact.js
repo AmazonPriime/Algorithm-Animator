@@ -14,6 +14,22 @@ const validateSurname = (surname) => surname.length >= 3;
 const validateEmail = (email) => emailRegex.test(email);
 const validateContent = (content) => content.length >= config.contactChars;
 
+const postForm = async (firstname, surname, email, content) => {
+  const requestOptions = {
+    method: 'POST',
+    headers: { Accept: 'application/json' },
+    body: JSON.stringify({
+      firstname,
+      surname,
+      email,
+      content,
+    }),
+  };
+  const resp = await fetch(config.formspreeEndpoint, requestOptions)
+    .then((response) => response.json());
+  return resp.ok;
+};
+
 class About extends Component {
   constructor(props) {
     super(props);
@@ -27,21 +43,26 @@ class About extends Component {
       content: '',
       contentMessage: '',
       submitMessage: '',
+      failedPost: false,
+      loading: false,
     };
   }
 
-  handleSubmit(e, firstname, surname, email, content) {
+  async handleSubmit(e, firstname, surname, email, content) {
     e.preventDefault();
+    this.setState({ loading: true });
     if (this.validateForm(firstname, surname, email, content)) {
-      // do stuff for submitting
+      const formPosted = await postForm(firstname, surname, email, content);
       this.setState({
-        submitMessage: 'Message has been submitted!',
+        submitMessage: formPosted ? 'Message has been submitted!' : 'Unable to submit message.',
         emailMessage: '',
         contentMessage: '',
+        failedPost: !formPosted,
       });
     } else {
       this.setState({ submitMessage: 'Errors in the form above.' });
     }
+    this.setState({ loading: false });
   }
 
   onFirstnameChange(value) {
@@ -105,6 +126,8 @@ class About extends Component {
       content,
       contentMessage,
       submitMessage,
+      failedPost,
+      loading,
     } = this.state;
 
     const { onClose } = this.props;
@@ -160,10 +183,10 @@ class About extends Component {
                 type="submit"
                 onClick={(e) => this.handleSubmit(e, firstname, surname, email, content)}
               >
-                Submit
+                { loading ? 'Loading...' : 'Submit' }
               </Button>
               <div className="statusMessage">
-                <span className={success ? 'success' : 'error'}>{ submitMessage }</span>
+                <span className={success && !failedPost ? 'success' : 'error'}>{ submitMessage }</span>
               </div>
             </div>
           </Form>
