@@ -14,6 +14,10 @@ class Footer extends Component {
     };
   }
 
+  handleClose() {
+    this.setState({ modalShow: false });
+  }
+
   handleShow(content) {
     let modalContent;
     if (content === 'about') {

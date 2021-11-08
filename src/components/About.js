@@ -77,7 +77,12 @@ const about = (props) => (
       </div>
     </Modal.Body>
     <Modal.Footer>
-      <Button variant="secondary" onClick={() => props.onClose()}>Close</Button>
+      <Button
+        className="button"
+        onClick={() => props.onClose()}
+      >
+        Close
+      </Button>
     </Modal.Footer>
   </div>
 );
