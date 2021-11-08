@@ -1,10 +1,20 @@
 /* Global Stylings */
 :root {
+  /* light mode */
   --color-1-light: rgba(0, 168, 255);
   --color-1-light-33: rgba(0, 168, 255, 0.33);
+  --color-2-light: rgba(245, 246, 250, 1.0);
   --color-text-light: rgba(47, 54, 64, 1.0);
+  --color-error-light: rgba(194, 54, 22, 1.0);
+  --color-success-light: rgba(68, 189, 50, 1.0);
+  /* dark mode */
+  --color-1-dark: rgba(0, 168, 255);
+  --color-1-dark-33: rgba(0, 168, 255, 0.33);
+  --color-2-dark: rgba(47, 54, 64, 1.0);
+  --color-text-dark: rgba(245, 246, 250, 1.0);
+  --color-error-dark: rgba(194, 54, 22, 1.0);
+  --color-success-dark: rgba(68, 189, 50, 1.0);
 }
-/**/
 
 .content {
   margin-top: 66px;
@@ -25,4 +35,27 @@
 
 .heading {
   font-size: 1.35em;
+}
+
+.button {
+  background-color: var(--color-2-light);
+  color: var(--color-text-light);
+  border: 1px solid var(--color-text-light);
+  border-radius: 15px;
+}
+
+.button:hover, .button:active, .button:focus {
+  background-color: var(--color-2-dark) !important;
+  color: var(--color-text-dark);
+  border: 1px solid var(--color-text-light) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.error {
+  color: var(--color-error-light);
+}
+
+.success {
+  color: var(--color-success-light);
 }

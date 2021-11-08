@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import About from './About';
+import Contact from './Contact';
 import config from '../constant/config';
 import './Footer.css';
 
@@ -17,7 +18,13 @@ class Footer extends Component {
     this.setState({ modalShow: false });
   }
 
-  handleShow(modalContent) {
+  handleShow(content) {
+    let modalContent;
+    if (content === 'about') {
+      modalContent = <About onClose={() => this.handleClose()} />;
+    } else if (content === 'contact') {
+      modalContent = <Contact onClose={() => this.handleClose()} />;
+    }
     this.setState({
       modalShow: true,
       modalContent,
@@ -46,7 +53,7 @@ class Footer extends Component {
         <button
           type="button"
           className="link"
-          onClick={() => this.handleShow(<About />)}
+          onClick={() => this.handleShow('about')}
         >
           About
         </button>
@@ -54,7 +61,7 @@ class Footer extends Component {
         <button
           type="button"
           className="link"
-          onClick={() => this.handleShow(<p>contact modal</p>)}
+          onClick={() => this.handleShow('contact')}
         >
           Contact
         </button>

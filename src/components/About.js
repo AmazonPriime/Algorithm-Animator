@@ -7,7 +7,7 @@ import { faAt } from '@fortawesome/free-solid-svg-icons';
 import config from '../constant/config';
 import './About.css';
 
-const about = () => (
+const about = (props) => (
   <div>
     <Modal.Header closeButton>
       <span className="heading">
@@ -77,7 +77,12 @@ const about = () => (
       </div>
     </Modal.Body>
     <Modal.Footer>
-      <Button variant="secondary">Close</Button>
+      <Button
+        className="button"
+        onClick={() => props.onClose()}
+      >
+        Close
+      </Button>
     </Modal.Footer>
   </div>
 );
