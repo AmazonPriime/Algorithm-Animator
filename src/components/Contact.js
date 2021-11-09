@@ -135,7 +135,7 @@ class About extends Component {
     const success = !(firstnameMessage || surnameMessage || emailMessage || contentMessage);
 
     return (
-      <div>
+      <div id="contact">
         <Modal.Header closeButton>
           <span className="heading">
             Contact

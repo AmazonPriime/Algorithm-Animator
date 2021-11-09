@@ -8,7 +8,7 @@ import config from '../constant/config';
 import './About.css';
 
 const about = (props) => (
-  <div>
+  <div id="about">
     <Modal.Header closeButton>
       <span className="heading">
         Algorithm Animator
