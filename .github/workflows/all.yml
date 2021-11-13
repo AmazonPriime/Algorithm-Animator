@@ -1,0 +1,40 @@
+name: Testing
+
+on: [push]
+
+jobs:
+  lint:
+    name: Run Linter
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Uses yarn caching
+      - uses: c-hive/gha-yarn-cache@v2
+
+      # Install dependencies
+      - name: Install dependencies
+        run: yarn
+
+      # Lint the code
+      - name: Lint project code
+        run: yarn lint
+
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Uses yarn caching
+      - uses: c-hive/gha-yarn-cache@v2
+
+      # Install dependencies
+      - name: Install dependencies
+        run: yarn
+
+      # Run the tests
+      - name: Run tests for project
+        run: yarn test --watchAll=false

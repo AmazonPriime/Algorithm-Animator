@@ -1,10 +1,8 @@
-name: Build and Deploy Website
+name: PROD Build and Deploy
 
 on:
   push:
-    branches: [ develop, feature/github_actions ]
-  pull_request:
-    branches: [ develop, feature/github_actions ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -14,18 +12,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # Sets up Node.js
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          cache: 'yarn'
+      # Uses yarn caching
+      - uses: c-hive/gha-yarn-cache@v2
+
+      # Install dependencies
+      - name: Install dependencies
+        run: yarn
 
       # Build the project
       - name: Build project
-        run: |
-          yarn
-          yarn build
+        run: yarn build
 
       # Upload build folder for the deploy job
       - name: Upload build folder
@@ -36,8 +32,8 @@ jobs:
 
   deploy:
     name: Deploy Project
-    needs: build
     runs-on: ubuntu-latest
+    needs: build
 
     steps:
       - uses: actions/checkout@v2
@@ -49,20 +45,8 @@ jobs:
           name: build
           path: build/
 
-      # Deploy to gh pages website (development)
+      # Deploy to github pages website
       - uses: JamesIves/github-pages-deploy-action@4.1.5
-        if: github.ref == 'refs/heads/develop'
-        with:
-          repository-name: AmazonPriime/amazonpriime.github.io
-          branch: main
-          folder: build
-          target-folder: indproj-dev
-          clean: true
-          token: ${{ secrets.PAT }}
-
-      # Deploy to gh pages website (production)
-      - uses: JamesIves/github-pages-deploy-action@4.1.5
-        if: github.ref == 'refs/heads/main'
         with:
           repository-name: AmazonPriime/amazonpriime.github.io
           branch: main

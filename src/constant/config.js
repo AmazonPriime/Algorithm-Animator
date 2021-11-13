@@ -1,0 +1,15 @@
+module.exports = {
+  developerUrl: 'https://github.com/AmazonPriime',
+  developerWebsite: 'https://amazonpriime.github.io/',
+  sourceCode: 'https://github.com/AmazonPriime/Algorithm-Animator',
+  linkedin: 'https://www.linkedin.com/in/luke-holland-/',
+  minCharMessage: 'Requires at least {min} characters',
+  contactFormSuccess: 'Message has been submitted!',
+  contactFormFailure: 'Unable to submit message.',
+  contactFormError: 'Errors in the form above.',
+  emailMessage: 'Must be in the form \'name@example.com\'',
+  formspreeEndpoint: 'https://formspree.io/f/xgerjqba',
+  contentChars: 10,
+  firstnameChars: 2,
+  surnameChars: 2,
+};

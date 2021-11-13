@@ -1,0 +1,18 @@
+.info {
+  display: block;
+  padding-bottom: 1em;
+  font-size: 1.1em;
+}
+
+.submit-container {
+  text-align: center;
+}
+
+.submit-container .submit {
+  width: 50%;
+}
+
+.submit-container .statusMessage {
+  display: block;
+  margin-top: 0.5em;
+}
