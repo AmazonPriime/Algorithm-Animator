@@ -12,7 +12,7 @@ const emailRegex = new RegExp('^(([^<>()[\\]\\.,;:\\s@\\"]+(\\.[^<>()[\\]\\.,;:\
 const validateFirstname = (firstname) => firstname.length >= config.firstnameChars;
 const validateSurname = (surname) => surname.length >= config.surnameChars;
 const validateEmail = (email) => emailRegex.test(email);
-const validateContent = (content) => content.length >= config.contactChars;
+const validateContent = (content) => content.length >= config.contentChars;
 
 const postForm = async (firstname, surname, email, content) => {
   const requestOptions = {
@@ -29,6 +29,8 @@ const postForm = async (firstname, surname, email, content) => {
     .then((response) => response.json());
   return resp.ok;
 };
+
+const minMessages = (limit) => config.minCharMessage.replace('{min}', limit);
 
 class About extends Component {
   constructor(props) {
@@ -58,16 +60,18 @@ class About extends Component {
       let formPosted = true;
       if (!customCallback) {
         formPosted = await postForm(firstname, surname, email, content);
+      } else {
+        customCallback();
       }
       this.setState({
-        submitMessage: formPosted ? 'Message has been submitted!' : 'Unable to submit message.',
+        submitMessage: formPosted ? config.contactFormSuccess : config.contactFormFailure,
         emailMessage: '',
         contentMessage: '',
         failedPost: false,
         posted: true,
       });
     } else {
-      this.setState({ submitMessage: 'Errors in the form above.' });
+      this.setState({ submitMessage: config.contactFormError });
     }
     this.setState({ loading: false });
   }
@@ -76,8 +80,8 @@ class About extends Component {
     const firstnameValid = validateFirstname(value);
     this.setState({
       firstname: value,
-      firstnameMessage: !firstnameValid ? `First name must be at least ${config.firstnameChars} characters` : '',
-      submitMessage: !firstnameValid ? 'Errors in the form above.' : '',
+      firstnameMessage: !firstnameValid ? minMessages(config.firstnameChars) : '',
+      submitMessage: !firstnameValid ? config.contactFormError : '',
     });
   }
 
@@ -85,8 +89,8 @@ class About extends Component {
     const surnameValid = validateSurname(value);
     this.setState({
       surname: value,
-      surnameMessage: !surnameValid ? `Surname must be at least ${config.surnameChars} characters` : '',
-      submitMessage: !surnameValid ? 'Errors in the form above.' : '',
+      surnameMessage: !surnameValid ? minMessages(config.surnameChars) : '',
+      submitMessage: !surnameValid ? config.contactFormError : '',
     });
   }
 
@@ -94,8 +98,8 @@ class About extends Component {
     const emailValid = validateEmail(value);
     this.setState({
       email: value,
-      emailMessage: !emailValid ? 'Email must be in form \'name@example.com\'' : '',
-      submitMessage: !emailValid ? 'Errors in the form above.' : '',
+      emailMessage: !emailValid ? config.emailMessage : '',
+      submitMessage: !emailValid ? config.contactFormError : '',
     });
   }
 
@@ -103,8 +107,8 @@ class About extends Component {
     const contentValid = validateContent(value);
     this.setState({
       content: value,
-      contentMessage: !contentValid ? `Requires at least ${config.contactChars} characters` : '',
-      submitMessage: !contentValid ? 'Errors in the form above.' : '',
+      contentMessage: !contentValid ? minMessages(config.contentChars) : '',
+      submitMessage: !contentValid ? config.contactFormError : '',
     });
   }
 
@@ -114,10 +118,10 @@ class About extends Component {
     const emailValid = validateEmail(email);
     const contentValid = validateContent(content);
     this.setState({
-      firstnameMessage: !firstnameValid ? `First name must be at least ${config.firstnameChars} characters` : '',
-      surnameMessage: !surnameValid ? `Surname must be at least ${config.surnameChars} characters` : '',
-      emailMessage: !emailValid ? 'Email must be in form \'name@example.com\'' : '',
-      contentMessage: !contentValid ? `Requires at least ${config.contactChars} characters` : '',
+      firstnameMessage: !firstnameValid ? minMessages(config.firstnameChars) : '',
+      surnameMessage: !surnameValid ? minMessages(config.surnameChars) : '',
+      emailMessage: !emailValid ? config.emailMessage : '',
+      contentMessage: !contentValid ? minMessages(config.contentChars) : '',
     });
     return emailValid && contentValid;
   }
@@ -179,7 +183,6 @@ class About extends Component {
               <Form.Label>Email address</Form.Label>
               <Form.Control
                 id="email"
-                type="email"
                 placeholder="name@example.com"
                 onChange={(e) => this.onEmailChange(e.target.value)}
               />
