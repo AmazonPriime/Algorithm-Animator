@@ -33,5 +33,3 @@ test('has correct link for the source code', () => {
   const anchorElement = getById(container, 'sourceCode');
   expect(anchorElement).toHaveAttribute('href', config.sourceCode);
 });
-
-// TODO: write tests for about and contact buttons

@@ -44,6 +44,7 @@ class Header extends Component {
           type="button"
           className="link"
           onClick={() => this.handleShow('about')}
+          id="aboutButton"
         >
           About
         </button>
@@ -51,6 +52,7 @@ class Header extends Component {
           type="button"
           className="link"
           onClick={() => this.handleShow('contact')}
+          id="contactButton"
         >
           Contact
         </button>
@@ -80,13 +82,15 @@ class Header extends Component {
         <ReactTooltip id="notFunctional" effect="solid">
           Feature in development
         </ReactTooltip>
-        <Modal
-          size="lg"
-          show={modalShow}
-          onHide={() => this.handleClose()}
-        >
-          { modalContent }
-        </Modal>
+        <div id="modal">
+          <Modal
+            size="lg"
+            show={modalShow}
+            onHide={() => this.handleClose()}
+          >
+            { modalContent }
+          </Modal>
+        </div>
       </div>
     );
   }
