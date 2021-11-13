@@ -44,20 +44,27 @@ class About extends Component {
       contentMessage: '',
       submitMessage: '',
       failedPost: false,
+      posted: false,
       loading: false,
+      customCallback: props.customCallback,
     };
   }
 
   async handleSubmit(e, firstname, surname, email, content) {
     e.preventDefault();
+    const { customCallback } = this.state;
     this.setState({ loading: true });
     if (this.validateForm(firstname, surname, email, content)) {
-      const formPosted = await postForm(firstname, surname, email, content);
+      let formPosted = true;
+      if (!customCallback) {
+        formPosted = await postForm(firstname, surname, email, content);
+      }
       this.setState({
         submitMessage: formPosted ? 'Message has been submitted!' : 'Unable to submit message.',
         emailMessage: '',
         contentMessage: '',
-        failedPost: !formPosted,
+        failedPost: false,
+        posted: true,
       });
     } else {
       this.setState({ submitMessage: 'Errors in the form above.' });
@@ -127,6 +134,7 @@ class About extends Component {
       contentMessage,
       submitMessage,
       failedPost,
+      posted,
       loading,
     } = this.state;
 
@@ -178,13 +186,24 @@ class About extends Component {
               <span className="error">{ contentMessage }</span>
             </Form.Group>
             <div className="submit-container">
-              <Button
-                className="button submit"
-                type="submit"
-                onClick={(e) => this.handleSubmit(e, firstname, surname, email, content)}
-              >
-                { loading ? 'Loading...' : 'Submit' }
-              </Button>
+              { !posted && (
+                <Button
+                  className="button submit"
+                  type="submit"
+                  onClick={(e) => this.handleSubmit(e, firstname, surname, email, content)}
+                >
+                  { loading ? 'Loading...' : 'Submit' }
+                </Button>
+              )}
+              { posted && (
+                <Button
+                  className="button submit"
+                  type="submit"
+                  disabled
+                >
+                  Submitted
+                </Button>
+              )}
               <div className="statusMessage">
                 <span className={success && !failedPost ? 'success' : 'error'}>{ submitMessage }</span>
               </div>
@@ -206,6 +225,11 @@ class About extends Component {
 
 About.propTypes = {
   onClose: PropTypes.func.isRequired,
+  customCallback: PropTypes.func,
+};
+
+About.defaultProps = {
+  customCallback: null,
 };
 
 export default About;

@@ -37,7 +37,7 @@
   font-size: 1.35em;
 }
 
-.button {
+.button, .button:disabled {
   background-color: var(--color-2-light);
   color: var(--color-text-light);
   border: 1px solid var(--color-text-light);
@@ -50,6 +50,10 @@
   border: 1px solid var(--color-text-light) !important;
   outline: none !important;
   box-shadow: none !important;
+}
+
+.button:disabled {
+
 }
 
 .error {
