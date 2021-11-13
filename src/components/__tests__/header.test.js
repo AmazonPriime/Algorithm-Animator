@@ -36,5 +36,3 @@ test('check that clicking on the sun icon changes state', () => {
   userEvent.click(lightModeButton);
   expect(lightModeButton).toHaveClass('selected');
 });
-
-// TODO: write tests for about and contact buttons

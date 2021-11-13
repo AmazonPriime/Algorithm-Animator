@@ -9,10 +9,10 @@ import config from '../constant/config';
 import './Contact.css';
 
 const emailRegex = new RegExp('^(([^<>()[\\]\\.,;:\\s@\\"]+(\\.[^<>()[\\]\\.,;:\\s@\\"]+)*)|(\\".+\\"))@(([^<>()[\\]\\.,;:\\s@\\"]+\\.)+[^<>()[\\]\\.,;:\\s@\\"]{2,})$', 'i');
-const validateFirstname = (firstname) => firstname.length >= 3;
-const validateSurname = (surname) => surname.length >= 3;
+const validateFirstname = (firstname) => firstname.length >= config.firstnameChars;
+const validateSurname = (surname) => surname.length >= config.surnameChars;
 const validateEmail = (email) => emailRegex.test(email);
-const validateContent = (content) => content.length >= config.contactChars;
+const validateContent = (content) => content.length >= config.contentChars;
 
 const postForm = async (firstname, surname, email, content) => {
   const requestOptions = {
@@ -30,6 +30,8 @@ const postForm = async (firstname, surname, email, content) => {
   return resp.ok;
 };
 
+const minMessages = (limit) => config.minCharMessage.replace('{min}', limit);
+
 class About extends Component {
   constructor(props) {
     super(props);
@@ -44,23 +46,32 @@ class About extends Component {
       contentMessage: '',
       submitMessage: '',
       failedPost: false,
+      posted: false,
       loading: false,
+      customCallback: props.customCallback,
     };
   }
 
   async handleSubmit(e, firstname, surname, email, content) {
     e.preventDefault();
+    const { customCallback } = this.state;
     this.setState({ loading: true });
     if (this.validateForm(firstname, surname, email, content)) {
-      const formPosted = await postForm(firstname, surname, email, content);
+      let formPosted = true;
+      if (!customCallback) {
+        formPosted = await postForm(firstname, surname, email, content);
+      } else {
+        customCallback();
+      }
       this.setState({
-        submitMessage: formPosted ? 'Message has been submitted!' : 'Unable to submit message.',
+        submitMessage: formPosted ? config.contactFormSuccess : config.contactFormFailure,
         emailMessage: '',
         contentMessage: '',
-        failedPost: !formPosted,
+        failedPost: false,
+        posted: true,
       });
     } else {
-      this.setState({ submitMessage: 'Errors in the form above.' });
+      this.setState({ submitMessage: config.contactFormError });
     }
     this.setState({ loading: false });
   }
@@ -69,8 +80,8 @@ class About extends Component {
     const firstnameValid = validateFirstname(value);
     this.setState({
       firstname: value,
-      firstnameMessage: !firstnameValid ? 'First name must be at least 3 characters' : '',
-      submitMessage: !firstnameValid ? 'Errors in the form above.' : '',
+      firstnameMessage: !firstnameValid ? minMessages(config.firstnameChars) : '',
+      submitMessage: !firstnameValid ? config.contactFormError : '',
     });
   }
 
@@ -78,8 +89,8 @@ class About extends Component {
     const surnameValid = validateSurname(value);
     this.setState({
       surname: value,
-      surnameMessage: !surnameValid ? 'Surname must be at least 3 characters' : '',
-      submitMessage: !surnameValid ? 'Errors in the form above.' : '',
+      surnameMessage: !surnameValid ? minMessages(config.surnameChars) : '',
+      submitMessage: !surnameValid ? config.contactFormError : '',
     });
   }
 
@@ -87,8 +98,8 @@ class About extends Component {
     const emailValid = validateEmail(value);
     this.setState({
       email: value,
-      emailMessage: !emailValid ? 'Email must be in form \'name@example.com\'' : '',
-      submitMessage: !emailValid ? 'Errors in the form above.' : '',
+      emailMessage: !emailValid ? config.emailMessage : '',
+      submitMessage: !emailValid ? config.contactFormError : '',
     });
   }
 
@@ -96,8 +107,8 @@ class About extends Component {
     const contentValid = validateContent(value);
     this.setState({
       content: value,
-      contentMessage: !contentValid ? `Requires at least ${config.contactChars} characters` : '',
-      submitMessage: !contentValid ? 'Errors in the form above.' : '',
+      contentMessage: !contentValid ? minMessages(config.contentChars) : '',
+      submitMessage: !contentValid ? config.contactFormError : '',
     });
   }
 
@@ -107,10 +118,10 @@ class About extends Component {
     const emailValid = validateEmail(email);
     const contentValid = validateContent(content);
     this.setState({
-      firstnameMessage: !firstnameValid ? 'First name must be at least 3 characters' : '',
-      surnameMessage: !surnameValid ? 'Surname must be at least 3 characters' : '',
-      emailMessage: !emailValid ? 'Email must be in form \'name@example.com\'' : '',
-      contentMessage: !contentValid ? `Requires at least ${config.contactChars} characters` : '',
+      firstnameMessage: !firstnameValid ? minMessages(config.firstnameChars) : '',
+      surnameMessage: !surnameValid ? minMessages(config.surnameChars) : '',
+      emailMessage: !emailValid ? config.emailMessage : '',
+      contentMessage: !contentValid ? minMessages(config.contentChars) : '',
     });
     return emailValid && contentValid;
   }
@@ -127,6 +138,7 @@ class About extends Component {
       contentMessage,
       submitMessage,
       failedPost,
+      posted,
       loading,
     } = this.state;
 
@@ -135,7 +147,7 @@ class About extends Component {
     const success = !(firstnameMessage || surnameMessage || emailMessage || contentMessage);
 
     return (
-      <div>
+      <div id="contact">
         <Modal.Header closeButton>
           <span className="heading">
             Contact
@@ -150,42 +162,65 @@ class About extends Component {
             <Row className="mb-3">
               <Form.Group as={Col}>
                 <Form.Label>First name</Form.Label>
-                <Form.Control onChange={(e) => this.onFirstnameChange(e.target.value)} />
-                <span className="error">{ firstnameMessage }</span>
+                <Form.Control
+                  id="firstname"
+                  placeholder="First name"
+                  onChange={(e) => this.onFirstnameChange(e.target.value)}
+                />
+                <span id="firstnameError" className="error">{ firstnameMessage }</span>
               </Form.Group>
               <Form.Group as={Col}>
                 <Form.Label>Surname</Form.Label>
-                <Form.Control onChange={(e) => this.onSurnameChange(e.target.value)} />
-                <span className="error">{ surnameMessage }</span>
+                <Form.Control
+                  id="surname"
+                  placeholder="Surname"
+                  onChange={(e) => this.onSurnameChange(e.target.value)}
+                />
+                <span id="surnameError" className="error">{ surnameMessage }</span>
               </Form.Group>
             </Row>
             <Form.Group className="mb-3">
               <Form.Label>Email address</Form.Label>
               <Form.Control
-                type="email"
+                id="email"
                 placeholder="name@example.com"
                 onChange={(e) => this.onEmailChange(e.target.value)}
               />
-              <span className="error">{ emailMessage }</span>
+              <span id="emailError" className="error">{ emailMessage }</span>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Message</Form.Label>
               <Form.Control
+                id="content"
                 as="textarea"
                 rows={3}
+                placeholder="Enter message here..."
                 onChange={(e) => this.onContentChange(e.target.value)}
               />
-              <span className="error">{ contentMessage }</span>
+              <span id="contentError" className="error">{ contentMessage }</span>
             </Form.Group>
             <div className="submit-container">
-              <Button
-                className="button submit"
-                type="submit"
-                onClick={(e) => this.handleSubmit(e, firstname, surname, email, content)}
-              >
-                { loading ? 'Loading...' : 'Submit' }
-              </Button>
-              <div className="statusMessage">
+              { (!posted && !loading) && (
+                <Button
+                  id="submit"
+                  className="button submit"
+                  type="submit"
+                  onClick={(e) => this.handleSubmit(e, firstname, surname, email, content)}
+                >
+                  Submit
+                </Button>
+              )}
+              { (posted || loading) && (
+                <Button
+                  id="submit"
+                  className="button submit"
+                  type="submit"
+                  disabled
+                >
+                  { loading ? 'Loading...' : 'Submitted' }
+                </Button>
+              )}
+              <div id="status" className="statusMessage">
                 <span className={success && !failedPost ? 'success' : 'error'}>{ submitMessage }</span>
               </div>
             </div>
@@ -193,6 +228,7 @@ class About extends Component {
         </Modal.Body>
         <Modal.Footer>
           <Button
+            id="closeButton"
             className="button"
             onClick={() => onClose()}
           >
@@ -206,6 +242,11 @@ class About extends Component {
 
 About.propTypes = {
   onClose: PropTypes.func.isRequired,
+  customCallback: PropTypes.func,
+};
+
+About.defaultProps = {
+  customCallback: null,
 };
 
 export default About;

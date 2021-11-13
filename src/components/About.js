@@ -8,27 +8,27 @@ import config from '../constant/config';
 import './About.css';
 
 const about = (props) => (
-  <div>
+  <div id="about">
     <Modal.Header closeButton>
       <span className="heading">
         Algorithm Animator
       </span>
     </Modal.Header>
     <Modal.Body>
-      <div className="section">
+      <div className="section" id="project">
         <span className="title">University Project</span>
         This project was completed as a Level 4 Individual Project which is a course
         at the University of Glasgow which all Computer Science and Software Engineering
         students are required to take in their 4th year of studies.
       </div>
-      <div className="section">
+      <div className="section" id="motivation">
         <span className="title">Motivation</span>
         The motivation behind this website is help people who are in the process of
         learning algorithms. The website will help students as it allows them to
         animate and walk through the algorithm visually which often can make it easier
         to learn and to gain a better understanding of a particular algorithm.
       </div>
-      <div className="section">
+      <div className="section" id="contribute">
         <span className="title">Contribute</span>
         Since the website is an open source project, any can contribute to the codebase.
         If you&apos;d like to contribute you can head to the source code linked below, if you
@@ -40,11 +40,12 @@ const about = (props) => (
           href={config.sourceCode}
           target="__blank"
           rel="noopener noreferrer"
+          id="sourceCode"
         >
           Algorithm Animator Repository
         </a>
       </div>
-      <div className="section">
+      <div className="section" id="developer">
         <span className="title">Developer</span>
         My name is Luke Holland and I&apos;m a 4th year student at the University
         of Glasgow studying towards an BSc in Software Engineering.
@@ -54,6 +55,7 @@ const about = (props) => (
             href={config.developerUrl}
             target="__blank"
             rel="noopener noreferrer"
+            id="github"
           >
             <FontAwesomeIcon icon={faGithub} />
           </a>
@@ -62,6 +64,7 @@ const about = (props) => (
             href={config.linkedin}
             target="__blank"
             rel="noopener noreferrer"
+            id="linkedin"
           >
             <FontAwesomeIcon icon={faLinkedin} />
           </a>
@@ -70,6 +73,7 @@ const about = (props) => (
             href={config.developerWebsite}
             target="__blank"
             rel="noopener noreferrer"
+            id="website"
           >
             <FontAwesomeIcon icon={faAt} />
           </a>
@@ -78,6 +82,7 @@ const about = (props) => (
     </Modal.Body>
     <Modal.Footer>
       <Button
+        id="closeButton"
         className="button"
         onClick={() => props.onClose()}
       >
