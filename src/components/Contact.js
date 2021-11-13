@@ -9,8 +9,8 @@ import config from '../constant/config';
 import './Contact.css';
 
 const emailRegex = new RegExp('^(([^<>()[\\]\\.,;:\\s@\\"]+(\\.[^<>()[\\]\\.,;:\\s@\\"]+)*)|(\\".+\\"))@(([^<>()[\\]\\.,;:\\s@\\"]+\\.)+[^<>()[\\]\\.,;:\\s@\\"]{2,})$', 'i');
-const validateFirstname = (firstname) => firstname.length >= 3;
-const validateSurname = (surname) => surname.length >= 3;
+const validateFirstname = (firstname) => firstname.length >= config.firstnameChars;
+const validateSurname = (surname) => surname.length >= config.surnameChars;
 const validateEmail = (email) => emailRegex.test(email);
 const validateContent = (content) => content.length >= config.contactChars;
 
@@ -76,7 +76,7 @@ class About extends Component {
     const firstnameValid = validateFirstname(value);
     this.setState({
       firstname: value,
-      firstnameMessage: !firstnameValid ? 'First name must be at least 3 characters' : '',
+      firstnameMessage: !firstnameValid ? `First name must be at least ${config.firstnameChars} characters` : '',
       submitMessage: !firstnameValid ? 'Errors in the form above.' : '',
     });
   }
@@ -85,7 +85,7 @@ class About extends Component {
     const surnameValid = validateSurname(value);
     this.setState({
       surname: value,
-      surnameMessage: !surnameValid ? 'Surname must be at least 3 characters' : '',
+      surnameMessage: !surnameValid ? `Surname must be at least ${config.surnameChars} characters` : '',
       submitMessage: !surnameValid ? 'Errors in the form above.' : '',
     });
   }
@@ -114,8 +114,8 @@ class About extends Component {
     const emailValid = validateEmail(email);
     const contentValid = validateContent(content);
     this.setState({
-      firstnameMessage: !firstnameValid ? 'First name must be at least 3 characters' : '',
-      surnameMessage: !surnameValid ? 'Surname must be at least 3 characters' : '',
+      firstnameMessage: !firstnameValid ? `First name must be at least ${config.firstnameChars} characters` : '',
+      surnameMessage: !surnameValid ? `Surname must be at least ${config.surnameChars} characters` : '',
       emailMessage: !emailValid ? 'Email must be in form \'name@example.com\'' : '',
       contentMessage: !contentValid ? `Requires at least ${config.contactChars} characters` : '',
     });
@@ -158,53 +158,66 @@ class About extends Component {
             <Row className="mb-3">
               <Form.Group as={Col}>
                 <Form.Label>First name</Form.Label>
-                <Form.Control onChange={(e) => this.onFirstnameChange(e.target.value)} />
-                <span className="error">{ firstnameMessage }</span>
+                <Form.Control
+                  id="firstname"
+                  placeholder="First name"
+                  onChange={(e) => this.onFirstnameChange(e.target.value)}
+                />
+                <span id="firstnameError" className="error">{ firstnameMessage }</span>
               </Form.Group>
               <Form.Group as={Col}>
                 <Form.Label>Surname</Form.Label>
-                <Form.Control onChange={(e) => this.onSurnameChange(e.target.value)} />
-                <span className="error">{ surnameMessage }</span>
+                <Form.Control
+                  id="surname"
+                  placeholder="Surname"
+                  onChange={(e) => this.onSurnameChange(e.target.value)}
+                />
+                <span id="surnameError" className="error">{ surnameMessage }</span>
               </Form.Group>
             </Row>
             <Form.Group className="mb-3">
               <Form.Label>Email address</Form.Label>
               <Form.Control
+                id="email"
                 type="email"
                 placeholder="name@example.com"
                 onChange={(e) => this.onEmailChange(e.target.value)}
               />
-              <span className="error">{ emailMessage }</span>
+              <span id="emailError" className="error">{ emailMessage }</span>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Message</Form.Label>
               <Form.Control
+                id="content"
                 as="textarea"
                 rows={3}
+                placeholder="Enter message here..."
                 onChange={(e) => this.onContentChange(e.target.value)}
               />
-              <span className="error">{ contentMessage }</span>
+              <span id="contentError" className="error">{ contentMessage }</span>
             </Form.Group>
             <div className="submit-container">
-              { !posted && (
+              { (!posted && !loading) && (
                 <Button
+                  id="submit"
                   className="button submit"
                   type="submit"
                   onClick={(e) => this.handleSubmit(e, firstname, surname, email, content)}
                 >
-                  { loading ? 'Loading...' : 'Submit' }
+                  Submit
                 </Button>
               )}
-              { posted && (
+              { (posted || loading) && (
                 <Button
+                  id="submit"
                   className="button submit"
                   type="submit"
                   disabled
                 >
-                  Submitted
+                  { loading ? 'Loading...' : 'Submitted' }
                 </Button>
               )}
-              <div className="statusMessage">
+              <div id="status" className="statusMessage">
                 <span className={success && !failedPost ? 'success' : 'error'}>{ submitMessage }</span>
               </div>
             </div>
@@ -212,6 +225,7 @@ class About extends Component {
         </Modal.Body>
         <Modal.Footer>
           <Button
+            id="closeButton"
             className="button"
             onClick={() => onClose()}
           >
