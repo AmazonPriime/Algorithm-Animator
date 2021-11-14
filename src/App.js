@@ -1,6 +1,7 @@
 import React from 'react';
 import Footer from './components/Footer';
 import Header from './components/Header';
+import GraphBuilder from './components/GraphBuilder';
 import './App.css';
 
 function App() {
@@ -8,7 +9,7 @@ function App() {
     <div className="app">
       <Header />
       <div className="content">
-        <p>Main content</p>
+        <GraphBuilder />
       </div>
       <Footer />
     </div>
