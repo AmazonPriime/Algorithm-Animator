@@ -7,12 +7,18 @@ import Graph from './Graph';
 import './GraphBuilder.css';
 
 const graphBuilder = () => (
-  <div>
-    <CreateTools />
-    <AlgorithmSelector />
-    <Playback />
-    <CodeViewer />
-    <Graph />
+  <div id="graphBuilder" className="graph-builder">
+    <div id="controls" className="controls">
+      <CreateTools />
+      <AlgorithmSelector />
+      <Playback />
+    </div>
+    <div id="graph" className="graph">
+      <Graph />
+    </div>
+    <div id="code" className="code">
+      <CodeViewer />
+    </div>
   </div>
 );
 

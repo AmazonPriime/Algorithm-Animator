@@ -2,7 +2,9 @@ import React from 'react';
 import './Playback.css';
 
 const playback = () => (
-  <p>Playback</p>
+  <div>
+    Playback
+  </div>
 );
 
 export default playback;

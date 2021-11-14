@@ -64,3 +64,37 @@
 .success {
   color: var(--color-success-light);
 }
+
+.input-icon {
+  background-color: var(--color-2-light);
+  color: var(--color-text-light);
+  border: 1px solid var(--color-text-light);
+  border-radius: 15px;
+  border-right: 0;
+  width: 2em;
+  text-align: center;
+}
+
+.input-w-text {
+  background-color: var(--color-2-light);
+  color: var(--color-text-light);
+  border: 1px solid var(--color-text-light);
+  border-radius: 15px;
+  padding: 0 0 0 0;
+  border-left: none;
+  padding-left: 0 !important;
+  flex: none !important; /* overwrite bootstrap default */
+}
+
+.input-w-text:hover, .input-w-text:active, .input-w-text:focus {
+  background-color: var(--color-2-light);
+  border: 1px solid var(--color-text-light);
+  border-left: 0;
+  outline: none;
+  box-shadow: none;
+}
+
+/* overwrite width:100% from bootstrap */
+.input-group {
+  width: inherit;
+}

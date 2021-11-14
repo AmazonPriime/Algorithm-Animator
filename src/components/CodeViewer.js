@@ -2,7 +2,9 @@ import React from 'react';
 import './CodeViewer.css';
 
 const codeViewer = () => (
-  <p>Code Viewer</p>
+  <div>
+    Code Viewer
+  </div>
 );
 
 export default codeViewer;

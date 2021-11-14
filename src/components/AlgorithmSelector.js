@@ -2,7 +2,9 @@ import React from 'react';
 import './AlgorithmSelector.css';
 
 const algorithmSelector = () => (
-  <p>Algorithm Selector</p>
+  <div>
+    Algorithm Selector
+  </div>
 );
 
 export default algorithmSelector;

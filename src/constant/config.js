@@ -9,6 +9,7 @@ module.exports = {
   contactFormError: 'Errors in the form above.',
   emailMessage: 'Must be in the form \'name@example.com\'',
   formspreeEndpoint: 'https://formspree.io/f/xgerjqba',
+  invalidNodeError: 'Must be valid node number',
   contentChars: 10,
   firstnameChars: 2,
   surnameChars: 2,

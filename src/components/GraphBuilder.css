@@ -1,0 +1,42 @@
+.graph-builder {
+  width: 100%;
+  margin: 0.5em 1em 0 1em;
+}
+
+.graph-builder .controls {
+  display: flex;
+}
+
+.graph-builder .controls > div {
+  width: 33%;
+  flex-grow: 1;
+}
+
+@media (max-width: 480px) {
+  .graph-builder .controls {
+    flex-direction: column;
+  }
+
+  .graph-builder .controls > div {
+    width: 100%;
+    flex-grow: 1;
+  }
+
+  .graph-builder .controls > div:nth-child(1) {
+    order: 2;
+  }
+
+  .graph-builder .controls > div:nth-child(2) {
+    order: 1;
+  }
+
+  .graph-builder .controls > div:nth-child(3) {
+    order: 3;
+  }
+}
+
+.graph-builder .graph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
