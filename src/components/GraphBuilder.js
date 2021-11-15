@@ -6,20 +6,27 @@ import CodeViewer from './CodeViewer';
 import Graph from './Graph';
 import './GraphBuilder.css';
 
-const graphBuilder = () => (
-  <div id="graphBuilder" className="graph-builder">
-    <div id="controls" className="controls">
-      <CreateTools />
-      <AlgorithmSelector />
-      <Playback />
+const graphBuilder = () => {
+  const algorithms = ['Depth First Search', 'Breadth First Search', 'Dijkstra\'s Algorithm', 'A* Path Finding'];
+
+  return (
+    <div id="graphBuilder" className="graph-builder">
+      <div id="controls" className="controls">
+        <CreateTools />
+        <AlgorithmSelector
+          currentAlgorithm="Breadth First Search"
+          algorithms={algorithms}
+        />
+        <Playback />
+      </div>
+      <div id="graph" className="graph">
+        <Graph />
+      </div>
+      <div id="code" className="code">
+        <CodeViewer />
+      </div>
     </div>
-    <div id="graph" className="graph">
-      <Graph />
-    </div>
-    <div id="code" className="code">
-      <CodeViewer />
-    </div>
-  </div>
-);
+  );
+};
 
 export default graphBuilder;
