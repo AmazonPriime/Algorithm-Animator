@@ -3,7 +3,12 @@ import Button from 'react-bootstrap/Button';
 import FormControl from 'react-bootstrap/FormControl';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDice, faMapMarkerAlt, faSearch } from '@fortawesome/free-solid-svg-icons';
+import {
+  faDice,
+  faMapMarkerAlt,
+  faSearch,
+  faCaretDown,
+} from '@fortawesome/free-solid-svg-icons';
 import config from '../constant/config';
 import './CreateTools.css';
 
@@ -36,16 +41,21 @@ const createTools = () => {
           + Node
         </Button>
         <Button
-          id="addNode"
+          id="addEdge"
           className="button"
         >
           + Edge
         </Button>
         <Button
-          id="addNode"
+          id="presets"
           className="button"
         >
           Presets
+          { ' ' }
+          <FontAwesomeIcon
+            icon={faCaretDown}
+            className="icon"
+          />
         </Button>
         <Button
           id="random"
@@ -57,37 +67,41 @@ const createTools = () => {
         </Button>
       </div>
       <div id="bottomRow" className="bottom-row">
-        <InputGroup>
-          <div className="input-icon">
-            <FontAwesomeIcon
-              icon={faMapMarkerAlt}
-              className="icon"
+        <div>
+          <InputGroup>
+            <div className="input-icon">
+              <FontAwesomeIcon
+                icon={faMapMarkerAlt}
+                className="icon"
+              />
+            </div>
+            <FormControl
+              id="start"
+              placeholder="Start"
+              className="input-w-text number-input start"
+              value={startValue}
+              onChange={(e) => onChangeInput(e.target.value, setStartValue)}
             />
-          </div>
-          <FormControl
-            id="start"
-            placeholder="Start"
-            className="input-w-text number-input start"
-            value={startValue}
-            onChange={(e) => onChangeInput(e.target.value, setStartValue)}
-          />
-        </InputGroup>
-        <InputGroup>
-          <div className="input-icon">
-            <FontAwesomeIcon
-              id="random"
-              icon={faSearch}
-              className="icon"
+          </InputGroup>
+        </div>
+        <div>
+          <InputGroup>
+            <div className="input-icon">
+              <FontAwesomeIcon
+                id="random"
+                icon={faSearch}
+                className="icon"
+              />
+            </div>
+            <FormControl
+              id="search"
+              placeholder="Search Value"
+              className="input-w-text number-input search"
+              value={searchValue}
+              onChange={(e) => onChangeInput(e.target.value, setSearchValue)}
             />
-          </div>
-          <FormControl
-            id="search"
-            placeholder="Search Value"
-            className="input-w-text number-input search"
-            value={searchValue}
-            onChange={(e) => onChangeInput(e.target.value, setSearchValue)}
-          />
-        </InputGroup>
+          </InputGroup>
+        </div>
       </div>
       <span className="error">
         { error }

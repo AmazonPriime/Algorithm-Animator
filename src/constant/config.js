@@ -10,6 +10,7 @@ module.exports = {
   emailMessage: 'Must be in the form \'name@example.com\'',
   formspreeEndpoint: 'https://formspree.io/f/xgerjqba',
   invalidNodeError: 'Must be valid node number',
+  speeds: [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0],
   contentChars: 10,
   firstnameChars: 2,
   surnameChars: 2,

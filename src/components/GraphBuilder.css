@@ -20,6 +20,7 @@
   .graph-builder .controls > div {
     width: 100%;
     flex-grow: 1;
+    text-align: center;
   }
 
   .graph-builder .controls > div:nth-child(1) {

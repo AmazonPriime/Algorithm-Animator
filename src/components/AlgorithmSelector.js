@@ -1,6 +1,8 @@
 import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import './AlgorithmSelector.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 const algorithmSelector = (props) => {
   const { currentAlgorithm, algorithms, selectAlgorithm } = props;
@@ -22,6 +24,11 @@ const algorithmSelector = (props) => {
           className="dropdown-toggle"
         >
           { currentAlgorithm }
+          { ' ' }
+          <FontAwesomeIcon
+            icon={faCaretDown}
+            className="icon"
+          />
         </Dropdown.Toggle>
         <Dropdown.Menu
           className="dropdown-menu"
