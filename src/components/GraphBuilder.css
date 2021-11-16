@@ -35,9 +35,3 @@
     order: 3;
   }
 }
-
-.graph-builder .graph {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}

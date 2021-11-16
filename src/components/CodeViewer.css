@@ -1,0 +1,10 @@
+.code-container {
+  width: auto;
+  border-radius: 15px;
+  border: 1px solid var(--color-text-light) !important;
+  background-color: var(--color-2-light);
+}
+
+.code-container .code {
+  overflow: scroll;
+}
