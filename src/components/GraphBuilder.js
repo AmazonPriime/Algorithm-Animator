@@ -38,9 +38,12 @@ const graphBuilder = () => {
           <Graph />
         </div>
         <div id="code" className="code">
-          <CodeViewer code={bfsCode} />
+          <CodeViewer />
         </div>
       </div>
+      <pre>
+        {bfsCode}
+      </pre>
     </div>
   );
 };
