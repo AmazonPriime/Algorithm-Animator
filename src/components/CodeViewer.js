@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import './CodeViewer.css';
 
 const codeViewer = (props) => {
+  const [expanded, setExpanded] = useState(false);
   const { code } = props;
-  console.log(code);
 
-  return <div />;
+  return (
+    <div className={expanded ? 'code-container expanded' : 'code-container'}>
+      <pre>
+        {code}
+      </pre>
+      <div className="toggle">
+        <FontAwesomeIcon
+          icon={faCaretDown}
+          onClick={() => setExpanded(!expanded)}
+          className="code-icon"
+        />
+      </div>
+    </div>
+  );
 };
 
 codeViewer.defaultProps = {

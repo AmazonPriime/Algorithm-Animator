@@ -1,10 +1,47 @@
 .code-container {
-  width: auto;
   border-radius: 15px;
-  border: 1px solid var(--color-text-light) !important;
-  background-color: var(--color-2-light);
+  border: 1px solid var(--color-text-light);
+  border-top: 0;
+  border-right: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 0;
+  background-color: var(--color-2-light-50);
+  position: absolute;
+  display: inline-block;
+  top: 0;
+  right: 0;
 }
 
-.code-container .code {
-  overflow: scroll;
+.expanded {
+}
+
+.expanded > pre {
+  font-size: 2px !important;
+  height: 40px !important;
+  width: 40px !important;
+  opacity: 0.5;
+  transition: all ease 0.5s;
+}
+
+.expanded .toggle .code-icon {
+  transform: rotate(225deg);
+}
+
+.toggle {
+  position: absolute;
+  font-size: 1.75em;
+  bottom: -2px;
+  left: 10px;
+}
+
+.toggle .code-icon {
+  transform: rotate(45deg);
+  transition: all ease 0.5s;
+}
+
+.code-container > pre {
+  margin-bottom: 0;
+  padding: 1em;
+  font-size: 0.8em;
+  transition: all ease 0.5s;
 }

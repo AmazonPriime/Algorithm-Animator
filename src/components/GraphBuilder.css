@@ -35,3 +35,10 @@
     order: 3;
   }
 }
+
+.graph-code-container {
+  border: 1px solid var(--color-text-light);
+  border-radius: 15px;
+  height: 50vh;
+  position: relative;
+}
