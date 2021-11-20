@@ -14,6 +14,35 @@ const layout = {
   idealEdgeLength: 100,
 };
 
+const style = [
+  {
+    selector: 'node',
+    style: {
+      backgroundColor: 'white',
+      borderWidth: 1,
+      height: '1.25em',
+      width: '1.25em',
+      label: 'data(id)',
+      color: 'black',
+      textValign: 'center',
+      fontSize: '0.7em',
+      fontWeight: '200',
+    },
+  },
+  {
+    selector: 'edge',
+    style: {
+      width: 2,
+      lineColor: 'black',
+      label: 'data(label)',
+      textRotation: 'autorotate',
+      fontSize: '0.7em',
+      textMarginY: '-0.7em',
+      fontWeight: '200',
+    },
+  },
+];
+
 const Graph = (props) => {
   const { matrix } = props;
 
@@ -30,6 +59,7 @@ const Graph = (props) => {
       <CytoscapeComponent
         elements={graphElements}
         layout={layout}
+        stylesheet={style}
         className="graph"
       />
     </div>

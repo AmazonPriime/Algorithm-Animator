@@ -18,7 +18,7 @@ export function randomMatix(n) {
   return matrix;
 }
 
-export function buildGraphFromMatrix(matrix) {
+export function buildGraphFromMatrix(matrix, weighted = false) {
   const graphElements = [];
   // add nodes to the graph
   for (let i = 0; i < matrix.length; i += 1) {
@@ -37,7 +37,7 @@ export function buildGraphFromMatrix(matrix) {
           data: {
             source: `${i}`,
             target: `${j}`,
-            label: `Edge from Node ${i} to Node ${j}`,
+            label: weighted ? matrix[i][j] : '',
           },
         });
       }
