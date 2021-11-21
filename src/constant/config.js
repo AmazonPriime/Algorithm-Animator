@@ -14,4 +14,38 @@ module.exports = {
   contentChars: 10,
   firstnameChars: 2,
   surnameChars: 2,
+  defaultMatrixSize: 7,
+  graphStyles: [
+    {
+      selector: 'node',
+      style: {
+        backgroundColor: 'white',
+        borderWidth: 1,
+        height: '1.25em',
+        width: '1.25em',
+        label: 'data(id)',
+        color: 'black',
+        textValign: 'center',
+        fontSize: '0.7em',
+        fontWeight: '200',
+      },
+    },
+    {
+      selector: 'edge',
+      style: {
+        width: 2,
+        lineColor: 'black',
+        label: 'data(label)',
+        textRotation: 'autorotate',
+        fontSize: '0.7em',
+        textMarginY: '-0.7em',
+        fontWeight: '200',
+      },
+    },
+  ],
+  graphLayout: {
+    name: 'cose-bilkent',
+    nodeDimensionsIncludeLabels: true,
+    idealEdgeLength: 100,
+  },
 };

@@ -3,75 +3,58 @@ import PropTypes from 'prop-types';
 import CytoscapeComponent from 'react-cytoscapejs';
 import cytoscape from 'cytoscape';
 import coseBilkent from 'cytoscape-cose-bilkent';
-import { randomMatix, buildGraphFromMatrix } from '../util/util';
+import config from '../constant/config';
 import './Graph.css';
 
 cytoscape.use(coseBilkent);
 
-const layout = {
-  name: 'cose-bilkent',
-  nodeDimensionsIncludeLabels: true,
-  idealEdgeLength: 100,
-};
+const graph = (props) => {
+  const { graphElements, source, dest } = props;
 
-const style = [
-  {
-    selector: 'node',
+  config.graphStyles.push({
+    selector: `node[id = '${source}']`,
     style: {
-      backgroundColor: 'white',
-      borderWidth: 1,
-      height: '1.25em',
-      width: '1.25em',
-      label: 'data(id)',
-      color: 'black',
-      textValign: 'center',
-      fontSize: '0.7em',
-      fontWeight: '200',
+      borderColor: 'green',
+      color: 'green',
+      fontWeight: 'bold',
     },
-  },
-  {
-    selector: 'edge',
+  });
+
+  config.graphStyles.push({
+    selector: `node[id = '${dest}']`,
     style: {
-      width: 2,
-      lineColor: 'black',
-      label: 'data(label)',
-      textRotation: 'autorotate',
-      fontSize: '0.7em',
-      textMarginY: '-0.7em',
-      fontWeight: '200',
+      borderColor: 'red',
+      color: 'red',
+      fontWeight: 'bold',
     },
-  },
-];
-
-const Graph = (props) => {
-  const { matrix } = props;
-
-  let graphElements;
-
-  if (matrix.length !== 0) {
-    graphElements = buildGraphFromMatrix(matrix);
-  } else {
-    graphElements = buildGraphFromMatrix(randomMatix(8));
-  }
+  });
 
   return (
     <div className="graph-container">
       <CytoscapeComponent
         elements={graphElements}
-        layout={layout}
-        stylesheet={style}
+        layout={config.graphLayout}
+        stylesheet={config.graphStyles}
         className="graph"
+        cy={(cy) => {
+          const layout = cy.makeLayout(config.graphLayout);
+          layout.run();
+        }}
       />
     </div>
   );
 };
 
-Graph.propTypes = {
-  matrix: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
+graph.propTypes = {
+  graphElements: PropTypes.arrayOf(PropTypes.object),
+  source: PropTypes.number,
+  dest: PropTypes.number,
 };
 
-Graph.defaultProps = {
-  matrix: [],
+graph.defaultProps = {
+  graphElements: [],
+  source: -1,
+  dest: -1,
 };
 
-export default Graph;
+export default graph;

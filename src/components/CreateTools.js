@@ -10,20 +10,28 @@ import {
   faSearch,
   faCaretDown,
 } from '@fortawesome/free-solid-svg-icons';
+import { randomMatix } from '../util/util';
 import config from '../constant/config';
 import './CreateTools.css';
 
-const createTools = () => {
+const ensureInteger = (v) => v.replace(/[^\d]+/, '');
+
+const createTools = (props) => {
   const [error, setError] = useState('');
   const [startValue, setStartValue] = useState('');
   const [searchValue, setSearchValue] = useState('');
 
-  const ensureInteger = (v) => v.replace(/[^\d]+/, '');
+  const { numNodes, updateMatrix } = props;
 
   const onChangeInput = (value, setFunc) => {
     const newValue = ensureInteger(value);
     setFunc(newValue);
-    setError(newValue > 10 ? config.invalidNodeError : '');
+    setError(newValue > numNodes ? config.invalidNodeError : '');
+  };
+
+  const genRandomMatix = () => {
+    const matrix = randomMatix();
+    updateMatrix(matrix);
   };
 
   return (
@@ -40,12 +48,6 @@ const createTools = () => {
           className="button"
         >
           + Node
-        </Button>
-        <Button
-          id="addEdge"
-          className="button"
-        >
-          + Edge
         </Button>
         <Dropdown>
           <Dropdown.Toggle
@@ -72,6 +74,7 @@ const createTools = () => {
         <Button
           id="random"
           className="button"
+          onClick={() => genRandomMatix()}
         >
           <FontAwesomeIcon
             icon={faDice}

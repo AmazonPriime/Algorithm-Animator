@@ -1,43 +1,75 @@
-import React from 'react';
+import React, { Component } from 'react';
 import CreateTools from './CreateTools';
 import AlgorithmSelector from './AlgorithmSelector';
 import Playback from './Playback';
 import CodeViewer from './CodeViewer';
 import Graph from './Graph';
+import algorithms from '../algorithms';
+import config from '../constant/config';
+import { randomMatix, buildGraphFromMatrix } from '../util/util';
 import './GraphBuilder.css';
 
-const graphBuilder = () => {
-  const algorithms = ['Depth First Search', 'Breadth First Search', 'Dijkstra\'s Algorithm', 'A* Path Finding'];
+class GraphBuilder extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentAlgorithm: algorithms[0],
+      graphMatrix: randomMatix(config.defaultMatrixSize),
+      sourceNode: config.defaultMatrixSize - 1,
+      destNode: 0,
+    };
+  }
 
-  const bfsCode = `procedure BFS(G, root) is
-    let Q be a queue
-    label root as explored
-    Q.enqueue(root)
-    while Q is not empty do
-        v := Q.dequeue()
-        if v is the goal then
-            return v
-        for all edges from v to w in G.adjacentEdges(v) do
-            if w is not labeled as explored then
-                label w as explored
-                Q.enqueue(w)`;
+  changeAlgorithm(i) {
+    if (i < algorithms.length && i !== -1) {
+      this.setState({ currentAlgorithm: algorithms[i] });
+    }
+  }
 
-  return (
-    <div id="graphBuilder" className="graph-builder">
-      <div id="controls" className="controls">
-        <CreateTools />
-        <AlgorithmSelector
-          currentAlgorithm="Breadth First Search"
-          algorithms={algorithms}
-        />
-        <Playback />
+  updateMatrix(m) {
+    for (let i = 0; i < m.length; i += 1) {
+      if (m.length !== m[i].length) {
+        return;
+      }
+    }
+    this.setState({ graphMatrix: m });
+  }
+
+  render() {
+    const {
+      graphMatrix,
+      currentAlgorithm,
+      sourceNode,
+      destNode,
+    } = this.state;
+
+    return (
+      <div id="graphBuilder" className="graph-builder">
+        <div id="controls" className="controls">
+          <CreateTools
+            numNodes={graphMatrix.length}
+            updateMatrix={(m) => this.updateMatrix(m)}
+            updateSource={(v) => this.setState({ sourceNode: v })}
+            updateDest={(v) => this.setState({ destNode: v })}
+          />
+          <AlgorithmSelector
+            currentAlgorithm={currentAlgorithm.name}
+            selectAlgorithm={(i) => this.changeAlgorithm(i)}
+            algorithms={algorithms.map((v) => v.name)}
+          />
+          <Playback />
+        </div>
+        <div className="graph-code-container">
+          <Graph
+            graphElements={buildGraphFromMatrix(graphMatrix)}
+            source={sourceNode}
+            dest={destNode}
+          />
+          <CodeViewer code={currentAlgorithm.pseudocode} />
+        </div>
       </div>
-      <div className="graph-code-container">
-        <Graph />
-        <CodeViewer code={bfsCode} />
-      </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
-export default graphBuilder;
+export default GraphBuilder;

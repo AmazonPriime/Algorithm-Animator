@@ -2,11 +2,15 @@ export function randomNumber(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-export function randomMatix(n) {
+export function randomMatix(n = -1) {
   const matrix = [];
-  for (let i = 0; i < n; i += 1) {
+  let nNodes = n;
+  if (nNodes === -1) {
+    nNodes = randomNumber(4, 15);
+  }
+  for (let i = 0; i < nNodes; i += 1) {
     matrix.push([]);
-    for (let j = 0; j < n; j += 1) {
+    for (let j = 0; j < nNodes; j += 1) {
       if (i !== j) {
         // 66% chance of edge
         matrix[i].push(randomNumber(0, 3) % 2);

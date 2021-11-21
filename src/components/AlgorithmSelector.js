@@ -7,10 +7,10 @@ import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 const algorithmSelector = (props) => {
   const { currentAlgorithm, algorithms, selectAlgorithm } = props;
 
-  const renderItems = (items) => items.map((item) => (
+  const renderItems = (items) => items.map((item, i) => (
     <Dropdown.Item
       className="selector-item"
-      onClick={() => selectAlgorithm(item)}
+      onClick={() => selectAlgorithm(i)}
       active={item === currentAlgorithm}
     >
       { item }
