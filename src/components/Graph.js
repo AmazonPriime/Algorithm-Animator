@@ -9,7 +9,20 @@ import './Graph.css';
 cytoscape.use(coseBilkent);
 
 const graph = (props) => {
-  const { graphElements, source, dest } = props;
+  const {
+    graphElements,
+    source,
+    dest,
+    updated,
+    setUpdated,
+  } = props;
+
+  if (config.graphStyles.at(-1).selector.startsWith('node')) {
+    config.graphStyles.pop();
+    if (config.graphStyles.at(-1).selector.startsWith('node')) {
+      config.graphStyles.pop();
+    }
+  }
 
   config.graphStyles.push({
     selector: `node[id = '${source}']`,
@@ -37,8 +50,12 @@ const graph = (props) => {
         stylesheet={config.graphStyles}
         className="graph"
         cy={(cy) => {
-          const layout = cy.makeLayout(config.graphLayout);
-          layout.run();
+          if (updated) {
+            const layout = cy.makeLayout(config.graphLayout);
+            layout.run();
+            setUpdated();
+          }
+          cy.style().fromJson(config.graphStyles);
         }}
       />
     </div>

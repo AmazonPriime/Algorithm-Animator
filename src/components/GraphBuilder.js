@@ -17,6 +17,7 @@ class GraphBuilder extends Component {
       graphMatrix: randomMatix(config.defaultMatrixSize),
       sourceNode: config.defaultMatrixSize - 1,
       destNode: 0,
+      updated: false,
     };
   }
 
@@ -41,6 +42,7 @@ class GraphBuilder extends Component {
       currentAlgorithm,
       sourceNode,
       destNode,
+      updated,
     } = this.state;
 
     return (
@@ -51,6 +53,9 @@ class GraphBuilder extends Component {
             updateMatrix={(m) => this.updateMatrix(m)}
             updateSource={(v) => this.setState({ sourceNode: v })}
             updateDest={(v) => this.setState({ destNode: v })}
+            source={sourceNode}
+            dest={destNode}
+            setUpdated={() => this.setState({ updated: true })}
           />
           <AlgorithmSelector
             currentAlgorithm={currentAlgorithm.name}
@@ -64,6 +69,8 @@ class GraphBuilder extends Component {
             graphElements={buildGraphFromMatrix(graphMatrix)}
             source={sourceNode}
             dest={destNode}
+            updated={updated}
+            setUpdated={() => this.setState({ updated: false })}
           />
           <CodeViewer code={currentAlgorithm.pseudocode} />
         </div>

@@ -18,10 +18,14 @@ const ensureInteger = (v) => v.replace(/[^\d]+/, '');
 
 const createTools = (props) => {
   const [error, setError] = useState('');
-  const [startValue, setStartValue] = useState('');
-  const [searchValue, setSearchValue] = useState('');
 
-  const { numNodes, updateMatrix } = props;
+  const {
+    numNodes,
+    updateMatrix,
+    updateSource,
+    updateDest,
+    setUpdated,
+  } = props;
 
   const onChangeInput = (value, setFunc) => {
     const newValue = ensureInteger(value);
@@ -31,6 +35,7 @@ const createTools = (props) => {
 
   const genRandomMatix = () => {
     const matrix = randomMatix();
+    setUpdated();
     updateMatrix(matrix);
   };
 
@@ -94,8 +99,7 @@ const createTools = (props) => {
               id="start"
               placeholder="Start"
               className="input-w-text number-input start"
-              value={startValue}
-              onChange={(e) => onChangeInput(e.target.value, setStartValue)}
+              onChange={(e) => onChangeInput(e.target.value, updateSource)}
             />
           </InputGroup>
         </div>
@@ -112,8 +116,7 @@ const createTools = (props) => {
               id="search"
               placeholder="Search Value"
               className="input-w-text number-input search"
-              value={searchValue}
-              onChange={(e) => onChangeInput(e.target.value, setSearchValue)}
+              onChange={(e) => onChangeInput(e.target.value, updateDest)}
             />
           </InputGroup>
         </div>
