@@ -2,7 +2,7 @@ export default {
   name: 'Breadth First Search',
   presets: [
     {
-      name: 'preset 1',
+      name: 'BFS PRESET 1',
       matrix: [
         [0, 1, 0], // eslint-disable-line
         [1, 0, 1], // eslint-disable-line

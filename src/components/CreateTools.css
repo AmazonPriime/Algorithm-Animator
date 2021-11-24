@@ -15,12 +15,18 @@
 }
 
 .top-row .num-nodes {
-  width: 4.5em;
+  width: 5em;
   text-transform: lowercase;
   padding-left: 0.4em !important;
-  padding: 0.1em 0.6em 0.1em 0.6em;
+  padding: 0.1em 0.3em 0.1em 0.6em;
   margin: 0 0.25em 0.25em 0;
   display: inline;
+  text-align: center;
+  border-left: 1px solid var(--color-text-light);
+}
+
+.top-row .num-nodes:focus, .top-row .num-nodes:hover {
+  border-left: 1px solid var(--color-text-light);
 }
 
 .bottom-row {
@@ -58,11 +64,11 @@
 }
 
 .bottom-row .search {
-  width: 7em;
+  width: 4em;
   text-transform: lowercase;
 }
 
 .tools .error {
-  height: 1em;
+  min-height: 1.5em;
   display: block;
 }

@@ -42,9 +42,6 @@ const graph = (props) => {
     },
   });
 
-  console.log(source);
-  console.log(dest);
-
   return (
     <div className="graph-container">
       <CytoscapeComponent

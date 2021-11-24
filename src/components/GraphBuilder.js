@@ -24,12 +24,17 @@ class GraphBuilder extends Component {
 
   changeAlgorithm(i) {
     if (i < algorithms.length && i !== -1) {
-      this.setState({ currentAlgorithm: algorithms[i] });
+      this.setState({
+        currentAlgorithm: algorithms[i],
+        currentPreset: '',
+      });
     }
   }
 
   changePreset(i) {
     const { currentAlgorithm } = this.state;
+
+    console.log(currentAlgorithm.presets);
 
     if (i < currentAlgorithm.presets.length && i !== -1) {
       this.updateMatrix(currentAlgorithm.presets[i].matrix);
@@ -62,9 +67,6 @@ class GraphBuilder extends Component {
       updated,
       currentPreset,
     } = this.state;
-
-    console.log(sourceNode);
-    console.log(destNode);
 
     return (
       <div id="graphBuilder" className="graph-builder">

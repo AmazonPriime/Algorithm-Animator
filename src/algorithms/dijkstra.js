@@ -2,11 +2,11 @@ export default {
   name: 'Dijkstra\'s algorithm',
   presets: [
     {
-      name: 'preset 1',
+      name: 'DIJKSTRA PRESET 1',
       matrix: [
-        [0, 1, 0] // eslint-disable-line
-        [1, 0, 1] // eslint-disable-line
-        [0, 0, 0] // eslint-disable-line
+        [0, 1, 0], // eslint-disable-line
+        [1, 0, 1], // eslint-disable-line
+        [0, 0, 0], // eslint-disable-line
       ],
     },
   ],

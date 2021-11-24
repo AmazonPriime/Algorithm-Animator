@@ -32,17 +32,25 @@ const createTools = (props) => {
     currentPreset,
   } = props;
 
-  const [maxNodes, setMaxNodes] = useState(numNodes);
+  const [maxNodes, setMaxNodes] = useState();
 
-  const onChangeInput = (value, setFunc, setValueFunc = () => {}) => {
+  const onChangeInput = (value, setFunc, setValueFunc = () => {}, isNodes = false) => {
     const newValue = ensureInteger(value);
     setFunc(newValue);
     setValueFunc(newValue);
-    setError(newValue >= numNodes ? config.invalidNodeError.replace('{numNodes}', numNodes) : '');
+    if (!isNodes) {
+      return setError(newValue >= numNodes ? config.invalidNodeError.replace('{numNodes}', numNodes) : '');
+    }
+    return setError(newValue === 0 ? config.invalidRandNodeError : '');
   };
 
   const genRandomMatix = () => {
-    const matrix = randomMatix();
+    let matrix;
+    if (maxNodes > 0) {
+      matrix = randomMatix(maxNodes);
+    } else {
+      matrix = randomMatix();
+    }
     setUpdated();
     updateMatrix(matrix);
   };
@@ -105,10 +113,10 @@ const createTools = (props) => {
         </Button>
         <FormControl
           id="nodeCount"
-          placeholder="#Nodes"
+          placeholder="#nodes"
           className="input-w-text number-input num-nodes"
           value={maxNodes}
-          onChange={(e) => onChangeInput(e.target.value, () => {}, setMaxNodes)}
+          onChange={(e) => onChangeInput(e.target.value, () => {}, setMaxNodes, true)}
         />
       </div>
       <div id="bottomRow" className="bottom-row">
@@ -140,7 +148,7 @@ const createTools = (props) => {
             </div>
             <FormControl
               id="search"
-              placeholder="Search Value"
+              placeholder="Search"
               className="input-w-text number-input search"
               value={dest}
               onChange={(e) => onChangeInput(e.target.value, updateDest)}
