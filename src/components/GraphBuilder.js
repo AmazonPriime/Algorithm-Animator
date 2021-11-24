@@ -15,9 +15,10 @@ class GraphBuilder extends Component {
     this.state = {
       currentAlgorithm: algorithms[0],
       graphMatrix: randomMatix(config.defaultMatrixSize),
-      sourceNode: config.defaultMatrixSize - 1,
-      destNode: 0,
+      sourceNode: 0,
+      destNode: config.defaultMatrixSize - 1,
       updated: false,
+      currentPreset: '',
     };
   }
 
@@ -27,13 +28,29 @@ class GraphBuilder extends Component {
     }
   }
 
+  changePreset(i) {
+    const { currentAlgorithm } = this.state;
+
+    if (i < currentAlgorithm.presets.length && i !== -1) {
+      this.updateMatrix(currentAlgorithm.presets[i].matrix);
+      this.setState({ currentPreset: currentAlgorithm.presets[i].name });
+    }
+  }
+
   updateMatrix(m) {
+    const { sourceNode, destNode } = this.state;
+
     for (let i = 0; i < m.length; i += 1) {
       if (m.length !== m[i].length) {
         return;
       }
     }
-    this.setState({ graphMatrix: m });
+
+    this.setState({
+      graphMatrix: m,
+      sourceNode: sourceNode >= m.length ? 0 : sourceNode,
+      destNode: destNode >= m.length ? m.length - 1 : destNode,
+    });
   }
 
   render() {
@@ -43,19 +60,26 @@ class GraphBuilder extends Component {
       sourceNode,
       destNode,
       updated,
+      currentPreset,
     } = this.state;
+
+    console.log(sourceNode);
+    console.log(destNode);
 
     return (
       <div id="graphBuilder" className="graph-builder">
         <div id="controls" className="controls">
           <CreateTools
-            numNodes={graphMatrix.length}
             updateMatrix={(m) => this.updateMatrix(m)}
             updateSource={(v) => this.setState({ sourceNode: v })}
             updateDest={(v) => this.setState({ destNode: v })}
+            setUpdated={() => this.setState({ updated: true })}
+            selectPreset={(i) => this.changePreset(i)}
+            numNodes={graphMatrix.length}
             source={sourceNode}
             dest={destNode}
-            setUpdated={() => this.setState({ updated: true })}
+            currentPreset={currentPreset}
+            presets={currentAlgorithm.presets.map((v) => v.name)}
           />
           <AlgorithmSelector
             currentAlgorithm={currentAlgorithm.name}

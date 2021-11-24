@@ -9,7 +9,7 @@ module.exports = {
   contactFormError: 'Errors in the form above.',
   emailMessage: 'Must be in the form \'name@example.com\'',
   formspreeEndpoint: 'https://formspree.io/f/xgerjqba',
-  invalidNodeError: 'Must be valid node number',
+  invalidNodeError: 'Invalid node, graph only contains {numNodes} nodes!',
   speeds: [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0],
   contentChars: 10,
   firstnameChars: 2,

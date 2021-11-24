@@ -25,12 +25,20 @@ const createTools = (props) => {
     updateSource,
     updateDest,
     setUpdated,
+    source,
+    dest,
+    presets,
+    selectPreset,
+    currentPreset,
   } = props;
 
-  const onChangeInput = (value, setFunc) => {
+  const [maxNodes, setMaxNodes] = useState(numNodes);
+
+  const onChangeInput = (value, setFunc, setValueFunc = () => {}) => {
     const newValue = ensureInteger(value);
     setFunc(newValue);
-    setError(newValue > numNodes ? config.invalidNodeError : '');
+    setValueFunc(newValue);
+    setError(newValue >= numNodes ? config.invalidNodeError.replace('{numNodes}', numNodes) : '');
   };
 
   const genRandomMatix = () => {
@@ -38,6 +46,21 @@ const createTools = (props) => {
     setUpdated();
     updateMatrix(matrix);
   };
+
+  const updatePreset = (i) => {
+    setUpdated();
+    selectPreset(i);
+  };
+
+  const renderPresetItems = () => presets.map((v, i) => (
+    <Dropdown.Item
+      className="selector-item"
+      onClick={() => updatePreset(i)}
+      active={v === currentPreset}
+    >
+      {v}
+    </Dropdown.Item>
+  ));
 
   return (
     <div id="tools" className="tools">
@@ -68,12 +91,7 @@ const createTools = (props) => {
           <Dropdown.Menu
             className="dropdown-menu"
           >
-            <Dropdown.Item>
-              Preset 1
-            </Dropdown.Item>
-            <Dropdown.Item>
-              Preset 2
-            </Dropdown.Item>
+            { renderPresetItems() }
           </Dropdown.Menu>
         </Dropdown>
         <Button
@@ -85,6 +103,13 @@ const createTools = (props) => {
             icon={faDice}
           />
         </Button>
+        <FormControl
+          id="nodeCount"
+          placeholder="#Nodes"
+          className="input-w-text number-input num-nodes"
+          value={maxNodes}
+          onChange={(e) => onChangeInput(e.target.value, () => {}, setMaxNodes)}
+        />
       </div>
       <div id="bottomRow" className="bottom-row">
         <div>
@@ -99,6 +124,7 @@ const createTools = (props) => {
               id="start"
               placeholder="Start"
               className="input-w-text number-input start"
+              value={source}
               onChange={(e) => onChangeInput(e.target.value, updateSource)}
             />
           </InputGroup>
@@ -116,6 +142,7 @@ const createTools = (props) => {
               id="search"
               placeholder="Search Value"
               className="input-w-text number-input search"
+              value={dest}
               onChange={(e) => onChangeInput(e.target.value, updateDest)}
             />
           </InputGroup>

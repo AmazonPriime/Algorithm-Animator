@@ -1,5 +1,15 @@
 export default {
   name: 'Breadth First Search',
+  presets: [
+    {
+      name: 'preset 1',
+      matrix: [
+        [0, 1, 0], // eslint-disable-line
+        [1, 0, 1], // eslint-disable-line
+        [0, 0, 0], // eslint-disable-line
+      ],
+    },
+  ],
   pseudocode: `procedure BFS(G, root) is
     let Q be a queue
     label root as explored
