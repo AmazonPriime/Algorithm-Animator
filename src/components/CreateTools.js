@@ -9,6 +9,7 @@ import {
   faMapMarkerAlt,
   faSearch,
   faCaretDown,
+  faSync,
 } from '@fortawesome/free-solid-svg-icons';
 import { randomMatix } from '../util/util';
 import config from '../constant/config';
@@ -30,6 +31,7 @@ const createTools = (props) => {
     presets,
     selectPreset,
     currentPreset,
+    addNode,
   } = props;
 
   const [maxNodes, setMaxNodes] = useState();
@@ -60,6 +62,11 @@ const createTools = (props) => {
     selectPreset(i);
   };
 
+  const addNewNode = () => {
+    setUpdated();
+    addNode();
+  };
+
   const renderPresetItems = () => presets.map((v, i) => (
     <Dropdown.Item
       className="selector-item"
@@ -82,6 +89,7 @@ const createTools = (props) => {
         <Button
           id="addNode"
           className="button"
+          onClick={() => addNewNode()}
         >
           + Node
         </Button>
@@ -154,6 +162,17 @@ const createTools = (props) => {
               onChange={(e) => onChangeInput(e.target.value, updateDest)}
             />
           </InputGroup>
+        </div>
+        <div>
+          <Button
+            id="refresh"
+            className="button refresh"
+            onClick={() => setUpdated()}
+          >
+            <FontAwesomeIcon
+              icon={faSync}
+            />
+          </Button>
         </div>
       </div>
       <span className="error">

@@ -70,7 +70,9 @@
   border-radius: 15px;
   border-right: 0;
   width: 2em;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .input-w-text {

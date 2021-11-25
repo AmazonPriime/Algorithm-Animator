@@ -58,6 +58,20 @@ class GraphBuilder extends Component {
     });
   }
 
+  addNode() {
+    const { graphMatrix } = this.state;
+
+    for (let i = 0; i < graphMatrix.length; i += 1) {
+      graphMatrix[i].push(0);
+    }
+
+    graphMatrix.push(Array(graphMatrix.length + 1).fill(0));
+
+    console.log(graphMatrix);
+
+    this.setState({ graphMatrix });
+  }
+
   render() {
     const {
       graphMatrix,
@@ -77,11 +91,12 @@ class GraphBuilder extends Component {
             updateDest={(v) => this.setState({ destNode: v })}
             setUpdated={() => this.setState({ updated: true })}
             selectPreset={(i) => this.changePreset(i)}
+            addNode={() => this.addNode()}
+            presets={currentAlgorithm.presets.map((v) => v.name)}
             numNodes={graphMatrix.length}
             source={sourceNode}
             dest={destNode}
             currentPreset={currentPreset}
-            presets={currentAlgorithm.presets.map((v) => v.name)}
           />
           <AlgorithmSelector
             currentAlgorithm={currentAlgorithm.name}
