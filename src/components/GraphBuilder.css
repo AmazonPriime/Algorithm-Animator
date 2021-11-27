@@ -39,6 +39,24 @@
 .graph-code-container {
   border: 1px solid var(--color-text-light);
   border-radius: 15px;
-  height: 50vh;
+  height: 80vh;
   position: relative;
+}
+
+@media (max-width: 1125px) {
+  .graph-code-container {
+    height: 70vh;
+  }
+}
+
+@media (max-width: 700px) {
+  .graph-code-container {
+    height: 60vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .graph-code-container {
+    height: 65vh;
+  }
 }

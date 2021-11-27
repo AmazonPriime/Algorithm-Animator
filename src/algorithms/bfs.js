@@ -4,9 +4,10 @@ export default {
     {
       name: 'BFS PRESET 1',
       matrix: [
-        [0, 1, 0], // eslint-disable-line
-        [1, 0, 1], // eslint-disable-line
-        [0, 0, 0], // eslint-disable-line
+        [0, 1, 0, 1], // eslint-disable-line
+        [0, 0, 0, 1], // eslint-disable-line
+        [0, 0, 0, 1], // eslint-disable-line
+        [1, 1, 1, 0], // eslint-disable-line
       ],
     },
   ],
