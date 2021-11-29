@@ -100,7 +100,6 @@ class GraphBuilder extends Component {
             updateDest={(v) => this.setState({ destNode: v })}
             setUpdated={() => this.setState({ updated: true })}
             selectPreset={(i) => this.changePreset(i)}
-            addNode={() => this.addNode()}
             presets={currentAlgorithm.presets.map((v) => v.name)}
             numNodes={graphMatrix.length}
             source={sourceNode}

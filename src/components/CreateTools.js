@@ -31,7 +31,6 @@ const createTools = (props) => {
     presets,
     selectPreset,
     currentPreset,
-    addNode,
   } = props;
 
   const [maxNodes, setMaxNodes] = useState();
@@ -62,11 +61,6 @@ const createTools = (props) => {
     selectPreset(i);
   };
 
-  const addNewNode = () => {
-    setUpdated();
-    addNode();
-  };
-
   const renderPresetItems = () => presets.map((v, i) => (
     <Dropdown.Item
       className="selector-item"
@@ -85,13 +79,6 @@ const createTools = (props) => {
           className="button"
         >
           Guide
-        </Button>
-        <Button
-          id="addNode"
-          className="button"
-          onClick={() => addNewNode()}
-        >
-          + Node
         </Button>
         <Dropdown>
           <Dropdown.Toggle
