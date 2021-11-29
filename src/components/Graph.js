@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import CytoscapeComponent from 'react-cytoscapejs';
 import cytoscape from 'cytoscape';
@@ -18,6 +18,9 @@ const graph = (props) => {
     addNode,
     addedNode,
   } = props;
+
+  const [oneSelected, setOneSelected] = useState(null);
+  const [twoSelected, setTwoSelected] = useState(null);
 
   if (config.graphStyles.at(-1).selector.startsWith('node')) {
     config.graphStyles.pop();
@@ -44,18 +47,10 @@ const graph = (props) => {
     },
   });
 
-  const handlePress = (e) => {
-    console.log(e);
-  };
+  console.log(config.graphStyles);
 
   return (
-    <div
-      className="graph-container"
-      onClick={() => {}}
-      onKeyPress={handlePress}
-      role="button"
-      tabIndex="0"
-    >
+    <div className="graph-container">
       <CytoscapeComponent
         elements={graphElements}
         layout={config.graphLayout}
@@ -73,6 +68,31 @@ const graph = (props) => {
             if (!addedNode) {
               addNode(e.position);
             }
+          });
+
+          cy.on('select', 'node', (e) => {
+            const id = e.target.id();
+            if (oneSelected === null) {
+              // select source
+              setOneSelected(id);
+              config.graphStyles.push({
+                selector: `node[id = '${id}']`,
+                style: {
+                  borderColor: 'blue',
+                  color: 'black',
+                  fontWeight: 'bold',
+                },
+              });
+            } else if (oneSelected === id) {
+              // deselect source
+              setOneSelected(null);
+            } else if (twoSelected === null) {
+              // select target
+              setTwoSelected(id);
+            } else if (twoSelected === id) {
+              setTwoSelected(null);
+            }
+            cy.style().fromJson(config.graphStyles);
           });
         }}
       />
