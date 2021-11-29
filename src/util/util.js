@@ -22,16 +22,26 @@ export function randomMatix(n = -1) {
   return matrix;
 }
 
-export function buildGraphFromMatrix(matrix, weighted = false) {
+export function buildGraphFromMatrix(matrix, weighted = false, newestPos = null) {
   const graphElements = [];
   // add nodes to the graph
   for (let i = 0; i < matrix.length; i += 1) {
-    graphElements.push({
-      data: {
-        id: `${i}`,
-        label: `${i}`,
-      },
-    });
+    if (i !== matrix.length - 1) {
+      graphElements.push({
+        data: {
+          id: `${i}`,
+          label: `${i}`,
+        },
+      });
+    } else {
+      graphElements.push({
+        data: {
+          id: `${i}`,
+          label: `${i}`,
+        },
+        position: newestPos,
+      });
+    }
   }
   // add edges to the graph
   for (let i = 0; i < matrix.length; i += 1) {

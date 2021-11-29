@@ -18,6 +18,8 @@ class GraphBuilder extends Component {
       sourceNode: 0,
       destNode: config.defaultMatrixSize - 1,
       updated: false,
+      newestNodePos: null,
+      addedNode: false,
       currentPreset: '',
     };
   }
@@ -58,7 +60,7 @@ class GraphBuilder extends Component {
     });
   }
 
-  addNode() {
+  addNode(pos = null) {
     const { graphMatrix } = this.state;
 
     for (let i = 0; i < graphMatrix.length; i += 1) {
@@ -67,9 +69,12 @@ class GraphBuilder extends Component {
 
     graphMatrix.push(Array(graphMatrix.length + 1).fill(0));
 
-    console.log(graphMatrix);
-
-    this.setState({ graphMatrix });
+    if (pos) {
+      this.setState({
+        addedNode: true,
+        newestNodePos: pos,
+      });
+    }
   }
 
   render() {
@@ -80,7 +85,11 @@ class GraphBuilder extends Component {
       destNode,
       updated,
       currentPreset,
+      newestNodePos,
+      addedNode,
     } = this.state;
+
+    const { weighted } = currentAlgorithm;
 
     return (
       <div id="graphBuilder" className="graph-builder">
@@ -107,11 +116,13 @@ class GraphBuilder extends Component {
         </div>
         <div className="graph-code-container">
           <Graph
-            graphElements={buildGraphFromMatrix(graphMatrix)}
+            setUpdated={() => this.setState({ updated: false })}
+            addNode={(pos) => this.addNode(pos)}
+            addedNode={addedNode}
+            graphElements={buildGraphFromMatrix(graphMatrix, weighted, newestNodePos)}
             source={sourceNode}
             dest={destNode}
             updated={updated}
-            setUpdated={() => this.setState({ updated: false })}
           />
           <CodeViewer code={currentAlgorithm.pseudocode} />
         </div>

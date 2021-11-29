@@ -15,6 +15,8 @@ const graph = (props) => {
     dest,
     updated,
     setUpdated,
+    addNode,
+    addedNode,
   } = props;
 
   if (config.graphStyles.at(-1).selector.startsWith('node')) {
@@ -42,8 +44,18 @@ const graph = (props) => {
     },
   });
 
+  const handlePress = (e) => {
+    console.log(e);
+  };
+
   return (
-    <div className="graph-container">
+    <div
+      className="graph-container"
+      onClick={() => {}}
+      onKeyPress={handlePress}
+      role="button"
+      tabIndex="0"
+    >
       <CytoscapeComponent
         elements={graphElements}
         layout={config.graphLayout}
@@ -56,6 +68,12 @@ const graph = (props) => {
             setUpdated();
           }
           cy.style().fromJson(config.graphStyles);
+
+          cy.on('dbltap', (e) => {
+            if (!addedNode) {
+              addNode(e.position);
+            }
+          });
         }}
       />
     </div>
