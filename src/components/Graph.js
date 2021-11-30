@@ -13,14 +13,17 @@ const graph = (props) => {
     source,
     dest,
     updated,
-    sourceSelected,
-    targetSelected,
     setSourceSelected,
     setTargetSelected,
     setUpdated,
     addNode,
     initialised,
     setInitialised,
+  } = props;
+
+  let {
+    sourceSelected,
+    targetSelected,
   } = props;
 
   const deleteGraphStyle = (i) => {
@@ -75,17 +78,22 @@ const graph = (props) => {
               const id = e.target.id();
               if (sourceSelected.length === 0) {
                 deleteGraphStyle(selectors.indexOf(`node[id = '${sourceSelected}']`));
+                sourceSelected = id;
                 setSourceSelected(id);
-              } else if (targetSelected.length === 0) {
-                deleteGraphStyle(selectors.indexOf(`node[id = '${targetSelected}']`));
-                setTargetSelected(id);
               } else if (sourceSelected === id) {
                 deleteGraphStyle(selectors.indexOf(`node[id = '${sourceSelected}']`));
+                sourceSelected = '';
                 setSourceSelected('');
+              } else if (targetSelected.length === 0) {
+                deleteGraphStyle(selectors.indexOf(`node[id = '${targetSelected}']`));
+                targetSelected = id;
+                setTargetSelected(id);
               } else if (targetSelected === id) {
                 deleteGraphStyle(selectors.indexOf(`node[id = '${targetSelected}']`));
+                targetSelected = '';
                 setTargetSelected('');
               }
+              e.target.unselect();
             });
           }
 
