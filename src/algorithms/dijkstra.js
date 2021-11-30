@@ -1,5 +1,6 @@
 export default {
   name: 'Dijkstra\'s algorithm',
+  weighted: true,
   presets: [
     {
       name: 'DIJKSTRA PRESET 1',

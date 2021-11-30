@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
-import cytoscape from 'cytoscape';
+import Cytoscape from 'cytoscape';
 import coseBilkent from 'cytoscape-cose-bilkent';
 import config from '../constant/config';
 import './Graph.css';
 
-cytoscape.use(coseBilkent);
+Cytoscape.use(coseBilkent);
 
 const graph = (props) => {
   const {
@@ -14,40 +13,43 @@ const graph = (props) => {
     source,
     dest,
     updated,
+    sourceSelected,
+    targetSelected,
+    setSourceSelected,
+    setTargetSelected,
     setUpdated,
     addNode,
-    addedNode,
+    initialised,
+    setInitialised,
   } = props;
 
-  const [oneSelected, setOneSelected] = useState(null);
-  const [twoSelected, setTwoSelected] = useState(null);
+  const deleteGraphStyle = (i) => {
+    if (i !== -1) {
+      config.graphStyles.splice(i, 1);
+    }
+  };
 
-  if (config.graphStyles.at(-1).selector.startsWith('node')) {
-    config.graphStyles.pop();
-    if (config.graphStyles.at(-1).selector.startsWith('node')) {
-      config.graphStyles.pop();
+  const addGraphStyle = (id, colour) => {
+    config.graphStyles.push({
+      selector: `node[id = '${id}']`,
+      style: {
+        borderColor: colour,
+        fontWeight: 'bold',
+      },
+    });
+  };
+
+  const selectors = config.graphStyles.map((v) => v.selector);
+  for (let i = selectors.length - 1; i >= 0; i -= 1) {
+    if (selectors[i].startsWith('node[id = ')) {
+      deleteGraphStyle(i);
     }
   }
 
-  config.graphStyles.push({
-    selector: `node[id = '${source}']`,
-    style: {
-      borderColor: 'green',
-      color: 'green',
-      fontWeight: 'bold',
-    },
-  });
-
-  config.graphStyles.push({
-    selector: `node[id = '${dest}']`,
-    style: {
-      borderColor: 'red',
-      color: 'red',
-      fontWeight: 'bold',
-    },
-  });
-
-  console.log(config.graphStyles);
+  addGraphStyle(source, 'green');
+  addGraphStyle(dest, 'red');
+  addGraphStyle(sourceSelected, 'orange');
+  addGraphStyle(targetSelected, 'orange');
 
   return (
     <div className="graph-container">
@@ -64,52 +66,36 @@ const graph = (props) => {
           }
           cy.style().fromJson(config.graphStyles);
 
-          cy.on('dbltap', (e) => {
-            if (!addedNode) {
+          if (!initialised) {
+            cy.on('dbltap', (e) => {
               addNode(e.position);
-            }
-          });
+            });
 
-          cy.on('select', 'node', (e) => {
-            const id = e.target.id();
-            if (oneSelected === null) {
-              // select source
-              setOneSelected(id);
-              config.graphStyles.push({
-                selector: `node[id = '${id}']`,
-                style: {
-                  borderColor: 'blue',
-                  color: 'black',
-                  fontWeight: 'bold',
-                },
-              });
-            } else if (oneSelected === id) {
-              // deselect source
-              setOneSelected(null);
-            } else if (twoSelected === null) {
-              // select target
-              setTwoSelected(id);
-            } else if (twoSelected === id) {
-              setTwoSelected(null);
-            }
-            cy.style().fromJson(config.graphStyles);
-          });
+            cy.on('select', 'node', (e) => {
+              const id = e.target.id();
+              if (sourceSelected.length === 0) {
+                deleteGraphStyle(selectors.indexOf(`node[id = '${sourceSelected}']`));
+                setSourceSelected(id);
+              } else if (targetSelected.length === 0) {
+                deleteGraphStyle(selectors.indexOf(`node[id = '${targetSelected}']`));
+                setTargetSelected(id);
+              } else if (sourceSelected === id) {
+                deleteGraphStyle(selectors.indexOf(`node[id = '${sourceSelected}']`));
+                setSourceSelected('');
+              } else if (targetSelected === id) {
+                deleteGraphStyle(selectors.indexOf(`node[id = '${targetSelected}']`));
+                setTargetSelected('');
+              }
+            });
+          }
+
+          if (!initialised) {
+            setInitialised();
+          }
         }}
       />
     </div>
   );
-};
-
-graph.propTypes = {
-  graphElements: PropTypes.arrayOf(PropTypes.object),
-  source: PropTypes.number,
-  dest: PropTypes.number,
-};
-
-graph.defaultProps = {
-  graphElements: [],
-  source: -1,
-  dest: -1,
 };
 
 export default graph;

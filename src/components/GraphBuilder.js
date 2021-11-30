@@ -17,10 +17,12 @@ class GraphBuilder extends Component {
       graphMatrix: randomMatix(config.defaultMatrixSize),
       sourceNode: 0,
       destNode: config.defaultMatrixSize - 1,
+      sourceSelected: '',
+      targetSelected: '',
       updated: false,
       newestNodePos: null,
-      addedNode: false,
       currentPreset: '',
+      graphInitialised: false,
     };
   }
 
@@ -35,8 +37,6 @@ class GraphBuilder extends Component {
 
   changePreset(i) {
     const { currentAlgorithm } = this.state;
-
-    console.log(currentAlgorithm.presets);
 
     if (i < currentAlgorithm.presets.length && i !== -1) {
       this.updateMatrix(currentAlgorithm.presets[i].matrix);
@@ -70,10 +70,7 @@ class GraphBuilder extends Component {
     graphMatrix.push(Array(graphMatrix.length + 1).fill(0));
 
     if (pos) {
-      this.setState({
-        addedNode: true,
-        newestNodePos: pos,
-      });
+      this.setState({ newestNodePos: pos });
     }
   }
 
@@ -86,7 +83,9 @@ class GraphBuilder extends Component {
       updated,
       currentPreset,
       newestNodePos,
-      addedNode,
+      sourceSelected,
+      targetSelected,
+      graphInitialised,
     } = this.state;
 
     const { weighted } = currentAlgorithm;
@@ -117,11 +116,16 @@ class GraphBuilder extends Component {
           <Graph
             setUpdated={() => this.setState({ updated: false })}
             addNode={(pos) => this.addNode(pos)}
-            addedNode={addedNode}
+            setSourceSelected={(id) => this.setState({ sourceSelected: id })}
+            setTargetSelected={(id) => this.setState({ targetSelected: id })}
+            setInitialised={() => this.setState({ graphInitialised: true })}
             graphElements={buildGraphFromMatrix(graphMatrix, weighted, newestNodePos)}
             source={sourceNode}
             dest={destNode}
             updated={updated}
+            sourceSelected={sourceSelected}
+            targetSelected={targetSelected}
+            initialised={graphInitialised}
           />
           <CodeViewer code={currentAlgorithm.pseudocode} />
         </div>
