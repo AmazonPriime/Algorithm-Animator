@@ -9,6 +9,8 @@ import config from '../constant/config';
 import { randomMatix, buildGraphFromMatrix } from '../util/util';
 import './GraphBuilder.css';
 
+const ensureInteger = (v) => v.replace(/[^\d]+/, '');
+
 class GraphBuilder extends Component {
   constructor(props) {
     super(props);
@@ -74,6 +76,26 @@ class GraphBuilder extends Component {
     }
   }
 
+  addEdge() {
+    const { sourceSelected, targetSelected, graphMatrix } = this.state;
+
+    if (sourceSelected.length === 0 || targetSelected.length === 0) {
+      return;
+    }
+
+    if (!ensureInteger(sourceSelected) || !ensureInteger(targetSelected)) {
+      return;
+    }
+
+    // update to add edge between notes and reset source/target selected
+    graphMatrix[sourceSelected][targetSelected] = 1;
+
+    this.setState({
+      sourceSelected: '',
+      targetSelected: '',
+    });
+  }
+
   render() {
     const {
       graphMatrix,
@@ -116,6 +138,7 @@ class GraphBuilder extends Component {
           <Graph
             setUpdated={() => this.setState({ updated: false })}
             addNode={(pos) => this.addNode(pos)}
+            addEdge={() => this.addEdge()}
             setSourceSelected={(id) => this.setState({ sourceSelected: id })}
             setTargetSelected={(id) => this.setState({ targetSelected: id })}
             setInitialised={() => this.setState({ graphInitialised: true })}

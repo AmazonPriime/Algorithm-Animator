@@ -19,6 +19,7 @@ const graph = (props) => {
     addNode,
     initialised,
     setInitialised,
+    addEdge,
   } = props;
 
   let {
@@ -76,22 +77,23 @@ const graph = (props) => {
 
             cy.on('select', 'node', (e) => {
               const id = e.target.id();
-              if (sourceSelected.length === 0) {
-                deleteGraphStyle(selectors.indexOf(`node[id = '${sourceSelected}']`));
-                sourceSelected = id;
-                setSourceSelected(id);
-              } else if (sourceSelected === id) {
-                deleteGraphStyle(selectors.indexOf(`node[id = '${sourceSelected}']`));
+              if (sourceSelected === id) {
                 sourceSelected = '';
                 setSourceSelected('');
-              } else if (targetSelected.length === 0) {
-                deleteGraphStyle(selectors.indexOf(`node[id = '${targetSelected}']`));
-                targetSelected = id;
-                setTargetSelected(id);
               } else if (targetSelected === id) {
-                deleteGraphStyle(selectors.indexOf(`node[id = '${targetSelected}']`));
                 targetSelected = '';
                 setTargetSelected('');
+              } else if (sourceSelected.length === 0) {
+                sourceSelected = id;
+                setSourceSelected(id);
+              } else if (targetSelected.length === 0) {
+                targetSelected = id;
+                setTargetSelected(id);
+              }
+              if (sourceSelected.length > 0 && targetSelected.length > 0) {
+                addEdge();
+                sourceSelected = '';
+                targetSelected = '';
               }
               e.target.unselect();
             });
