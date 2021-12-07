@@ -20,6 +20,7 @@ const graph = (props) => {
     initialised,
     setInitialised,
     addEdge,
+    removeEdge,
   } = props;
 
   let {
@@ -96,6 +97,11 @@ const graph = (props) => {
                 targetSelected = '';
               }
               e.target.unselect();
+            });
+
+            cy.on('taphold', 'edge', (e) => {
+              const edge = e.target.json();
+              removeEdge(edge.data.source, edge.data.target);
             });
           }
 

@@ -87,13 +87,26 @@ class GraphBuilder extends Component {
       return;
     }
 
-    // update to add edge between notes and reset source/target selected
+    // update to add edge between nodes and reset source/target selected
     graphMatrix[sourceSelected][targetSelected] = 1;
 
     this.setState({
       sourceSelected: '',
       targetSelected: '',
     });
+  }
+
+  removeEdge(source, target) {
+    const { graphMatrix } = this.state;
+
+    if (!ensureInteger(source) || !ensureInteger(target)) {
+      return;
+    }
+
+    // update to remove edge between source/target
+    graphMatrix[source][target] = 0;
+
+    this.setState({ graphMatrix });
   }
 
   render() {
@@ -139,6 +152,7 @@ class GraphBuilder extends Component {
             setUpdated={() => this.setState({ updated: false })}
             addNode={(pos) => this.addNode(pos)}
             addEdge={() => this.addEdge()}
+            removeEdge={(source, target) => this.removeEdge(source, target)}
             setSourceSelected={(id) => this.setState({ sourceSelected: id })}
             setTargetSelected={(id) => this.setState({ targetSelected: id })}
             setInitialised={() => this.setState({ graphInitialised: true })}
