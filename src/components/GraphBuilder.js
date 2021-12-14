@@ -98,6 +98,7 @@ class GraphBuilder extends Component {
 
     this.setState({
       graphMatrix,
+      updated: true,
     });
   }
 
