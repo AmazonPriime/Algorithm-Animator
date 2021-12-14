@@ -205,6 +205,7 @@ class GraphBuilder extends Component {
           />
           <AlgorithmSelector
             currentAlgorithm={currentAlgorithm.name}
+            algorithmObj={currentAlgorithm}
             selectAlgorithm={(i) => this.changeAlgorithm(i)}
             algorithms={algorithms.map((v) => v.name)}
           />
