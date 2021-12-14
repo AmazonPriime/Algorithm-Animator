@@ -21,6 +21,7 @@ const graph = (props) => {
     setInitialised,
     addEdge,
     removeEdge,
+    updateWeight,
   } = props;
 
   let {
@@ -69,11 +70,20 @@ const graph = (props) => {
             layout.run();
             setUpdated();
           }
+
           cy.style().fromJson(config.graphStyles);
 
           if (!initialised) {
+            cy.on('dbltap', 'edge', (e) => {
+              const edge = e.target.json();
+              updateWeight(edge.data.id, edge.data.source, edge.data.target);
+            });
+
             cy.on('dbltap', (e) => {
-              addNode(e.position);
+              const { group } = e.target.json();
+              if (group !== 'edges' && group !== 'nodes') {
+                addNode(e.position);
+              }
             });
 
             cy.on('select', 'node', (e) => {

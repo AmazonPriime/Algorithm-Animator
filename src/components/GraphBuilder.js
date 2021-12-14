@@ -21,6 +21,7 @@ class GraphBuilder extends Component {
       destNode: config.defaultMatrixSize - 1,
       sourceSelected: '',
       targetSelected: '',
+      weight: '',
       updated: false,
       newestNodePos: null,
       currentPreset: '',
@@ -109,6 +110,24 @@ class GraphBuilder extends Component {
     this.setState({ graphMatrix });
   }
 
+  updateWeight(id, i, j) {
+    const { currentAlgorithm, weight, graphMatrix } = this.state;
+    const { weighted } = currentAlgorithm;
+
+    if (!weighted || i.length === 0 || j.length === 0 || weight.length === 0) {
+      return;
+    }
+
+    if (!ensureInteger(weight) || !ensureInteger(i) || !ensureInteger(j)) {
+      return;
+    }
+
+    // update the weight
+    graphMatrix[i][j] = weight;
+
+    this.setState({ graphMatrix });
+  }
+
   render() {
     const {
       graphMatrix,
@@ -121,6 +140,7 @@ class GraphBuilder extends Component {
       sourceSelected,
       targetSelected,
       graphInitialised,
+      weight,
     } = this.state;
 
     const { weighted } = currentAlgorithm;
@@ -133,11 +153,14 @@ class GraphBuilder extends Component {
             updateSource={(v) => this.setState({ sourceNode: v })}
             updateDest={(v) => this.setState({ destNode: v })}
             setUpdated={() => this.setState({ updated: true })}
+            setWeight={(v) => this.setState({ weight: v })}
             selectPreset={(i) => this.changePreset(i)}
             presets={currentAlgorithm.presets.map((v) => v.name)}
             numNodes={graphMatrix.length}
             source={sourceNode}
             dest={destNode}
+            weight={weight}
+            weighted={weighted}
             currentPreset={currentPreset}
           />
           <AlgorithmSelector
@@ -156,6 +179,7 @@ class GraphBuilder extends Component {
             setSourceSelected={(id) => this.setState({ sourceSelected: id })}
             setTargetSelected={(id) => this.setState({ targetSelected: id })}
             setInitialised={() => this.setState({ graphInitialised: true })}
+            updateWeight={(id, i, j) => this.updateWeight(id, i, j)}
             graphElements={buildGraphFromMatrix(graphMatrix, weighted, newestNodePos)}
             source={sourceNode}
             dest={destNode}
