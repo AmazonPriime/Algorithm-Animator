@@ -10,6 +10,7 @@ import {
   faSearch,
   faCaretDown,
   faSync,
+  faWeightHanging,
 } from '@fortawesome/free-solid-svg-icons';
 import { randomMatix } from '../util/util';
 import config from '../constant/config';
@@ -31,15 +32,18 @@ const createTools = (props) => {
     presets,
     selectPreset,
     currentPreset,
+    weight,
+    weighted,
+    setWeight,
   } = props;
 
   const [maxNodes, setMaxNodes] = useState();
 
-  const onChangeInput = (value, setFunc, setValueFunc = () => {}, isNodes = false) => {
+  const onChangeInput = (value, setFunc, setValueFunc = () => {}, ignoreCheck = false) => {
     const newValue = ensureInteger(value);
     setFunc(newValue);
     setValueFunc(newValue);
-    if (!isNodes) {
+    if (!ignoreCheck) {
       return setError(newValue >= numNodes ? config.invalidNodeError.replace('{numNodes}', numNodes) : '');
     }
     return setError(newValue === 0 ? config.invalidRandNodeError : '');
@@ -119,13 +123,13 @@ const createTools = (props) => {
           <InputGroup>
             <div className="input-icon">
               <FontAwesomeIcon
+                id="sourceIcon"
                 icon={faMapMarkerAlt}
                 className="icon"
               />
             </div>
             <FormControl
               id="start"
-              placeholder="Start"
               className="input-w-text number-input start"
               value={source}
               onChange={(e) => onChangeInput(e.target.value, updateSource)}
@@ -136,14 +140,13 @@ const createTools = (props) => {
           <InputGroup>
             <div className="input-icon">
               <FontAwesomeIcon
-                id="random"
+                id="searchIcon"
                 icon={faSearch}
                 className="icon"
               />
             </div>
             <FormControl
               id="search"
-              placeholder="Search"
               className="input-w-text number-input search"
               value={dest}
               onChange={(e) => onChangeInput(e.target.value, updateDest)}
@@ -160,6 +163,24 @@ const createTools = (props) => {
               icon={faSync}
             />
           </Button>
+        </div>
+        <div>
+          <InputGroup className={weighted ? '' : 'input-disabled'}>
+            <div className="input-icon">
+              <FontAwesomeIcon
+                id="weightIcon"
+                icon={faWeightHanging}
+                className="icon"
+              />
+            </div>
+            <FormControl
+              id="weight"
+              className="input-w-text number-input weight"
+              value={weight}
+              onChange={(e) => onChangeInput(e.target.value, setWeight, () => {}, true)}
+              readOnly={!weighted}
+            />
+          </InputGroup>
         </div>
       </div>
       <span className="error">

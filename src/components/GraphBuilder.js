@@ -145,6 +145,8 @@ class GraphBuilder extends Component {
 
     const { weighted } = currentAlgorithm;
 
+    console.log(weight);
+
     return (
       <div id="graphBuilder" className="graph-builder">
         <div id="controls" className="controls">

@@ -8,6 +8,7 @@
   --color-text-light: rgba(47, 54, 64, 1.0);
   --color-error-light: rgba(194, 54, 22, 1.0);
   --color-success-light: rgba(68, 189, 50, 1.0);
+  --color-3-disabled: rgba(200, 200, 200, 1.0);
   /* dark mode */
   --color-1-dark: rgba(0, 168, 255);
   --color-1-dark-33: rgba(0, 168, 255, 0.33);
