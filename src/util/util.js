@@ -46,7 +46,7 @@ export function buildGraphFromMatrix(matrix, weighted = false, newestPos = null)
   // add edges to the graph
   for (let i = 0; i < matrix.length; i += 1) {
     for (let j = 0; j < matrix[i].length; j += 1) {
-      if (matrix[i][j] === 1) {
+      if (matrix[i][j] >= 1) {
         graphElements.push({
           data: {
             source: `${i}`,
