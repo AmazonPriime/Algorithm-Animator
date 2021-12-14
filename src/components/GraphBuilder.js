@@ -78,7 +78,14 @@ class GraphBuilder extends Component {
   }
 
   addEdge() {
-    const { sourceSelected, targetSelected, graphMatrix } = this.state;
+    const {
+      sourceSelected,
+      targetSelected,
+      graphMatrix,
+      weight,
+    } = this.state;
+
+    let weightValue = 1;
 
     if (sourceSelected.length === 0 || targetSelected.length === 0) {
       return;
@@ -88,8 +95,12 @@ class GraphBuilder extends Component {
       return;
     }
 
+    if (ensureInteger(weight) && weight.length > 0) {
+      weightValue = weight;
+    }
+
     // update to add edge between nodes and reset source/target selected
-    graphMatrix[sourceSelected][targetSelected] = 1;
+    graphMatrix[sourceSelected][targetSelected] = weightValue;
 
     this.setState({
       sourceSelected: '',
@@ -144,8 +155,6 @@ class GraphBuilder extends Component {
     } = this.state;
 
     const { weighted } = currentAlgorithm;
-
-    console.log(weight);
 
     return (
       <div id="graphBuilder" className="graph-builder">
