@@ -17,6 +17,7 @@ const graph = (props) => {
     setTargetSelected,
     setUpdated,
     addNode,
+    removeNode,
     initialised,
     setInitialised,
     addEdge,
@@ -112,6 +113,18 @@ const graph = (props) => {
             cy.on('taphold', 'edge', (e) => {
               const edge = e.target.json();
               removeEdge(edge.data.source, edge.data.target);
+            });
+
+            cy.on('taphold', 'node', (e) => {
+              const node = e.target.json();
+              if (node.data.id === targetSelected) {
+                targetSelected = '';
+                setTargetSelected('');
+              } else if (node.data.id === sourceSelected) {
+                sourceSelected = '';
+                setSourceSelected('');
+              }
+              removeNode(node.data.id);
             });
           }
 

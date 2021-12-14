@@ -77,6 +77,30 @@ class GraphBuilder extends Component {
     }
   }
 
+  removeNode(i) {
+    const { graphMatrix } = this.state;
+
+    if (!ensureInteger(i) || i.length === 0) {
+      return;
+    }
+
+    if (i >= graphMatrix.length) {
+      return;
+    }
+
+    // remove the node
+    graphMatrix.splice(i, 1);
+
+    // remove connections from other nodes
+    for (let j = 0; j < graphMatrix.length; j += 1) {
+      graphMatrix[j].splice(i, 1);
+    }
+
+    this.setState({
+      graphMatrix,
+    });
+  }
+
   addEdge() {
     const {
       sourceSelected,
@@ -97,6 +121,10 @@ class GraphBuilder extends Component {
 
     if (ensureInteger(weight) && weight.length > 0) {
       weightValue = weight;
+    }
+
+    if (sourceSelected >= graphMatrix.length || targetSelected >= graphMatrix.length) {
+      return;
     }
 
     // update to add edge between nodes and reset source/target selected
@@ -185,6 +213,7 @@ class GraphBuilder extends Component {
           <Graph
             setUpdated={() => this.setState({ updated: false })}
             addNode={(pos) => this.addNode(pos)}
+            removeNode={(i) => this.removeNode(i)}
             addEdge={() => this.addEdge()}
             removeEdge={(source, target) => this.removeEdge(source, target)}
             setSourceSelected={(id) => this.setState({ sourceSelected: id })}
