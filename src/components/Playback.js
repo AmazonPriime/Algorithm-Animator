@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,15 +8,21 @@ import 'rc-slider/assets/index.css';
 import './Playback.css';
 
 const playback = (props) => {
-  const { curSpeed } = props;
-  const [speed, setSpeed] = useState(curSpeed);
-
-  const onChange = (value) => setSpeed(parseFloat(value));
+  const {
+    curSpeed,
+    setCurSpeed,
+    playing,
+    setPlaying,
+    currentStep,
+    nSteps,
+    stepForward,
+    stepBack,
+  } = props;
 
   const renderSpeedOptions = () => config.speeds.map((s) => (
     <Dropdown.Item
-      onClick={() => setSpeed(s)}
-      active={s === speed}
+      onClick={() => setCurSpeed(s)}
+      active={s === curSpeed}
     >
       { s.toFixed(2) }
       x
@@ -28,6 +34,8 @@ const playback = (props) => {
       <Button
         id="stepBack"
         className="button"
+        disabled={currentStep === 0 || nSteps === 0}
+        onClick={() => stepBack()}
       >
         <FontAwesomeIcon
           icon={faCaretLeft}
@@ -38,12 +46,15 @@ const playback = (props) => {
       <Button
         id="playPause"
         className="button"
+        onClick={() => setPlaying()}
       >
-        play
+        { playing ? 'pause' : 'play' }
       </Button>
       <Button
         id="stepForward"
         className="button"
+        disabled={currentStep > nSteps - 1 || nSteps === 0}
+        onClick={() => stepForward()}
       >
         step
         { ' ' }
@@ -57,12 +68,12 @@ const playback = (props) => {
           min="0.1"
           max="2"
           step="0.05"
-          value={speed}
-          onChange={(e) => onChange(e.target.value)}
+          value={curSpeed}
+          onChange={(e) => setCurSpeed(parseFloat(e.target.value))}
         />
         <Dropdown className="speed-dropdown">
           <Dropdown.Toggle className="speed-toggle-btn">
-            { speed.toFixed(2) }
+            { curSpeed.toFixed(2) }
             { 'x ' }
             <FontAwesomeIcon
               icon={faCaretDown}

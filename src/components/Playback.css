@@ -53,3 +53,7 @@
 .playback .speed-control .speed-dropdown .speed-toggle-btn:active {
   color: inherit !important;
 }
+
+.playback .btn-disabled {
+  background-color: var(--color-3-disabled) !important;
+}

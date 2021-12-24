@@ -27,6 +27,10 @@ class GraphBuilder extends Component {
       currentPreset: '',
       graphInitialised: false,
       directed: false,
+      speed: 1, // current speed multiplier for the animation
+      playing: false, // whether or not the animation is paused
+      steps: [], // the steps for the animation
+      currentStep: 0, // the index for the current step
     };
   }
 
@@ -169,6 +173,15 @@ class GraphBuilder extends Component {
     this.setState({ graphMatrix });
   }
 
+  changeStep(v) {
+    const { steps, currentStep } = this.state;
+    if (v === 1 && currentStep + 1 < steps.length - 1) {
+      this.setState({ currentStep: currentStep + 1 });
+    } else if (v === -1 && currentStep - 1 >= 0) {
+      this.setState({ currentStep: currentStep - 1 });
+    }
+  }
+
   render() {
     const {
       graphMatrix,
@@ -183,6 +196,10 @@ class GraphBuilder extends Component {
       graphInitialised,
       weight,
       directed,
+      speed,
+      playing,
+      currentStep,
+      steps,
     } = this.state;
 
     const { weighted } = currentAlgorithm;
@@ -213,7 +230,16 @@ class GraphBuilder extends Component {
             setDirected={(v) => this.setState({ directed: v })}
             directed={directed}
           />
-          <Playback />
+          <Playback
+            curSpeed={speed}
+            setCurSpeed={(v) => this.setState({ speed: v })}
+            playing={playing}
+            setPlaying={() => this.setState({ playing: !playing })}
+            stepBack={() => this.changeStep(-1)}
+            stepForward={() => this.changeStep(1)}
+            currentStep={currentStep}
+            nSteps={steps.length}
+          />
         </div>
         <div className="graph-code-container">
           <Graph
