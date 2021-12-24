@@ -1,0 +1,15 @@
+.algorithm-selector {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.algorithm-selector > .button {
+  margin-left: 0.1em;
+  width: 2.5em;
+}
+
+.algorithm-selector > .checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

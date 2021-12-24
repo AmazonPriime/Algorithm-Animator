@@ -32,7 +32,7 @@ const postForm = async (firstname, surname, email, content) => {
 
 const minMessages = (limit) => config.minCharMessage.replace('{min}', limit);
 
-class About extends Component {
+class Contact extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -240,13 +240,13 @@ class About extends Component {
   }
 }
 
-About.propTypes = {
+Contact.propTypes = {
   onClose: PropTypes.func.isRequired,
   customCallback: PropTypes.func,
 };
 
-About.defaultProps = {
+Contact.defaultProps = {
   customCallback: null,
 };
 
-export default About;
+export default Contact;
