@@ -1,6 +1,7 @@
 export default {
   name: 'Breadth First Search',
   weighted: false,
+  notDirectional: false,
   presets: [
     {
       name: 'BFS PRESET 1',

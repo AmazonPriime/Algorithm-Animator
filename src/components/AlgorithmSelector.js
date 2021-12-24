@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
 import './AlgorithmSelector.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faInfo } from '@fortawesome/free-solid-svg-icons';
@@ -40,7 +41,13 @@ class AlgorithmSelector extends Component {
 
   render() {
     const { modalShow } = this.state;
-    const { currentAlgorithm, algorithms, algorithmObj } = this.props;
+    const {
+      currentAlgorithm,
+      algorithms,
+      algorithmObj,
+      directed,
+      setDirected,
+    } = this.props;
 
     return (
       <div id="algorithmSelector" className="algorithm-selector">
@@ -70,6 +77,19 @@ class AlgorithmSelector extends Component {
             icon={faInfo}
           />
         </Button>
+        <br />
+        <Form.Group
+          className="checkbox"
+          controlId="formBasicCheckbox"
+        >
+          <Form.Check
+            type="checkbox"
+            label="directed"
+            checked={directed}
+            disabled={algorithmObj.notDirectional}
+            onClick={() => setDirected(!directed)}
+          />
+        </Form.Group>
         <Modal
           size="lg"
           show={modalShow}
@@ -90,12 +110,16 @@ AlgorithmSelector.propTypes = {
   selectAlgorithm: PropTypes.func,
   algorithms: PropTypes.arrayOf(PropTypes.object),
   algorithmObj: PropTypes.objectOf(PropTypes.object),
+  directed: PropTypes.bool,
+  setDirected: PropTypes.func,
 };
 
 AlgorithmSelector.defaultProps = {
   currentAlgorithm: '',
   algorithms: [],
   selectAlgorithm: () => {},
+  directed: false,
+  setDirected: () => {},
   algorithmObj: null,
 };
 

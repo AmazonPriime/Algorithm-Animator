@@ -44,8 +44,6 @@ module.exports = {
         textMarginY: '0',
         fontWeight: 'bold',
         color: 'white',
-        curveStyle: 'bezier',
-        targetArrowShape: 'triangle',
         targetArrowColor: 'black',
       },
     },

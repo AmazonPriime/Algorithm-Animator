@@ -26,6 +26,7 @@ class GraphBuilder extends Component {
       newestNodePos: null,
       currentPreset: '',
       graphInitialised: false,
+      directed: false,
     };
   }
 
@@ -181,6 +182,7 @@ class GraphBuilder extends Component {
       targetSelected,
       graphInitialised,
       weight,
+      directed,
     } = this.state;
 
     const { weighted } = currentAlgorithm;
@@ -208,6 +210,8 @@ class GraphBuilder extends Component {
             algorithmObj={currentAlgorithm}
             selectAlgorithm={(i) => this.changeAlgorithm(i)}
             algorithms={algorithms.map((v) => v.name)}
+            setDirected={(v) => this.setState({ directed: v })}
+            directed={directed}
           />
           <Playback />
         </div>
@@ -229,6 +233,7 @@ class GraphBuilder extends Component {
             sourceSelected={sourceSelected}
             targetSelected={targetSelected}
             initialised={graphInitialised}
+            directed={directed}
           />
           <CodeViewer code={currentAlgorithm.pseudocode} />
         </div>

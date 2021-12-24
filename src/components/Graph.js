@@ -23,6 +23,7 @@ const graph = (props) => {
     addEdge,
     removeEdge,
     updateWeight,
+    directed,
   } = props;
 
   let {
@@ -57,6 +58,15 @@ const graph = (props) => {
   addGraphStyle(dest, 'red');
   addGraphStyle(sourceSelected, 'orange');
   addGraphStyle(targetSelected, 'orange');
+
+  // update the graph if directed or not for the graph edge style
+  if (directed && config.graphStyles.length > 1) {
+    config.graphStyles[1].style.targetArrowShape = 'triangle';
+    config.graphStyles[1].style.curveStyle = 'bezier';
+  } else {
+    config.graphStyles[1].style.targetArrowShape = '';
+    config.graphStyles[1].style.curveStyle = '';
+  }
 
   return (
     <div className="graph-container">
