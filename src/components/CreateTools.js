@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import FormControl from 'react-bootstrap/FormControl';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
+import Modal from 'react-bootstrap/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faDice,
@@ -15,41 +17,44 @@ import {
 import { randomMatix } from '../util/util';
 import config from '../constant/config';
 import './CreateTools.css';
+import Guide from './Guide';
 
 const ensureInteger = (v) => v.replace(/[^\d]+/, '');
 
-const createTools = (props) => {
-  const [error, setError] = useState('');
+class CreateTools extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalShow: false,
+      error: '',
+      maxNodes: null,
+    };
+  }
 
-  const {
-    numNodes,
-    updateMatrix,
-    updateSource,
-    updateDest,
-    setUpdated,
-    source,
-    dest,
-    presets,
-    selectPreset,
-    currentPreset,
-    weight,
-    weighted,
-    setWeight,
-  } = props;
+  handleClose() {
+    this.setState({ modalShow: false });
+  }
 
-  const [maxNodes, setMaxNodes] = useState();
+  handleShow() {
+    this.setState({ modalShow: true });
+  }
 
-  const onChangeInput = (value, setFunc, setValueFunc = () => {}, ignoreCheck = false) => {
+  onChangeInput(value, setFunc, ignoreCheck = false) {
+    const { numNodes } = this.props;
     const newValue = ensureInteger(value);
     setFunc(newValue);
-    setValueFunc(newValue);
+    let error;
     if (!ignoreCheck) {
-      return setError(newValue >= numNodes ? config.invalidNodeError.replace('{numNodes}', numNodes) : '');
+      error = newValue >= numNodes ? config.invalidNodeError.replace('{numNodes}', numNodes) : '';
+    } else {
+      error = newValue === 0 ? config.invalidRandNodeError : '';
     }
-    return setError(newValue === 0 ? config.invalidRandNodeError : '');
-  };
+    this.setState({ error });
+  }
 
-  const genRandomMatix = () => {
+  genRandomMatix() {
+    const { maxNodes } = this.state;
+    const { setUpdated, updateMatrix } = this.props;
     let matrix;
     if (maxNodes > 0) {
       matrix = randomMatix(maxNodes);
@@ -58,136 +63,200 @@ const createTools = (props) => {
     }
     setUpdated();
     updateMatrix(matrix);
-  };
+  }
 
-  const updatePreset = (i) => {
+  updatePreset(i) {
+    const { setUpdated, selectPreset } = this.props;
     setUpdated();
     selectPreset(i);
-  };
+  }
 
-  const renderPresetItems = () => presets.map((v, i) => (
-    <Dropdown.Item
-      className="selector-item"
-      onClick={() => updatePreset(i)}
-      active={v === currentPreset}
-    >
-      {v}
-    </Dropdown.Item>
-  ));
+  renderPresetItems() {
+    const { presets, currentPreset } = this.props;
+    return presets.map((v, i) => (
+      <Dropdown.Item
+        className="selector-item"
+        onClick={() => this.updatePreset(i)}
+        active={v === currentPreset}
+      >
+        {v}
+      </Dropdown.Item>
+    ));
+  }
 
-  return (
-    <div id="tools" className="tools">
-      <div id="topRow" className="top-row">
-        <Button
-          id="guide"
-          className="button"
-        >
-          Guide
-        </Button>
-        <Dropdown>
-          <Dropdown.Toggle
-            className="dropdown-toggle presets"
-          >
-            Presets
-            { ' ' }
-            <FontAwesomeIcon
-              icon={faCaretDown}
-              className="icon"
-            />
-          </Dropdown.Toggle>
-          <Dropdown.Menu
-            className="dropdown-menu"
-          >
-            { renderPresetItems() }
-          </Dropdown.Menu>
-        </Dropdown>
-        <Button
-          id="random"
-          className="button"
-          onClick={() => genRandomMatix()}
-        >
-          <FontAwesomeIcon
-            icon={faDice}
-          />
-        </Button>
-        <FormControl
-          id="nodeCount"
-          placeholder="#nodes"
-          className="input-w-text number-input num-nodes"
-          value={maxNodes}
-          onChange={(e) => onChangeInput(e.target.value, () => {}, setMaxNodes, true)}
-        />
-      </div>
-      <div id="bottomRow" className="bottom-row">
-        <div>
-          <InputGroup>
-            <div className="input-icon">
-              <FontAwesomeIcon
-                id="sourceIcon"
-                icon={faMapMarkerAlt}
-                className="icon"
-              />
-            </div>
-            <FormControl
-              id="start"
-              className="input-w-text number-input start"
-              value={source}
-              onChange={(e) => onChangeInput(e.target.value, updateSource)}
-            />
-          </InputGroup>
-        </div>
-        <div>
-          <InputGroup>
-            <div className="input-icon">
-              <FontAwesomeIcon
-                id="searchIcon"
-                icon={faSearch}
-                className="icon"
-              />
-            </div>
-            <FormControl
-              id="search"
-              className="input-w-text number-input search"
-              value={dest}
-              onChange={(e) => onChangeInput(e.target.value, updateDest)}
-            />
-          </InputGroup>
-        </div>
-        <div>
+  render() {
+    const { maxNodes, error, modalShow } = this.state;
+    const {
+      source,
+      dest,
+      updateSource,
+      updateDest,
+      setUpdated,
+      weight,
+      weighted,
+      setWeight,
+    } = this.props;
+
+    return (
+      <div id="tools" className="tools">
+        <div id="topRow" className="top-row">
           <Button
-            id="refresh"
-            className="button refresh"
-            onClick={() => setUpdated()}
+            id="guide"
+            className="button"
+            onClick={() => this.handleShow()}
+          >
+            Guide
+          </Button>
+          <Dropdown>
+            <Dropdown.Toggle
+              className="dropdown-toggle presets"
+            >
+              Presets
+              { ' ' }
+              <FontAwesomeIcon
+                icon={faCaretDown}
+                className="icon"
+              />
+            </Dropdown.Toggle>
+            <Dropdown.Menu
+              className="dropdown-menu"
+            >
+              { this.renderPresetItems() }
+            </Dropdown.Menu>
+          </Dropdown>
+          <Button
+            id="random"
+            className="button"
+            onClick={() => this.genRandomMatix()}
           >
             <FontAwesomeIcon
-              icon={faSync}
+              icon={faDice}
             />
           </Button>
+          <FormControl
+            id="nodeCount"
+            placeholder="#nodes"
+            className="input-w-text number-input num-nodes"
+            value={maxNodes}
+            onChange={
+              (e) => this.onChangeInput(
+                e.target.value,
+                (v) => this.setState({ maxNodes: v }),
+                true,
+              )
+            }
+          />
         </div>
-        <div>
-          <InputGroup className={weighted ? '' : 'input-disabled'}>
-            <div className="input-icon">
-              <FontAwesomeIcon
-                id="weightIcon"
-                icon={faWeightHanging}
-                className="icon"
+        <div id="bottomRow" className="bottom-row">
+          <div>
+            <InputGroup>
+              <div className="input-icon">
+                <FontAwesomeIcon
+                  id="sourceIcon"
+                  icon={faMapMarkerAlt}
+                  className="icon"
+                />
+              </div>
+              <FormControl
+                id="start"
+                className="input-w-text number-input start"
+                value={source}
+                onChange={(e) => this.onChangeInput(e.target.value, updateSource)}
               />
-            </div>
-            <FormControl
-              id="weight"
-              className="input-w-text number-input weight"
-              value={weight}
-              onChange={(e) => onChangeInput(e.target.value, setWeight, () => {}, true)}
-              readOnly={!weighted}
-            />
-          </InputGroup>
+            </InputGroup>
+          </div>
+          <div>
+            <InputGroup>
+              <div className="input-icon">
+                <FontAwesomeIcon
+                  id="searchIcon"
+                  icon={faSearch}
+                  className="icon"
+                />
+              </div>
+              <FormControl
+                id="search"
+                className="input-w-text number-input search"
+                value={dest}
+                onChange={(e) => this.onChangeInput(e.target.value, updateDest)}
+              />
+            </InputGroup>
+          </div>
+          <div>
+            <Button
+              id="refresh"
+              className="button refresh"
+              onClick={() => setUpdated()}
+            >
+              <FontAwesomeIcon
+                icon={faSync}
+              />
+            </Button>
+          </div>
+          <div>
+            <InputGroup className={weighted ? '' : 'input-disabled'}>
+              <div className="input-icon">
+                <FontAwesomeIcon
+                  id="weightIcon"
+                  icon={faWeightHanging}
+                  className="icon"
+                />
+              </div>
+              <FormControl
+                id="weight"
+                className="input-w-text number-input weight"
+                value={weight}
+                onChange={(e) => this.onChangeInput(e.target.value, setWeight, true)}
+                readOnly={!weighted}
+              />
+            </InputGroup>
+          </div>
         </div>
+        <span className="error">
+          { error }
+        </span>
+        <Modal
+          size="lg"
+          show={modalShow}
+          onHide={() => this.handleClose()}
+        >
+          <Guide onClose={() => this.handleClose()} />
+        </Modal>
       </div>
-      <span className="error">
-        { error }
-      </span>
-    </div>
-  );
+    );
+  }
+}
+
+CreateTools.propTypes = {
+  updateMatrix: PropTypes.func,
+  updateSource: PropTypes.func,
+  updateDest: PropTypes.func,
+  setUpdated: PropTypes.func,
+  setWeight: PropTypes.func,
+  selectPreset: PropTypes.func,
+  presets: PropTypes.arrayOf(PropTypes.object),
+  numNodes: PropTypes.number,
+  source: PropTypes.number,
+  dest: PropTypes.number,
+  weight: PropTypes.number,
+  weighted: PropTypes.bool,
+  currentPreset: PropTypes.string,
 };
 
-export default createTools;
+CreateTools.defaultProps = {
+  updateMatrix: () => {},
+  updateSource: () => {},
+  updateDest: () => {},
+  setUpdated: () => {},
+  setWeight: () => {},
+  selectPreset: () => {},
+  presets: [],
+  numNodes: 0,
+  source: 0,
+  dest: 0,
+  weight: 1,
+  weighted: false,
+  currentPreset: '',
+};
+
+export default CreateTools;
