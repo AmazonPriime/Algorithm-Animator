@@ -28,13 +28,13 @@ Some MVP features for the project include; playback features (play/pause/step/sp
       * (✘) step backwards
       * (✘) speed multiplier
     * (✘) Code Animation
-    * (✘) Pre-defined Inputs
-    * (✘) Custom UI Input
-      * (✘) add nodes
-      * (✘) edit nodes
-      * (✘) add edges
-      * (✘) delete edges
-    * (✘) Randomised Input
+    * (✓) Pre-defined Inputs
+    * (✓) Custom UI Input
+      * (✓) add nodes
+      * (✓) edit nodes
+      * (✓) add edges
+      * (✓) delete edges
+    * (✓) Randomised Input
 * Extra Features
     * (✘) Custom File Imports
     * (✘) Algorithm Details
