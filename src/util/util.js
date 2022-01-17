@@ -73,9 +73,40 @@ export function createStep(visNodes, trvEdges, curNode, curEdge, codeSec, logMsg
   };
 }
 
+export function parseCodeSections(code) {
+  const lines = code.split(/\n/);
+  const sections = []; // array of objects; sectNum: int, code: string
+  let sectNum = -1;
+  let inSection = false;
+  let multiLines = '';
+  for (let i = 0; i < lines.length; i += 1) {
+    // start of section
+    if (lines[i].match(/{{\d}}/)) {
+      // increment sectNum
+      sectNum += 1;
+      inSection = true;
+    // end of section
+    } else if (lines[i].match(/{{\/\d}}/)) {
+      // add multiline to the sections array
+      sections.push({ sectNum, code: multiLines });
+      multiLines = '';
+      inSection = false;
+    // inside of section so add to multiline
+    } else if (inSection) {
+      // if theres already content then append line prefixed with newline
+      multiLines = multiLines ? `${multiLines}${lines[i]}\n` : `${lines[i]}\n`;
+    // not currently inside of section
+    } else {
+      sections.push({ sectNum: -1, code: `${lines[i]}\n` });
+    }
+  }
+  return sections;
+}
+
 export default {
   randomNumber,
   randomMatix,
   buildGraphFromMatrix,
   createStep,
+  parseCodeSections,
 };

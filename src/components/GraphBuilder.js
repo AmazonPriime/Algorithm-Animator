@@ -29,9 +29,27 @@ class GraphBuilder extends Component {
       directed: false,
       speed: 1, // current speed multiplier for the animation
       playing: false, // whether or not the animation is paused
+      updatedSincePlay: true, // has graph updated, default true
       steps: [], // the steps for the animation
       currentStep: 0, // the index for the current step
     };
+  }
+
+  runAnimation(initialise = false) {
+    const {
+      playing,
+      speed,
+      currentStep,
+      steps,
+    } = this.state;
+    if (playing || initialise) {
+      setTimeout(() => this.runAnimation(), 1000 / speed);
+    }
+    this.changeStep(1);
+    // stop when at end
+    if (currentStep >= steps.length - 1 && !initialise) {
+      this.setState({ playing: false });
+    }
   }
 
   changeAlgorithm(i) {
@@ -40,6 +58,7 @@ class GraphBuilder extends Component {
         currentAlgorithm: algorithms[i],
         currentPreset: '',
       });
+      this.resetSteps();
     }
   }
 
@@ -48,7 +67,10 @@ class GraphBuilder extends Component {
 
     if (i < currentAlgorithm.presets.length && i !== -1) {
       this.updateMatrix(currentAlgorithm.presets[i].matrix);
-      this.setState({ currentPreset: currentAlgorithm.presets[i].name });
+      this.setState({
+        currentPreset: currentAlgorithm.presets[i].name,
+      });
+      this.resetSteps();
     }
   }
 
@@ -66,6 +88,8 @@ class GraphBuilder extends Component {
       sourceNode: sourceNode >= m.length ? 0 : sourceNode,
       destNode: destNode >= m.length ? m.length - 1 : destNode,
     });
+
+    this.resetSteps();
   }
 
   addNode(pos = null) {
@@ -78,8 +102,12 @@ class GraphBuilder extends Component {
     graphMatrix.push(Array(graphMatrix.length + 1).fill(0));
 
     if (pos) {
-      this.setState({ newestNodePos: pos });
+      this.setState({
+        newestNodePos: pos,
+      });
     }
+
+    this.resetSteps();
   }
 
   removeNode(i) {
@@ -105,6 +133,7 @@ class GraphBuilder extends Component {
       graphMatrix,
       updated: true,
     });
+    this.resetSteps();
   }
 
   addEdge() {
@@ -140,6 +169,7 @@ class GraphBuilder extends Component {
       sourceSelected: '',
       targetSelected: '',
     });
+    this.resetSteps();
   }
 
   removeEdge(source, target) {
@@ -153,6 +183,7 @@ class GraphBuilder extends Component {
     graphMatrix[source][target] = 0;
 
     this.setState({ graphMatrix });
+    this.resetSteps();
   }
 
   updateWeight(id, i, j) {
@@ -171,15 +202,39 @@ class GraphBuilder extends Component {
     graphMatrix[i][j] = weight;
 
     this.setState({ graphMatrix });
+    this.resetSteps();
+  }
+
+  generateSteps() {
+    const {
+      currentAlgorithm,
+      graphMatrix,
+      sourceNode,
+      destNode,
+    } = this.state;
+
+    const steps = currentAlgorithm.algorithm(graphMatrix, sourceNode, destNode);
+
+    this.setState({ steps });
   }
 
   changeStep(v) {
     const { steps, currentStep } = this.state;
-    if (v === 1 && currentStep + 1 < steps.length - 1) {
+    if (v === 1 && currentStep + 1 < steps.length) {
       this.setState({ currentStep: currentStep + 1 });
     } else if (v === -1 && currentStep - 1 >= 0) {
       this.setState({ currentStep: currentStep - 1 });
     }
+  }
+
+  resetSteps() {
+    // reset the step related states when graph updates
+    this.setState({
+      playing: false,
+      updatedSincePlay: true,
+      steps: [],
+      currentStep: 0,
+    });
   }
 
   render() {
@@ -200,12 +255,17 @@ class GraphBuilder extends Component {
       playing,
       currentStep,
       steps,
+      updatedSincePlay,
     } = this.state;
 
     const { weighted } = currentAlgorithm;
 
-    // test algorithm
-    console.log(currentAlgorithm.algorithm(graphMatrix, sourceNode, destNode));
+    // set -inf if there currently are no steps
+    // user has not pressed play or has updated the graph
+    let codeSection = -Math.inf;
+    if (steps[currentStep] && !updatedSincePlay) {
+      codeSection = steps[currentStep].codeSection;
+    }
 
     return (
       <div id="graphBuilder" className="graph-builder">
@@ -242,6 +302,10 @@ class GraphBuilder extends Component {
             stepForward={() => this.changeStep(1)}
             currentStep={currentStep}
             nSteps={steps.length}
+            updatedSincePlay={updatedSincePlay}
+            setUpdatedSincePlay={(v) => this.setState({ updatedSincePlay: v })}
+            generateSteps={() => this.generateSteps()}
+            runAnimation={(v) => this.runAnimation(v)}
           />
         </div>
         <div className="graph-code-container">
@@ -264,7 +328,10 @@ class GraphBuilder extends Component {
             initialised={graphInitialised}
             directed={directed}
           />
-          <CodeViewer code={currentAlgorithm.pseudocode} />
+          <CodeViewer
+            code={currentAlgorithm.pseudocode}
+            codeSection={codeSection}
+          />
         </div>
       </div>
     );

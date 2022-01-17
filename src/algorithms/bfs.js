@@ -23,9 +23,7 @@ export default {
     label root as explored
     Q.enqueue(root)
     {{/0}}
-    {{1,2,3,4}}
     while Q is not empty do
-    {{/1,2,3,4}}
         {{1}}
         v := Q.dequeue()
         {{/1}}
@@ -50,12 +48,11 @@ export default {
     const queue = [];
     const explored = new Array(graph.length).fill(false); // explored nodes
     const traversed = []; // traversed edges
+    queue.push(source);
+    explored[source] = true;
 
     let msg = 'Initialising queue';
     steps.push(createStep(explored, traversed, '', '', 0, msg));
-
-    queue.push(source);
-    explored[source] = true;
     while (queue.length !== 0) {
       const v = queue.shift();
 
@@ -79,11 +76,10 @@ export default {
         msg = `Checking adjacent nodes to node ${v}`;
         steps.push(createStep(explored, traversed, v, '', 4, msg));
 
+        // step console.log(`checking nodes adjacent to ${v}`);
+        msg = `Checking if node ${i} has been visited`;
+        steps.push(createStep(explored, traversed, v, '', 5, msg));
         if (graph[v][i] === 1) { // edge is adjacent to v
-          // step console.log(`checking nodes adjacent to ${v}`);
-          msg = `Checking if node ${i} has been visited`;
-          steps.push(createStep(explored, traversed, v, '', 5, msg));
-
           if (!explored[i]) { // not visited
             explored[i] = true;
             queue.push(i);
