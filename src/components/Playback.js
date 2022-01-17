@@ -81,8 +81,8 @@ const playback = (props) => {
         <input
           type="range"
           min="0.1"
-          max="2"
-          step="0.05"
+          max={`${Math.max(...config.speeds)}`}
+          step="0.1"
           value={curSpeed}
           onChange={(e) => setCurSpeed(parseFloat(e.target.value))}
         />

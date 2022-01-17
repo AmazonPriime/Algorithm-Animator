@@ -10,7 +10,7 @@ module.exports = {
   emailMessage: 'Must be in the form \'name@example.com\'',
   formspreeEndpoint: 'https://formspree.io/f/xgerjqba',
   invalidNodeError: 'Invalid node, graph only contains {numNodes} nodes!',
-  speeds: [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0],
+  speeds: [0.25, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0],
   contentChars: 10,
   firstnameChars: 2,
   surnameChars: 2,
@@ -28,6 +28,9 @@ module.exports = {
         textValign: 'center',
         fontSize: '0.7em',
         fontWeight: '200',
+        transitionProperty: 'color',
+        transitionDuration: '0.5s',
+        transitionDelay: '250ms',
       },
     },
     {

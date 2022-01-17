@@ -24,6 +24,7 @@ const graph = (props) => {
     removeEdge,
     updateWeight,
     directed,
+    animationStyles,
   } = props;
 
   let {
@@ -48,10 +49,8 @@ const graph = (props) => {
   };
 
   const selectors = config.graphStyles.map((v) => v.selector);
-  for (let i = selectors.length - 1; i >= 0; i -= 1) {
-    if (selectors[i].startsWith('node[id = ')) {
-      deleteGraphStyle(i);
-    }
+  for (let i = selectors.length - 1; i >= 2; i -= 1) {
+    deleteGraphStyle(i);
   }
 
   addGraphStyle(source, 'green');
@@ -66,6 +65,13 @@ const graph = (props) => {
   } else {
     config.graphStyles[1].style.targetArrowShape = '';
     config.graphStyles[1].style.curveStyle = '';
+  }
+
+  // add the animation styles
+  if (animationStyles) {
+    for (let i = 0; i < animationStyles.length; i += 1) {
+      config.graphStyles.push(animationStyles[i]);
+    }
   }
 
   return (

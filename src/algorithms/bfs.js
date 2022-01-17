@@ -52,7 +52,7 @@ export default {
     explored[source] = true;
 
     let msg = 'Initialising queue';
-    steps.push(createStep(explored, traversed, '', '', 0, msg));
+    steps.push(createStep(explored, traversed, source, '', 0, msg));
     while (queue.length !== 0) {
       const v = queue.shift();
 
@@ -64,7 +64,7 @@ export default {
       msg = `Checking if node ${v} is destination`;
       steps.push(createStep(explored, traversed, v, '', 2, msg));
 
-      if (v === dest) {
+      if (v === parseInt(dest, 10)) {
         // step console.log(`found dest ${v}`);
         msg = `Found destination node: ${v}`;
         steps.push(createStep(explored, traversed, v, '', 3, msg));
@@ -72,22 +72,21 @@ export default {
         break; // end loop as we have reach destination
       }
       for (let i = 0; i < graph.length; i += 1) {
-        // step console.log(`checking nodes adjacent to ${v}`);
-        msg = `Checking adjacent nodes to node ${v}`;
-        steps.push(createStep(explored, traversed, v, '', 4, msg));
-
-        // step console.log(`checking nodes adjacent to ${v}`);
-        msg = `Checking if node ${i} has been visited`;
-        steps.push(createStep(explored, traversed, v, '', 5, msg));
         if (graph[v][i] === 1) { // edge is adjacent to v
+          // step console.log(`checking nodes adjacent to ${v}`);
+          msg = `Checking adjacent nodes to node ${v}`;
+          steps.push(createStep(explored, traversed, v, '', 4, msg));
+          // step console.log(`checking nodes adjacent to ${v}`);
+          msg = `Checking if node ${i} has been visited`;
+          steps.push(createStep(explored, traversed, v, `${v} ${i}`, 5, msg));
+          traversed.push(`${v} ${i}`);
           if (!explored[i]) { // not visited
             explored[i] = true;
             queue.push(i);
-            traversed.push(`${v} ${i}`);
 
             // step console.log(`marking node ${i} as visited`);
             msg = `Marking node ${i} as visited and adding it to queue`;
-            steps.push(createStep(explored, traversed, v, `${v} ${i}`, 6, msg));
+            steps.push(createStep(explored, traversed, v, '', 6, msg));
           }
         }
       }

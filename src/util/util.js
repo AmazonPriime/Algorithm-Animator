@@ -103,10 +103,62 @@ export function parseCodeSections(code) {
   return sections;
 }
 
+export function highlightGraph(step) {
+  const styles = []; // array to store the new edge and node styles
+  // add node styles
+  for (let i = 0; i < step.visitedNodes.length; i += 1) {
+    if (step.visitedNodes[i]) {
+      styles.push({
+        selector: `node[id = '${i}']`,
+        style: {
+          transitionProperty: 'color',
+          transitionDuration: '0.5s',
+          borderColor: 'orange',
+          borderWidth: 1,
+        },
+      });
+    }
+  }
+  if (step.currentNode !== '') {
+    styles.push({
+      selector: `node[id = '${step.currentNode}']`,
+      style: {
+        transitionProperty: 'color',
+        transitionDuration: '0.5s',
+        borderColor: 'green',
+        fontWeight: 'bold',
+        borderWidth: 2,
+      },
+    });
+  }
+  // add edge styles
+  for (let i = 0; i < step.traversedEdges.length; i += 1) {
+    if (step.traversedEdges[i]) {
+      styles.push({
+        selector: `edge[id = '${step.traversedEdges[i]}']`,
+        style: {
+          lineColor: 'orange',
+        },
+      });
+    }
+  }
+  if (step.currentEdge !== '') {
+    styles.push({
+      selector: `edge[id = '${step.currentEdge}']`,
+      style: {
+        lineColor: 'green',
+        width: 3,
+      },
+    });
+  }
+  return styles;
+}
+
 export default {
   randomNumber,
   randomMatix,
   buildGraphFromMatrix,
   createStep,
   parseCodeSections,
+  highlightGraph,
 };

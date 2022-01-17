@@ -6,7 +6,11 @@ import CodeViewer from './CodeViewer';
 import Graph from './Graph';
 import algorithms from '../algorithms';
 import config from '../constant/config';
-import { randomMatix, buildGraphFromMatrix } from '../util/util';
+import {
+  randomMatix,
+  buildGraphFromMatrix,
+  highlightGraph,
+} from '../util/util';
 import './GraphBuilder.css';
 
 const ensureInteger = (v) => v.replace(/[^\d]+/, '');
@@ -26,12 +30,13 @@ class GraphBuilder extends Component {
       newestNodePos: null,
       currentPreset: '',
       graphInitialised: false,
-      directed: false,
+      directed: true,
       speed: 1, // current speed multiplier for the animation
       playing: false, // whether or not the animation is paused
       updatedSincePlay: true, // has graph updated, default true
       steps: [], // the steps for the animation
       currentStep: 0, // the index for the current step
+      animationStyles: [], // list of the styles for the current step of animation
     };
   }
 
@@ -225,6 +230,10 @@ class GraphBuilder extends Component {
     } else if (v === -1 && currentStep - 1 >= 0) {
       this.setState({ currentStep: currentStep - 1 });
     }
+    if (steps[currentStep]) {
+      const animationStyles = highlightGraph(steps[currentStep]);
+      this.setState({ animationStyles });
+    }
   }
 
   resetSteps() {
@@ -234,6 +243,7 @@ class GraphBuilder extends Component {
       updatedSincePlay: true,
       steps: [],
       currentStep: 0,
+      animationStyles: [],
     });
   }
 
@@ -256,6 +266,7 @@ class GraphBuilder extends Component {
       currentStep,
       steps,
       updatedSincePlay,
+      animationStyles,
     } = this.state;
 
     const { weighted } = currentAlgorithm;
@@ -327,6 +338,7 @@ class GraphBuilder extends Component {
             targetSelected={targetSelected}
             initialised={graphInitialised}
             directed={directed}
+            animationStyles={animationStyles}
           />
           <CodeViewer
             code={currentAlgorithm.pseudocode}
