@@ -61,8 +61,21 @@ export function buildGraphFromMatrix(matrix, weighted = false, newestPos = null)
   return graphElements;
 }
 
+export function createStep(visNodes, trvEdges, curNode, curEdge, codeSec, logMsg, weights = []) {
+  return {
+    visitedNodes: visNodes.slice(),
+    traversedEdges: trvEdges.slice(),
+    currentNode: curNode,
+    currentEdge: curEdge,
+    codeSection: codeSec,
+    logMessage: logMsg,
+    nodeWeights: weights.slice(),
+  };
+}
+
 export default {
   randomNumber,
   randomMatix,
   buildGraphFromMatrix,
+  createStep,
 };
