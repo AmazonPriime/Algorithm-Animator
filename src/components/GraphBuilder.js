@@ -204,6 +204,9 @@ class GraphBuilder extends Component {
 
     const { weighted } = currentAlgorithm;
 
+    // test algorithm
+    currentAlgorithm.algorithm(graphMatrix, sourceNode, destNode);
+
     return (
       <div id="graphBuilder" className="graph-builder">
         <div id="controls" className="controls">

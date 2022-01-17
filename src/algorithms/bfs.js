@@ -13,6 +13,8 @@ export default {
       ],
     },
   ],
+  description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue urna at est viverra finibus. Proin a pulvinar orci, quis lacinia eros. In eget ornare odio, at vestibulum nulla. Integer feugiat augue ut neque accumsan, a cursus purus suscipit. Praesent at ullamcorper nibh, sed ullamcorper nibh. Donec finibus tortor non nisl fermentum, eu scelerisque elit consectetur. Fusce bibendum gravida risus, a malesuada massa euismod et. Nullam volutpat sed metus non pharetra. Donec egestas nisl in nunc feugiat egestas. Quisque commodo aliquet facilisis. Nulla facilisi. Suspendisse sit amet fringilla purus. Aliquam et ante ut sem sagittis rhoncus. Praesent ligula diam, consectetur vel egestas vel, elementum ac est. Nunc at felis nec velit fringilla ultrices. In ultrices tempus orci et blandit. Cras commodo quam hendrerit vulputate efficitur. Integer mattis dictum arcu. Sed vitae sem tempor, cursus arcu eu, maximus sem. Nunc dictum nisi a nisi gravida, in mollis odio consequat. Integer facilisis sit amet nunc quis consectetur.
+`,
   pseudocode: `procedure BFS(G, root) is
     let Q be a queue
     label root as explored
@@ -25,7 +27,29 @@ export default {
             if w is not labeled as explored then
                 label w as explored
                 Q.enqueue(w)`,
-  algorithm: () => {},
-  description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue urna at est viverra finibus. Proin a pulvinar orci, quis lacinia eros. In eget ornare odio, at vestibulum nulla. Integer feugiat augue ut neque accumsan, a cursus purus suscipit. Praesent at ullamcorper nibh, sed ullamcorper nibh. Donec finibus tortor non nisl fermentum, eu scelerisque elit consectetur. Fusce bibendum gravida risus, a malesuada massa euismod et. Nullam volutpat sed metus non pharetra. Donec egestas nisl in nunc feugiat egestas. Quisque commodo aliquet facilisis. Nulla facilisi. Suspendisse sit amet fringilla purus. Aliquam et ante ut sem sagittis rhoncus. Praesent ligula diam, consectetur vel egestas vel, elementum ac est. Nunc at felis nec velit fringilla ultrices. In ultrices tempus orci et blandit. Cras commodo quam hendrerit vulputate efficitur. Integer mattis dictum arcu. Sed vitae sem tempor, cursus arcu eu, maximus sem. Nunc dictum nisi a nisi gravida, in mollis odio consequat. Integer facilisis sit amet nunc quis consectetur.
-`,
+  algorithm: (graph, source, dest) => {
+    const steps = []; // list to store each 'step' of the algorithm
+    const queue = [];
+    const explored = new Array(graph.length).fill(false); // explored nodes
+    queue.push(source);
+    while (queue.length !== 0) {
+      const v = queue.shift();
+      // step console.log(`checking ${v} node`);
+      if (v === dest) {
+        // step console.log(`found dest ${v}`);
+        break; // end loop as we have reach destination
+      }
+      for (let i = 0; i < graph.length; i += 1) {
+        // step console.log(`checking nodes adjacent to ${v}`);
+        if (graph[v][i] === 1) { // edge is adjacent to v
+          if (!explored[i]) { // not visited
+            // step console.log(`marking node ${i} as visited`);
+            explored[i] = true;
+            queue.push(i);
+          }
+        }
+      }
+    }
+    return steps;
+  },
 };

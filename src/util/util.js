@@ -49,6 +49,7 @@ export function buildGraphFromMatrix(matrix, weighted = false, newestPos = null)
       if (matrix[i][j] >= 1) {
         graphElements.push({
           data: {
+            id: `${i} ${j}`,
             source: `${i}`,
             target: `${j}`,
             label: weighted ? matrix[i][j] : '',
