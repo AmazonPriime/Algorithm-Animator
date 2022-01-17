@@ -45,3 +45,7 @@
   font-size: 0.8em;
   transition: all ease 0.5s;
 }
+
+.code-container > pre > code .highlighed {
+  color: red;
+}

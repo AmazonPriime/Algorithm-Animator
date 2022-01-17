@@ -17,7 +17,22 @@ const playback = (props) => {
     nSteps,
     stepForward,
     stepBack,
+    generateSteps,
+    updatedSincePlay,
+    setUpdatedSincePlay,
+    runAnimation,
   } = props;
+
+  const handlePlay = () => {
+    // need to regen the steps
+    if (updatedSincePlay) {
+      generateSteps();
+      // set to false
+      setUpdatedSincePlay(false);
+    }
+    setPlaying();
+    runAnimation(true);
+  };
 
   const renderSpeedOptions = () => config.speeds.map((s) => (
     <Dropdown.Item
@@ -46,14 +61,14 @@ const playback = (props) => {
       <Button
         id="playPause"
         className="button"
-        onClick={() => setPlaying()}
+        onClick={() => handlePlay()}
       >
         { playing ? 'pause' : 'play' }
       </Button>
       <Button
         id="stepForward"
         className="button"
-        disabled={currentStep > nSteps - 1 || nSteps === 0}
+        disabled={currentStep >= nSteps - 1 || nSteps === 0}
         onClick={() => stepForward()}
       >
         step
