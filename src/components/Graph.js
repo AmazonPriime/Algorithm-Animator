@@ -25,6 +25,8 @@ const graph = (props) => {
     updateWeight,
     directed,
     animationStyles,
+    edgeWeights,
+    pathStyles,
   } = props;
 
   let {
@@ -49,7 +51,7 @@ const graph = (props) => {
   };
 
   const selectors = config.graphStyles.map((v) => v.selector);
-  for (let i = selectors.length - 1; i >= 2; i -= 1) {
+  for (let i = selectors.length - 1; i >= 3; i -= 1) {
     deleteGraphStyle(i);
   }
 
@@ -63,14 +65,39 @@ const graph = (props) => {
     config.graphStyles[1].style.targetArrowShape = 'triangle';
     config.graphStyles[1].style.curveStyle = 'bezier';
   } else {
-    config.graphStyles[1].style.targetArrowShape = '';
-    config.graphStyles[1].style.curveStyle = '';
+    config.graphStyles[1].style.targetArrowShape = 'none';
+    config.graphStyles[1].style.curveStyle = 'straight';
   }
 
   // add the animation styles
   if (animationStyles) {
     for (let i = 0; i < animationStyles.length; i += 1) {
       config.graphStyles.push(animationStyles[i]);
+    }
+  }
+
+  // add the path animation styling
+  if (pathStyles) {
+    for (let i = 0; i < pathStyles.length; i += 1) {
+      config.graphStyles.push(pathStyles[i]);
+    }
+  }
+
+  // test updating weight
+  if (edgeWeights && edgeWeights.length > 0) {
+    for (let i = 0; i < graphElements.length; i += 1) {
+      if (graphElements[i].data.id.match(/^\d+p$/)) {
+        const nodeId = graphElements[i].data.id.match(/^(\d+)p$/)[1];
+        if (nodeId) {
+          if (edgeWeights[nodeId] === Infinity) {
+            graphElements[i].data.label = 'inf';
+          } else if (!edgeWeights[nodeId] && edgeWeights[nodeId] !== 0) {
+            graphElements[i].data.label = '';
+          } else {
+            graphElements[i].data.label = `${edgeWeights[nodeId]}`;
+          }
+        }
+      }
     }
   }
 

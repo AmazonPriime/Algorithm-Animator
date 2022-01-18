@@ -56,27 +56,23 @@ export default {
     while (queue.length !== 0) {
       const v = queue.shift();
 
-      // step console.log(`checking ${v} node`);
       msg = `Dequeuing node ${v} from queue`;
       steps.push(createStep(explored, traversed, v, '', 1, msg));
 
-      // step console.log(`checking ${v} node is dest`);
       msg = `Checking if node ${v} is destination`;
       steps.push(createStep(explored, traversed, v, '', 2, msg));
 
       if (v === parseInt(dest, 10)) {
-        // step console.log(`found dest ${v}`);
         msg = `Found destination node: ${v}`;
         steps.push(createStep(explored, traversed, v, '', 3, msg));
 
         break; // end loop as we have reach destination
       }
       for (let i = 0; i < graph.length; i += 1) {
-        if (graph[v][i] === 1) { // edge is adjacent to v
-          // step console.log(`checking nodes adjacent to ${v}`);
+        if (graph[v][i] > 0) { // edge is adjacent to v
           msg = `Checking adjacent nodes to node ${v}`;
           steps.push(createStep(explored, traversed, v, '', 4, msg));
-          // step console.log(`checking nodes adjacent to ${v}`);
+
           msg = `Checking if node ${i} has been visited`;
           steps.push(createStep(explored, traversed, v, `${v} ${i}`, 5, msg));
           traversed.push(`${v} ${i}`);
@@ -84,7 +80,6 @@ export default {
             explored[i] = true;
             queue.push(i);
 
-            // step console.log(`marking node ${i} as visited`);
             msg = `Marking node ${i} as visited and adding it to queue`;
             steps.push(createStep(explored, traversed, v, '', 6, msg));
           }

@@ -31,6 +31,12 @@ export function buildGraphFromMatrix(matrix, weighted = false, newestPos = null)
         data: {
           id: `${i}`,
           label: `${i}`,
+          parent: `${i}p`,
+        },
+      }, {
+        data: {
+          id: `${i}p`,
+          label: '',
         },
       });
     } else {
@@ -38,8 +44,15 @@ export function buildGraphFromMatrix(matrix, weighted = false, newestPos = null)
         data: {
           id: `${i}`,
           label: `${i}`,
+          parent: `${i}p`,
         },
         position: newestPos,
+      },
+      {
+        data: {
+          id: `${i}p`,
+          label: '',
+        },
       });
     }
   }
@@ -61,7 +74,16 @@ export function buildGraphFromMatrix(matrix, weighted = false, newestPos = null)
   return graphElements;
 }
 
-export function createStep(visNodes, trvEdges, curNode, curEdge, codeSec, logMsg, weights = []) {
+export function createStep(
+  visNodes,
+  trvEdges,
+  curNode,
+  curEdge,
+  codeSec,
+  logMsg,
+  weights = [],
+  path = [],
+) {
   return {
     visitedNodes: visNodes.slice(),
     traversedEdges: trvEdges.slice(),
@@ -70,6 +92,7 @@ export function createStep(visNodes, trvEdges, curNode, curEdge, codeSec, logMsg
     codeSection: codeSec,
     logMessage: logMsg,
     nodeWeights: weights.slice(),
+    path: path.slice(),
   };
 }
 
@@ -154,6 +177,35 @@ export function highlightGraph(step) {
   return styles;
 }
 
+export function extractMin(queue, dist) {
+  let u = queue[0];
+  let min = dist[u];
+  for (let i = 0; i < queue.length; i += 1) {
+    const v = queue[i];
+    if (dist[v] < min) {
+      u = v;
+      min = dist[v];
+    }
+  }
+  return u;
+}
+
+export function genPathEdgeStles(path) {
+  const styles = [];
+  if (path.length > 0) {
+    for (let i = 0; i < path.length; i += 1) {
+      styles.push({
+        selector: `edge[id = '${path[i]}']`,
+        style: {
+          lineColor: 'green',
+          width: 3,
+        },
+      });
+    }
+  }
+  return styles;
+}
+
 export default {
   randomNumber,
   randomMatix,
@@ -161,4 +213,6 @@ export default {
   createStep,
   parseCodeSections,
   highlightGraph,
+  extractMin,
+  genPathEdgeStles,
 };

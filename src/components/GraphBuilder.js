@@ -10,6 +10,7 @@ import {
   randomMatix,
   buildGraphFromMatrix,
   highlightGraph,
+  genPathEdgeStles,
 } from '../util/util';
 import './GraphBuilder.css';
 
@@ -48,7 +49,7 @@ class GraphBuilder extends Component {
       steps,
     } = this.state;
     if (playing || initialise) {
-      setTimeout(() => this.runAnimation(), 1000 / speed);
+      setTimeout(() => this.runAnimation(), 250 / speed);
     }
     this.changeStep(1);
     // stop when at end
@@ -274,8 +275,14 @@ class GraphBuilder extends Component {
     // set -inf if there currently are no steps
     // user has not pressed play or has updated the graph
     let codeSection = -Math.inf;
+    let edgeWeights = [];
+    let pathStyles = [];
     if (steps[currentStep] && !updatedSincePlay) {
       codeSection = steps[currentStep].codeSection;
+      edgeWeights = steps[currentStep].nodeWeights;
+      if (steps[currentStep].path) {
+        pathStyles = genPathEdgeStles(steps[currentStep].path);
+      }
     }
 
     return (
@@ -339,6 +346,8 @@ class GraphBuilder extends Component {
             initialised={graphInitialised}
             directed={directed}
             animationStyles={animationStyles}
+            edgeWeights={edgeWeights}
+            pathStyles={pathStyles}
           />
           <CodeViewer
             code={currentAlgorithm.pseudocode}
