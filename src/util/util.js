@@ -206,6 +206,23 @@ export function genPathEdgeStles(path) {
   return styles;
 }
 
+export function flattenMatrix(matrix) {
+  const flatMatrix = JSON.parse(JSON.stringify(matrix)); // copy of matrix
+  const edges = []; // list of edges
+  for (let i = 0; i < flatMatrix.length; i += 1) {
+    for (let j = 0; j < flatMatrix[i].length; j += 1) {
+      if (flatMatrix[i][j] > 0) { // edge exists
+        if (edges.indexOf(`${j} ${i}`) !== -1) {
+          flatMatrix[i][j] = 0;
+        } else {
+          edges.push(`${i} ${j}`);
+        }
+      }
+    }
+  }
+  return flatMatrix;
+}
+
 export default {
   randomNumber,
   randomMatix,
@@ -215,4 +232,5 @@ export default {
   highlightGraph,
   extractMin,
   genPathEdgeStles,
+  flattenMatrix,
 };

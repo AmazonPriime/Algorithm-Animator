@@ -11,6 +11,7 @@ import {
   buildGraphFromMatrix,
   highlightGraph,
   genPathEdgeStles,
+  flattenMatrix,
 } from '../util/util';
 import './GraphBuilder.css';
 
@@ -21,7 +22,8 @@ class GraphBuilder extends Component {
     super(props);
     this.state = {
       currentAlgorithm: algorithms[0],
-      graphMatrix: randomMatix(config.defaultMatrixSize),
+      directedMatrix: randomMatix(config.defaultMatrixSize),
+      undirectedMatrix: [], // assigned in componentDidMount()
       sourceNode: 0,
       destNode: config.defaultMatrixSize - 1,
       sourceSelected: '',
@@ -39,6 +41,13 @@ class GraphBuilder extends Component {
       currentStep: 0, // the index for the current step
       animationStyles: [], // list of the styles for the current step of animation
     };
+  }
+
+  componentDidMount() {
+    const { directedMatrix } = this.state;
+    this.setState({
+      undirectedMatrix: flattenMatrix(directedMatrix),
+    });
   }
 
   runAnimation(initialise = false) {
@@ -81,7 +90,7 @@ class GraphBuilder extends Component {
   }
 
   updateMatrix(m) {
-    const { sourceNode, destNode } = this.state;
+    const { sourceNode, destNode, directed } = this.state;
 
     for (let i = 0; i < m.length; i += 1) {
       if (m.length !== m[i].length) {
@@ -89,8 +98,17 @@ class GraphBuilder extends Component {
       }
     }
 
+    if (directed) {
+      this.setState({
+        directedMatrix: m,
+      });
+    } else {
+      this.setState({
+        undirectedMatrix: m,
+      });
+    }
+
     this.setState({
-      graphMatrix: m,
       sourceNode: sourceNode >= m.length ? 0 : sourceNode,
       destNode: destNode >= m.length ? m.length - 1 : destNode,
     });
@@ -99,13 +117,19 @@ class GraphBuilder extends Component {
   }
 
   addNode(pos = null) {
-    const { graphMatrix } = this.state;
+    const { directedMatrix, undirectedMatrix, directed } = this.state;
 
-    for (let i = 0; i < graphMatrix.length; i += 1) {
-      graphMatrix[i].push(0);
+    if (directed) {
+      for (let i = 0; i < directedMatrix.length; i += 1) {
+        directedMatrix[i].push(0);
+      }
+      directedMatrix.push(Array(directedMatrix.length + 1).fill(0));
+    } else {
+      for (let i = 0; i < undirectedMatrix.length; i += 1) {
+        undirectedMatrix[i].push(0);
+      }
+      undirectedMatrix.push(Array(undirectedMatrix.length + 1).fill(0));
     }
-
-    graphMatrix.push(Array(graphMatrix.length + 1).fill(0));
 
     if (pos) {
       this.setState({
@@ -117,26 +141,41 @@ class GraphBuilder extends Component {
   }
 
   removeNode(i) {
-    const { graphMatrix } = this.state;
+    const { directedMatrix, undirectedMatrix, directed } = this.state;
 
     if (!ensureInteger(i) || i.length === 0) {
       return;
     }
 
-    if (i >= graphMatrix.length) {
+    const matrix = directed ? directedMatrix : undirectedMatrix;
+
+    if (i >= matrix.length) {
       return;
     }
 
-    // remove the node
-    graphMatrix.splice(i, 1);
-
-    // remove connections from other nodes
-    for (let j = 0; j < graphMatrix.length; j += 1) {
-      graphMatrix[j].splice(i, 1);
+    if (directed) {
+      // remove the node
+      directedMatrix.splice(i, 1);
+      // remove connections from other nodes
+      for (let j = 0; j < matrix.length; j += 1) {
+        directedMatrix[j].splice(i, 1);
+      }
+      this.setState({
+        directedMatrix,
+      });
+    } else {
+      // remove the node
+      undirectedMatrix.splice(i, 1);
+      // remove connections from other nodes
+      for (let j = 0; j < matrix.length; j += 1) {
+        undirectedMatrix[j].splice(i, 1);
+      }
+      this.setState({
+        undirectedMatrix,
+      });
     }
 
     this.setState({
-      graphMatrix,
       updated: true,
     });
     this.resetSteps();
@@ -146,7 +185,9 @@ class GraphBuilder extends Component {
     const {
       sourceSelected,
       targetSelected,
-      graphMatrix,
+      directedMatrix,
+      undirectedMatrix,
+      directed,
       weight,
     } = this.state;
 
@@ -164,12 +205,18 @@ class GraphBuilder extends Component {
       weightValue = weight;
     }
 
-    if (sourceSelected >= graphMatrix.length || targetSelected >= graphMatrix.length) {
+    const matrix = directed ? directedMatrix : undirectedMatrix;
+
+    if (sourceSelected >= matrix.length || targetSelected >= matrix.length) {
       return;
     }
 
-    // update to add edge between nodes and reset source/target selected
-    graphMatrix[sourceSelected][targetSelected] = weightValue;
+    if (directed) {
+      // update to add edge between nodes and reset source/target selected
+      directedMatrix[sourceSelected][targetSelected] = weightValue;
+    } else {
+      undirectedMatrix[sourceSelected][targetSelected] = weightValue;
+    }
 
     this.setState({
       sourceSelected: '',
@@ -179,21 +226,27 @@ class GraphBuilder extends Component {
   }
 
   removeEdge(source, target) {
-    const { graphMatrix } = this.state;
+    const { directedMatrix } = this.state;
 
     if (!ensureInteger(source) || !ensureInteger(target)) {
       return;
     }
 
     // update to remove edge between source/target
-    graphMatrix[source][target] = 0;
+    directedMatrix[source][target] = 0;
 
-    this.setState({ graphMatrix });
+    this.setState({ directedMatrix });
     this.resetSteps();
   }
 
   updateWeight(id, i, j) {
-    const { currentAlgorithm, weight, graphMatrix } = this.state;
+    const {
+      currentAlgorithm,
+      weight,
+      directedMatrix,
+      undirectedMatrix,
+      directed,
+    } = this.state;
     const { weighted } = currentAlgorithm;
 
     if (!weighted || i.length === 0 || j.length === 0 || weight.length === 0) {
@@ -204,22 +257,28 @@ class GraphBuilder extends Component {
       return;
     }
 
-    // update the weight
-    graphMatrix[i][j] = weight;
-
-    this.setState({ graphMatrix });
+    if (directed) {
+      directedMatrix[i][j] = weight;
+      this.setState({ directedMatrix });
+    } else {
+      undirectedMatrix[i][j] = weight;
+      this.setState({ undirectedMatrix });
+    }
     this.resetSteps();
   }
 
   generateSteps() {
     const {
       currentAlgorithm,
-      graphMatrix,
+      directedMatrix,
+      undirectedMatrix,
+      directed,
       sourceNode,
       destNode,
     } = this.state;
 
-    const steps = currentAlgorithm.algorithm(graphMatrix, sourceNode, destNode);
+    const matrix = directed ? directedMatrix : undirectedMatrix;
+    const steps = currentAlgorithm.algorithm(matrix, sourceNode, destNode);
 
     this.setState({ steps });
   }
@@ -250,7 +309,8 @@ class GraphBuilder extends Component {
 
   render() {
     const {
-      graphMatrix,
+      directedMatrix,
+      undirectedMatrix,
       currentAlgorithm,
       sourceNode,
       destNode,
@@ -285,6 +345,9 @@ class GraphBuilder extends Component {
       }
     }
 
+    const matrix = directed ? directedMatrix : undirectedMatrix;
+    const graphElements = buildGraphFromMatrix(matrix, weighted, newestNodePos);
+
     return (
       <div id="graphBuilder" className="graph-builder">
         <div id="controls" className="controls">
@@ -296,7 +359,7 @@ class GraphBuilder extends Component {
             setWeight={(v) => this.setState({ weight: v })}
             selectPreset={(i) => this.changePreset(i)}
             presets={currentAlgorithm.presets.map((v) => v.name)}
-            numNodes={graphMatrix.length}
+            numNodes={matrix.length}
             source={sourceNode}
             dest={destNode}
             weight={weight}
@@ -337,7 +400,7 @@ class GraphBuilder extends Component {
             setTargetSelected={(id) => this.setState({ targetSelected: id })}
             setInitialised={() => this.setState({ graphInitialised: true })}
             updateWeight={(id, i, j) => this.updateWeight(id, i, j)}
-            graphElements={buildGraphFromMatrix(graphMatrix, weighted, newestNodePos)}
+            graphElements={graphElements}
             source={sourceNode}
             dest={destNode}
             updated={updated}
