@@ -104,7 +104,7 @@ class GraphBuilder extends Component {
       });
     } else {
       this.setState({
-        undirectedMatrix: m,
+        undirectedMatrix: flattenMatrix(m), // ensure matrix has no double edges
       });
     }
 
@@ -211,10 +211,11 @@ class GraphBuilder extends Component {
       return;
     }
 
+    // update to add edge between nodes and reset source/target selected
     if (directed) {
-      // update to add edge between nodes and reset source/target selected
       directedMatrix[sourceSelected][targetSelected] = weightValue;
-    } else {
+    } else if (!undirectedMatrix[targetSelected][sourceSelected] > 0) {
+      // make sure there isn't already and edge
       undirectedMatrix[sourceSelected][targetSelected] = weightValue;
     }
 
@@ -226,16 +227,21 @@ class GraphBuilder extends Component {
   }
 
   removeEdge(source, target) {
-    const { directedMatrix } = this.state;
+    const { directedMatrix, undirectedMatrix, directed } = this.state;
 
     if (!ensureInteger(source) || !ensureInteger(target)) {
       return;
     }
 
     // update to remove edge between source/target
-    directedMatrix[source][target] = 0;
+    if (directed) {
+      directedMatrix[source][target] = 0;
+    } else {
+      // remove both possible edges
+      undirectedMatrix[source][target] = 0;
+      undirectedMatrix[target][source] = 0;
+    }
 
-    this.setState({ directedMatrix });
     this.resetSteps();
   }
 
@@ -259,11 +265,12 @@ class GraphBuilder extends Component {
 
     if (directed) {
       directedMatrix[i][j] = weight;
-      this.setState({ directedMatrix });
-    } else {
+    } else if (undirectedMatrix[i][j] > 0) {
       undirectedMatrix[i][j] = weight;
-      this.setState({ undirectedMatrix });
+    } else {
+      undirectedMatrix[j][i] = weight;
     }
+
     this.resetSteps();
   }
 
@@ -341,7 +348,7 @@ class GraphBuilder extends Component {
       codeSection = steps[currentStep].codeSection;
       edgeWeights = steps[currentStep].nodeWeights;
       if (steps[currentStep].path) {
-        pathStyles = genPathEdgeStles(steps[currentStep].path);
+        pathStyles = genPathEdgeStles(steps[currentStep].path, directed);
       }
     }
 

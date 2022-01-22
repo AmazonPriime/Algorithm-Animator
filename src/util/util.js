@@ -190,10 +190,11 @@ export function extractMin(queue, dist) {
   return u;
 }
 
-export function genPathEdgeStles(path) {
+export function genPathEdgeStles(path, directed) {
   const styles = [];
   if (path.length > 0) {
     for (let i = 0; i < path.length; i += 1) {
+      const pathVertices = path[i].split(' ');
       styles.push({
         selector: `edge[id = '${path[i]}']`,
         style: {
@@ -201,6 +202,15 @@ export function genPathEdgeStles(path) {
           width: 3,
         },
       });
+      if (!directed) {
+        styles.push({
+          selector: `edge[id = '${pathVertices[1]} ${pathVertices[0]}']`,
+          style: {
+            lineColor: 'green',
+            width: 3,
+          },
+        });
+      }
     }
   }
   return styles;
