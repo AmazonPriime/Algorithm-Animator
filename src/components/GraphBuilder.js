@@ -278,20 +278,20 @@ class GraphBuilder extends Component {
     } = this.state;
 
     const matrix = directed ? directedMatrix : undirectedMatrix;
-    const steps = currentAlgorithm.algorithm(matrix, sourceNode, destNode);
+    const steps = currentAlgorithm.algorithm(matrix, sourceNode, destNode, directed);
 
     this.setState({ steps });
   }
 
   changeStep(v) {
-    const { steps, currentStep } = this.state;
+    const { steps, currentStep, directed } = this.state;
     if (v === 1 && currentStep + 1 < steps.length) {
       this.setState({ currentStep: currentStep + 1 });
     } else if (v === -1 && currentStep - 1 >= 0) {
       this.setState({ currentStep: currentStep - 1 });
     }
     if (steps[currentStep]) {
-      const animationStyles = highlightGraph(steps[currentStep]);
+      const animationStyles = highlightGraph(steps[currentStep], directed);
       this.setState({ animationStyles });
     }
   }

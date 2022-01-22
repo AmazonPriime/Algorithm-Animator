@@ -43,7 +43,7 @@ export default {
                 label w as explored
                 Q.enqueue(w)
                 {{/6}}`,
-  algorithm: (graph, source, dest) => {
+  algorithm: (graph, source, dest, directed) => {
     const steps = []; // list to store each 'step' of the algorithm
     const queue = [];
     const explored = new Array(graph.length).fill(false); // explored nodes
@@ -69,13 +69,14 @@ export default {
         break; // end loop as we have reach destination
       }
       for (let i = 0; i < graph.length; i += 1) {
-        if (graph[v][i] > 0) { // edge is adjacent to v
+        if (graph[v][i] > 0 || (!directed && graph[i][v] > 0)) { // edge is adjacent to v
           msg = `Checking adjacent nodes to node ${v}`;
           steps.push(createStep(explored, traversed, v, '', 4, msg));
 
           msg = `Checking if node ${i} has been visited`;
-          steps.push(createStep(explored, traversed, v, `${v} ${i}`, 5, msg));
-          traversed.push(`${v} ${i}`);
+          const edge = (!directed && graph[i][v] > 0) ? `${i} ${v}` : `${v} ${i}`;
+          steps.push(createStep(explored, traversed, v, edge, 5, msg));
+          traversed.push(edge);
           if (!explored[i]) { // not visited
             explored[i] = true;
             queue.push(i);
