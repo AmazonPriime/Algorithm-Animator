@@ -54,7 +54,7 @@ export default {
      {{9}}
      return dist[], prev[]
      {{/9}}`,
-  algorithm: (graph, source, dest) => {
+  algorithm: (graph, source, dest, directed) => {
     const steps = [];
     const explored = new Array(graph.length).fill(false);
     const traversed = [];
@@ -95,22 +95,30 @@ export default {
         msg = `Checking adjacent nodes to node ${u}`;
         steps.push(createStep(explored, traversed, u, '', 5, msg, dist));
 
-        if (graph[u][v] > 0) {
-          const alt = parseInt(dist[u], 10) + parseInt(graph[u][v], 10);
+        if (graph[u][v] > 0 || (!directed && graph[v][u] > 0)) {
+          let alt;
+          let edge;
+          if (!directed && graph[v][u] > 0) {
+            alt = parseInt(dist[u], 10) + parseInt(graph[v][u], 10);
+            edge = `${v} ${u}`;
+          } else {
+            alt = parseInt(dist[u], 10) + parseInt(graph[u][v], 10);
+            edge = `${u} ${v}`;
+          }
 
-          traversed.push(`${u} ${v}`);
+          traversed.push(edge);
           msg = `Calculating weight when going to node ${v} via ${u} from source`;
-          steps.push(createStep(explored, traversed, u, `${u} ${v}`, 6, msg, dist));
+          steps.push(createStep(explored, traversed, u, edge, 6, msg, dist));
 
           msg = `Comparing calculated distance to known distance from source to node ${v}`;
-          steps.push(createStep(explored, traversed, u, `${u} ${v}`, 7, msg, dist));
+          steps.push(createStep(explored, traversed, u, edge, 7, msg, dist));
 
           if (alt < dist[v]) {
             dist[v] = alt;
             prev[v] = u;
 
             msg = `Updating distance from source to ${v} and node previous to ${v}`;
-            steps.push(createStep(explored, traversed, u, `${u} ${v}`, 8, msg, dist));
+            steps.push(createStep(explored, traversed, u, edge, 8, msg, dist));
           }
         }
       }
