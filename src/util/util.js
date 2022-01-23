@@ -81,6 +81,7 @@ export function createStep(
   curEdge,
   codeSec,
   logMsg,
+  prev,
   weights = [],
   path = [],
 ) {
@@ -93,6 +94,7 @@ export function createStep(
     logMessage: logMsg,
     nodeWeights: weights.slice(),
     path: path.slice(),
+    prev: prev.slice(),
   };
 }
 
@@ -134,8 +136,6 @@ export function highlightGraph(step) {
       styles.push({
         selector: `node[id = '${i}']`,
         style: {
-          transitionProperty: 'color',
-          transitionDuration: '0.5s',
           borderColor: 'orange',
           borderWidth: 1,
         },
@@ -146,8 +146,6 @@ export function highlightGraph(step) {
     styles.push({
       selector: `node[id = '${step.currentNode}']`,
       style: {
-        transitionProperty: 'color',
-        transitionDuration: '0.5s',
         borderColor: 'green',
         fontWeight: 'bold',
         borderWidth: 2,
@@ -190,7 +188,7 @@ export function extractMin(queue, dist) {
   return u;
 }
 
-export function genPathEdgeStles(path, directed) {
+export function genPathEdgeStles(path, directed, colour = 'green', width = 3) {
   const styles = [];
   if (path.length > 0) {
     for (let i = 0; i < path.length; i += 1) {
@@ -198,16 +196,16 @@ export function genPathEdgeStles(path, directed) {
       styles.push({
         selector: `edge[id = '${path[i]}']`,
         style: {
-          lineColor: 'green',
-          width: 3,
+          lineColor: colour,
+          width,
         },
       });
       if (!directed) {
         styles.push({
           selector: `edge[id = '${pathVertices[1]} ${pathVertices[0]}']`,
           style: {
-            lineColor: 'green',
-            width: 3,
+            lineColor: colour,
+            width,
           },
         });
       }
@@ -233,6 +231,21 @@ export function flattenMatrix(matrix) {
   return flatMatrix;
 }
 
+export function convertPrev(prev, directed) {
+  const edges = [];
+  if (prev.filter((x) => x !== null).length > 0) {
+    for (let v = 0; v < prev.length; v += 1) {
+      if (prev[v] !== null) {
+        edges.push(`${prev[v]} ${v}`);
+        if (!directed) {
+          edges.push(`${v} ${prev[v]}`);
+        }
+      }
+    }
+  }
+  return edges;
+}
+
 export default {
   randomNumber,
   randomMatix,
@@ -243,4 +256,5 @@ export default {
   extractMin,
   genPathEdgeStles,
   flattenMatrix,
+  convertPrev,
 };

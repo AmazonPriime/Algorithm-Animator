@@ -64,23 +64,23 @@ export default {
     const prev = [];
 
     let msg = 'Initialising queue';
-    steps.push(createStep(explored, traversed, '', '', 0, msg, dist));
+    steps.push(createStep(explored, traversed, '', '', 0, msg, prev, dist));
 
     for (let v = 0; v < graph.length; v += 1) {
       msg = 'Looping through graph vertices';
-      steps.push(createStep(explored, traversed, '', '', 1, msg, dist));
+      steps.push(createStep(explored, traversed, '', '', 1, msg, prev, dist));
 
       dist.push(Infinity);
       prev.push(null);
       queue.push(v);
 
       msg = 'Initialising dist, prev and adding vertices to queue';
-      steps.push(createStep(explored, traversed, '', '', 2, msg, dist));
+      steps.push(createStep(explored, traversed, '', '', 2, msg, prev, dist));
     }
     dist[source] = 0;
 
     msg = 'Setting distance from source to source to 0';
-    steps.push(createStep(explored, traversed, '', '', 3, msg, dist));
+    steps.push(createStep(explored, traversed, '', '', 3, msg, prev, dist));
 
     while (queue.length > 0) {
       const u = extractMin(queue, dist);
@@ -89,11 +89,11 @@ export default {
 
       explored[u] = true;
       msg = 'Getting node from queue with smallest distance from source';
-      steps.push(createStep(explored, traversed, u, '', 4, msg, dist));
+      steps.push(createStep(explored, traversed, u, '', 4, msg, prev, dist));
 
       for (let v = 0; v < graph[u].length; v += 1) {
         msg = `Checking adjacent nodes to node ${u}`;
-        steps.push(createStep(explored, traversed, u, '', 5, msg, dist));
+        steps.push(createStep(explored, traversed, u, '', 5, msg, prev, dist));
 
         if (graph[u][v] > 0 || (!directed && graph[v][u] > 0)) {
           let alt;
@@ -108,17 +108,17 @@ export default {
 
           traversed.push(edge);
           msg = `Calculating weight when going to node ${v} via ${u} from source`;
-          steps.push(createStep(explored, traversed, u, edge, 6, msg, dist));
+          steps.push(createStep(explored, traversed, u, edge, 6, msg, prev, dist));
 
           msg = `Comparing calculated distance to known distance from source to node ${v}`;
-          steps.push(createStep(explored, traversed, u, edge, 7, msg, dist));
+          steps.push(createStep(explored, traversed, u, edge, 7, msg, prev, dist));
 
           if (alt < dist[v]) {
             dist[v] = alt;
             prev[v] = u;
 
             msg = `Updating distance from source to ${v} and node previous to ${v}`;
-            steps.push(createStep(explored, traversed, u, edge, 8, msg, dist));
+            steps.push(createStep(explored, traversed, u, edge, 8, msg, prev, dist));
           }
         }
       }
@@ -135,7 +135,7 @@ export default {
     }
 
     msg = 'Finished, returning distances to each node from source';
-    steps.push(createStep(explored, traversed, '', '', 9, msg, dist));
+    steps.push(createStep(explored, traversed, '', '', 9, msg, prev, dist));
 
     // add the steps to show the path target -> source
     if (seq.length > 0) {
@@ -143,7 +143,7 @@ export default {
       for (let i = 0; i < seq.length - 1; i += 1) {
         msg = `${seq[i]} -> ${seq[i + 1]}`;
         pathHighlight.push(`${seq[i + 1]} ${seq[i]}`);
-        steps.push(createStep(explored, traversed, '', '', null, msg, dist, pathHighlight));
+        steps.push(createStep(explored, traversed, '', '', null, msg, prev, dist, pathHighlight));
       }
     }
 

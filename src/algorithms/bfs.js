@@ -46,43 +46,45 @@ export default {
   algorithm: (graph, source, dest, directed) => {
     const steps = []; // list to store each 'step' of the algorithm
     const queue = [];
+    const prev = new Array(graph.length).fill(null);
     const explored = new Array(graph.length).fill(false); // explored nodes
     const traversed = []; // traversed edges
     queue.push(source);
     explored[source] = true;
 
     let msg = 'Initialising queue';
-    steps.push(createStep(explored, traversed, source, '', 0, msg));
+    steps.push(createStep(explored, traversed, source, '', 0, msg, prev));
     while (queue.length !== 0) {
       const v = queue.shift();
 
       msg = `Dequeuing node ${v} from queue`;
-      steps.push(createStep(explored, traversed, v, '', 1, msg));
+      steps.push(createStep(explored, traversed, v, '', 1, msg, prev));
 
       msg = `Checking if node ${v} is destination`;
-      steps.push(createStep(explored, traversed, v, '', 2, msg));
+      steps.push(createStep(explored, traversed, v, '', 2, msg, prev));
 
       if (v === parseInt(dest, 10)) {
         msg = `Found destination node: ${v}`;
-        steps.push(createStep(explored, traversed, v, '', 3, msg));
+        steps.push(createStep(explored, traversed, v, '', 3, msg, prev));
 
         break; // end loop as we have reach destination
       }
       for (let i = 0; i < graph.length; i += 1) {
         if (graph[v][i] > 0 || (!directed && graph[i][v] > 0)) { // edge is adjacent to v
           msg = `Checking adjacent nodes to node ${v}`;
-          steps.push(createStep(explored, traversed, v, '', 4, msg));
+          steps.push(createStep(explored, traversed, v, '', 4, msg, prev));
 
           msg = `Checking if node ${i} has been visited`;
           const edge = (!directed && graph[i][v] > 0) ? `${i} ${v}` : `${v} ${i}`;
-          steps.push(createStep(explored, traversed, v, edge, 5, msg));
+          steps.push(createStep(explored, traversed, v, edge, 5, msg, prev));
           traversed.push(edge);
           if (!explored[i]) { // not visited
             explored[i] = true;
             queue.push(i);
+            prev[i] = i !== 0 ? v : null;
 
             msg = `Marking node ${i} as visited and adding it to queue`;
-            steps.push(createStep(explored, traversed, v, '', 6, msg));
+            steps.push(createStep(explored, traversed, v, '', 6, msg, prev));
           }
         }
       }

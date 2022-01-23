@@ -12,6 +12,7 @@ import {
   highlightGraph,
   genPathEdgeStles,
   flattenMatrix,
+  convertPrev,
 } from '../util/util';
 import './GraphBuilder.css';
 
@@ -341,14 +342,22 @@ class GraphBuilder extends Component {
 
     // set -inf if there currently are no steps
     // user has not pressed play or has updated the graph
-    let codeSection = -Math.inf;
+    let codeSection = -Infinity;
     let edgeWeights = [];
     let pathStyles = [];
+    let prevStyles = [];
     if (steps[currentStep] && !updatedSincePlay) {
       codeSection = steps[currentStep].codeSection;
       edgeWeights = steps[currentStep].nodeWeights;
-      if (steps[currentStep].path) {
+      if (steps[currentStep].path.length > 0) {
+        if (steps[currentStep].prev.length > 0) {
+          const prevEdges = convertPrev(steps[currentStep].prev, directed);
+          prevStyles = genPathEdgeStles(prevEdges, directed, 'magenta', 2);
+        }
         pathStyles = genPathEdgeStles(steps[currentStep].path, directed);
+      } else if (currentStep >= steps.length - 1) { // for non-weighted algorithms
+        const prevEdges = convertPrev(steps[currentStep].prev, directed);
+        prevStyles = genPathEdgeStles(prevEdges, directed, 'magenta', 2);
       }
     }
 
@@ -417,7 +426,7 @@ class GraphBuilder extends Component {
             directed={directed}
             animationStyles={animationStyles}
             edgeWeights={edgeWeights}
-            pathStyles={pathStyles}
+            pathStyles={[...prevStyles, ...pathStyles]}
           />
           <CodeViewer
             code={currentAlgorithm.pseudocode}
