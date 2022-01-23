@@ -27,7 +27,6 @@ const playback = (props) => {
     // need to regen the steps
     if (updatedSincePlay) {
       generateSteps();
-      console.log('sus');
       // set to false
       setUpdatedSincePlay(false);
     }
