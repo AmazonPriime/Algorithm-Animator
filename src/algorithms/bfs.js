@@ -23,16 +23,16 @@ export default {
     label root as explored
     Q.enqueue(root)
     {{/0}}
-    while Q is not empty do
-        {{1}}
-        v := Q.dequeue()
-        {{/1}}
+    {{1}}
+    if source is the goal then
+    {{/1}}
         {{2}}
-        if v is the goal then
+        return source
         {{/2}}
-            {{3}}
-            return v
-            {{/3}}
+    while Q is not empty do
+        {{3}}
+        v := Q.dequeue()
+        {{/3}}
         {{4}}
         for all edges from v to w in G.adjacentEdges(v) do
         {{/4}}
@@ -42,33 +42,42 @@ export default {
                 {{6}}
                 label w as explored
                 Q.enqueue(w)
-                {{/6}}`,
+                {{/6}}
+                {{7}}
+                if w is the goal then
+                {{/7}}
+                    {{8}}
+                    return w
+                    {{/8}}`,
   algorithm: (graph, source, dest, directed) => {
     const steps = []; // list to store each 'step' of the algorithm
     const queue = [];
     const prev = new Array(graph.length).fill(null);
     const explored = new Array(graph.length).fill(false); // explored nodes
     const traversed = []; // traversed edges
+    let dontSkipQueue = true;
     queue.push(source);
     explored[source] = true;
 
     let msg = 'Initialising queue';
     steps.push(createStep(explored, traversed, source, '', 0, msg, prev));
-    while (queue.length !== 0) {
+
+    msg = `Checking if node ${source} is destination`;
+    steps.push(createStep(explored, traversed, source, '', 1, msg, prev));
+
+    if (source === parseInt(dest, 10)) {
+      msg = `Found destination node: ${source}`;
+      steps.push(createStep(explored, traversed, source, '', 2, msg, prev));
+
+      dontSkipQueue = false; // skip loop as we have found destination
+    }
+
+    while (queue.length !== 0 && dontSkipQueue) {
       const v = queue.shift();
 
       msg = `Dequeuing node ${v} from queue`;
-      steps.push(createStep(explored, traversed, v, '', 1, msg, prev));
+      steps.push(createStep(explored, traversed, v, '', 3, msg, prev));
 
-      msg = `Checking if node ${v} is destination`;
-      steps.push(createStep(explored, traversed, v, '', 2, msg, prev));
-
-      if (v === parseInt(dest, 10)) {
-        msg = `Found destination node: ${v}`;
-        steps.push(createStep(explored, traversed, v, '', 3, msg, prev));
-
-        break; // end loop as we have reach destination
-      }
       for (let i = 0; i < graph.length; i += 1) {
         if (graph[v][i] > 0 || (!directed && graph[i][v] > 0)) { // edge is adjacent to v
           msg = `Checking adjacent nodes to node ${v}`;
@@ -85,6 +94,17 @@ export default {
 
             msg = `Marking node ${i} as visited and adding it to queue`;
             steps.push(createStep(explored, traversed, v, '', 6, msg, prev));
+
+            msg = `Checking if node ${i} is destination`;
+            steps.push(createStep(explored, traversed, v, '', 7, msg, prev));
+
+            if (i === parseInt(dest, 10)) {
+              msg = `Found destination node: ${i}`;
+              steps.push(createStep(explored, traversed, i, '', 8, msg, prev));
+
+              dontSkipQueue = false;
+              break; // exit loop as we have found destination
+            }
           }
         }
       }
