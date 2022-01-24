@@ -24,6 +24,7 @@
 
 .legend-container .legend-item {
   display: block;
+  font-weight: bold;
   opacity: 0;
   transition: all ease 0.5s;
 }

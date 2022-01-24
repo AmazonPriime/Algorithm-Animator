@@ -16,13 +16,13 @@ module.exports = {
   surnameChars: 2,
   defaultMatrixSize: 7,
   legendDicts: [
-    { name: 'Current', colour: 'green' },
-    { name: 'Visited', colour: 'orange' },
-    { name: 'Previous', colour: 'magenta' },
-    { name: 'Path', colour: 'magenta' },
-    { name: 'Source', colour: 'magenta' },
-    { name: 'Target', colour: 'magenta' },
-    { name: 'Cost', colour: 'red' },
+    { name: 'Current', colour: '#1dd1a1' },
+    { name: 'Visited', colour: '#feca57' },
+    { name: 'Previous', colour: '#ff9f43' },
+    { name: 'Path', colour: '#5f27cd' },
+    { name: 'Source', colour: '#ff6b6b' },
+    { name: 'Target', colour: '#10ac84' },
+    { name: 'Cost', colour: '#ee5253' },
   ],
   graphStyles: [
     {
