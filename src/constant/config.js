@@ -65,7 +65,7 @@ module.exports = {
   ],
   graphLayout: {
     name: 'cose-bilkent',
-    idealEdgeLength: 100,
-    nodeRepulsion: 1000,
+    idealEdgeLength: 150,
+    nodeRepulsion: 5000,
   },
 };
