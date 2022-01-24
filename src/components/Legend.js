@@ -7,7 +7,7 @@ import './Legend.css';
 const renderLegend = (legends) => legends.map((legend) => (
   <span className="legend-item">
     •
-    <span style={{ color: legend.colour }}>
+    <span style={{ color: `var(${legend.colour})` }}>
       {` ${legend.name}`}
     </span>
   </span>

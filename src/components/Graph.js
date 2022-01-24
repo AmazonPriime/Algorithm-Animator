@@ -7,6 +7,8 @@ import './Graph.css';
 
 Cytoscape.use(coseBilkent);
 
+const rs = getComputedStyle(document.querySelector(':root'));
+
 const graph = (props) => {
   const {
     graphElements,
@@ -55,10 +57,14 @@ const graph = (props) => {
     deleteGraphStyle(i);
   }
 
-  addGraphStyle(source, 'green');
-  addGraphStyle(dest, 'red');
-  addGraphStyle(sourceSelected, 'orange');
-  addGraphStyle(targetSelected, 'orange');
+  const sourceColour = rs.getPropertyValue('--color-source').substring(1);
+  const destColour = rs.getPropertyValue('--color-target').substring(1);
+  const selectedColour = rs.getPropertyValue('--color-selected').substring(1);
+
+  addGraphStyle(source, sourceColour);
+  addGraphStyle(dest, destColour);
+  addGraphStyle(sourceSelected, selectedColour);
+  addGraphStyle(targetSelected, selectedColour);
 
   // update the graph if directed or not for the graph edge style
   if (directed && config.graphStyles.length > 1) {
