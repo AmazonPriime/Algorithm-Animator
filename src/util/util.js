@@ -205,7 +205,6 @@ export function genPathEdgeStles(path, directed, colour = '--color-path', width 
           width,
         },
       });
-      console.log(styles);
       if (!directed) {
         styles.push({
           selector: `edge[id = '${pathVertices[1]} ${pathVertices[0]}']`,
