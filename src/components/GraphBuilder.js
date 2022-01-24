@@ -305,6 +305,16 @@ class GraphBuilder extends Component {
     }
   }
 
+  updateSourceDest(id, type) {
+    if (type === 's') { // source
+      this.setState({ sourceNode: id });
+    } else if (type === 'd') { // dest
+      this.setState({ destNode: id });
+    }
+
+    this.resetSteps();
+  }
+
   resetSteps() {
     // reset the step related states when graph updates
     this.setState({
@@ -370,8 +380,8 @@ class GraphBuilder extends Component {
         <div id="controls" className="controls">
           <CreateTools
             updateMatrix={(m) => this.updateMatrix(m)}
-            updateSource={(v) => this.setState({ sourceNode: v })}
-            updateDest={(v) => this.setState({ destNode: v })}
+            updateSource={(v) => this.updateSourceDest(v, 's')}
+            updateDest={(v) => this.updateSourceDest(v, 'd')}
             setUpdated={() => this.setState({ updated: true })}
             setWeight={(v) => this.setState({ weight: v })}
             selectPreset={(i) => this.changePreset(i)}
