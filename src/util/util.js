@@ -130,13 +130,16 @@ export function parseCodeSections(code) {
 
 export function highlightGraph(step) {
   const styles = []; // array to store the new edge and node styles
+  const rs = getComputedStyle(document.querySelector(':root'));
+  const visited = rs.getPropertyValue('--color-visited').substring(1);
+  const current = rs.getPropertyValue('--color-current').substring(1);
   // add node styles
   for (let i = 0; i < step.visitedNodes.length; i += 1) {
     if (step.visitedNodes[i]) {
       styles.push({
         selector: `node[id = '${i}']`,
         style: {
-          borderColor: 'orange',
+          borderColor: visited,
           borderWidth: 1,
         },
       });
@@ -146,7 +149,7 @@ export function highlightGraph(step) {
     styles.push({
       selector: `node[id = '${step.currentNode}']`,
       style: {
-        borderColor: 'green',
+        borderColor: current,
         fontWeight: 'bold',
         borderWidth: 2,
       },
@@ -158,7 +161,7 @@ export function highlightGraph(step) {
       styles.push({
         selector: `edge[id = '${step.traversedEdges[i]}']`,
         style: {
-          lineColor: 'orange',
+          lineColor: visited,
         },
       });
     }
@@ -167,7 +170,7 @@ export function highlightGraph(step) {
     styles.push({
       selector: `edge[id = '${step.currentEdge}']`,
       style: {
-        lineColor: 'green',
+        lineColor: current,
         width: 3,
       },
     });
@@ -188,23 +191,26 @@ export function extractMin(queue, dist) {
   return u;
 }
 
-export function genPathEdgeStles(path, directed, colour = 'green', width = 3) {
+export function genPathEdgeStles(path, directed, colour = '--color-path', width = 3) {
   const styles = [];
+  const rs = getComputedStyle(document.querySelector(':root'));
+  const colourStr = rs.getPropertyValue(colour).substring(1);
   if (path.length > 0) {
     for (let i = 0; i < path.length; i += 1) {
       const pathVertices = path[i].split(' ');
       styles.push({
         selector: `edge[id = '${path[i]}']`,
         style: {
-          lineColor: colour,
+          lineColor: colourStr,
           width,
         },
       });
+      console.log(styles);
       if (!directed) {
         styles.push({
           selector: `edge[id = '${pathVertices[1]} ${pathVertices[0]}']`,
           style: {
-            lineColor: colour,
+            lineColor: colourStr,
             width,
           },
         });

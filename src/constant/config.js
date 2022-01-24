@@ -15,6 +15,15 @@ module.exports = {
   firstnameChars: 2,
   surnameChars: 2,
   defaultMatrixSize: 7,
+  legendDicts: [
+    { name: 'Current', colour: '--color-current' },
+    { name: 'Visited', colour: '--color-visited' },
+    { name: 'Previous', colour: '--color-previous' },
+    { name: 'Path', colour: '--color-path' },
+    { name: 'Source', colour: '--color-source' },
+    { name: 'Target', colour: '--color-target' },
+    { name: 'Cost', colour: '--color-cost' },
+  ],
   graphStyles: [
     {
       selector: 'node',
@@ -65,7 +74,7 @@ module.exports = {
   ],
   graphLayout: {
     name: 'cose-bilkent',
-    idealEdgeLength: 100,
-    nodeRepulsion: 1000,
+    idealEdgeLength: 150,
+    nodeRepulsion: 7000,
   },
 };

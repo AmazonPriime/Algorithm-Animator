@@ -4,6 +4,7 @@ import AlgorithmSelector from './AlgorithmSelector';
 import Playback from './Playback';
 import CodeViewer from './CodeViewer';
 import Graph from './Graph';
+import Legend from './Legend';
 import algorithms from '../algorithms';
 import config from '../constant/config';
 import {
@@ -352,12 +353,12 @@ class GraphBuilder extends Component {
       if (steps[currentStep].path.length > 0) {
         if (steps[currentStep].prev.length > 0) {
           const prevEdges = convertPrev(steps[currentStep].prev, directed);
-          prevStyles = genPathEdgeStles(prevEdges, directed, 'magenta', 2);
+          prevStyles = genPathEdgeStles(prevEdges, directed, '--color-previous', 2);
         }
         pathStyles = genPathEdgeStles(steps[currentStep].path, directed);
       } else if (currentStep >= steps.length - 1) { // for non-weighted algorithms
         const prevEdges = convertPrev(steps[currentStep].prev, directed);
-        prevStyles = genPathEdgeStles(prevEdges, directed, 'magenta', 2);
+        prevStyles = genPathEdgeStles(prevEdges, directed, '--color-previous', 2);
       }
     }
 
@@ -432,6 +433,7 @@ class GraphBuilder extends Component {
             code={currentAlgorithm.pseudocode}
             codeSection={codeSection}
           />
+          <Legend />
         </div>
       </div>
     );
