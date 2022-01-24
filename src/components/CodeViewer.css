@@ -12,14 +12,10 @@
   right: 0;
 }
 
-.expanded {
-}
-
 .expanded > pre {
   font-size: 2px !important;
   height: 40px !important;
   width: 40px !important;
-  opacity: 0.5;
   transition: all ease 0.5s;
 }
 

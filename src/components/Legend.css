@@ -1,0 +1,38 @@
+.legend-container {
+  padding: 0.5em 0 0 0.5em;
+  position: absolute;
+  display: inline-block;
+  top: 0;
+  left: 0;
+}
+
+.legend-container > button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+.legend-container .legend-title {
+  font-weight: bold;
+  font-size: 1.1em;
+  text-align: center;
+}
+
+.legend-container .legend-item {
+  display: block;
+  opacity: 0;
+  transition: all ease 0.5s;
+}
+
+.expanded .legend-item {
+  opacity: 1;
+}
+
+.expanded .caret-down {
+  transform: rotate(180deg);
+  transition: all ease 0.5s;
+}

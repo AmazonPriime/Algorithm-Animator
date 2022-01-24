@@ -4,6 +4,7 @@ import AlgorithmSelector from './AlgorithmSelector';
 import Playback from './Playback';
 import CodeViewer from './CodeViewer';
 import Graph from './Graph';
+import Legend from './Legend';
 import algorithms from '../algorithms';
 import config from '../constant/config';
 import {
@@ -432,6 +433,7 @@ class GraphBuilder extends Component {
             code={currentAlgorithm.pseudocode}
             codeSection={codeSection}
           />
+          <Legend />
         </div>
       </div>
     );
