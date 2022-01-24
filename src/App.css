@@ -17,6 +17,15 @@
   --color-text-dark: rgba(245, 246, 250, 1.0);
   --color-error-dark: rgba(194, 54, 22, 1.0);
   --color-success-dark: rgba(68, 189, 50, 1.0);
+  /* graph colours */
+  --color-current: #1dd1a1;
+  --color-visited: #feca57;
+  --color-previous: #ff9f43;
+  --color-path: #5f27cd;
+  --color-source: #ff6b6b;
+  --color-target: #10ac84;
+  --color-cost: #ee5253;
+  --color-selected: #ee5253;
 }
 
 .content {
