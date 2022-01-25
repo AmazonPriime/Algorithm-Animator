@@ -10,6 +10,7 @@ module.exports = {
   emailMessage: 'Must be in the form \'name@example.com\'',
   formspreeEndpoint: 'https://formspree.io/f/xgerjqba',
   invalidNodeError: 'Invalid node, graph only contains {numNodes} nodes!',
+  invalidNodeValue: 'Invalid node ID provided, must be a number!',
   speeds: [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2],
   contentChars: 10,
   firstnameChars: 2,
