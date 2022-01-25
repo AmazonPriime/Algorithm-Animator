@@ -11,7 +11,7 @@ module.exports = {
   formspreeEndpoint: 'https://formspree.io/f/xgerjqba',
   invalidNodeError: 'Invalid node, graph only contains {numNodes} nodes!',
   invalidNodeValue: 'Invalid node ID provided, must be a number!',
-  speeds: [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2],
+  speeds: [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3],
   contentChars: 10,
   firstnameChars: 2,
   surnameChars: 2,
