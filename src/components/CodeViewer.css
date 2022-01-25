@@ -10,13 +10,33 @@
   display: inline-block;
   top: 0;
   right: 0;
+  width: 520px;
 }
 
-.expanded > pre {
-  font-size: 2px !important;
+.code-container-expanded {
+  border-radius: 15px;
+  border: 1px solid var(--color-text-light);
+  border-top: 0;
+  border-right: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 0;
+  background-color: var(--color-2-light-50);
+  position: absolute;
+  display: inline-block;
+  top: 0;
+  right: 0;
   height: 40px !important;
   width: 40px !important;
-  transition: all ease 0.5s;
+}
+
+.expanded .tabcontent, .expanded .tabcontent > pre {
+  height: 0px !important;
+  width: 0px !important;
+}
+
+.expanded .tab {
+  height: 0px !important;
+  width: 0px !important;
 }
 
 .expanded .toggle .code-icon {
@@ -35,13 +55,51 @@
   transition: all ease 0.5s;
 }
 
-.code-container > pre {
-  margin-bottom: 0;
-  padding: 1em;
-  font-size: 0.8em;
-  transition: all ease 0.5s;
+.code-container .tabcontent > pre > code .highlighed {
+  color: red;
 }
 
-.code-container > pre > code .highlighed {
-  color: red;
+/* Pseudo tab is default so give it style */
+#pseudo {
+  display: block;
+}
+
+#log {
+  margin-bottom: 0.5em;
+}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border-radius: 15px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0.1em 1em;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  border-bottom: 1px solid var(--color-text-light);
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
 }
