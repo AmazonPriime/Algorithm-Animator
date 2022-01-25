@@ -3,6 +3,7 @@ import CytoscapeComponent from 'react-cytoscapejs';
 import Cytoscape from 'cytoscape';
 import coseBilkent from 'cytoscape-cose-bilkent';
 import config from '../constant/config';
+import { fixColourCode } from '../util/util';
 import './Graph.css';
 
 Cytoscape.use(coseBilkent);
@@ -57,9 +58,9 @@ const graph = (props) => {
     deleteGraphStyle(i);
   }
 
-  const sourceColour = rs.getPropertyValue('--color-source').substring(1);
-  const destColour = rs.getPropertyValue('--color-target').substring(1);
-  const selectedColour = rs.getPropertyValue('--color-selected').substring(1);
+  const sourceColour = fixColourCode(rs.getPropertyValue('--color-source').substring(1));
+  const destColour = fixColourCode(rs.getPropertyValue('--color-target').substring(1));
+  const selectedColour = fixColourCode(rs.getPropertyValue('--color-selected').substring(1));
 
   addGraphStyle(source, sourceColour);
   addGraphStyle(dest, destColour);
