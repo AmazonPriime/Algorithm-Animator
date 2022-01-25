@@ -60,7 +60,7 @@
 }
 
 .log {
-  max-height: 15em !important;
+  max-height: 20em !important;
   overflow: scroll;
 }
 

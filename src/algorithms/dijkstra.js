@@ -92,10 +92,10 @@ export default {
       steps.push(createStep(explored, traversed, u, '', 4, msg, prev, dist));
 
       for (let v = 0; v < graph[u].length; v += 1) {
-        msg = `Checking adjacent nodes to node ${u}`;
-        steps.push(createStep(explored, traversed, u, '', 5, msg, prev, dist));
-
         if (graph[u][v] > 0 || (!directed && graph[v][u] > 0)) {
+          msg = `Checking adjacent nodes to node ${u}`;
+          steps.push(createStep(explored, traversed, u, '', 5, msg, prev, dist));
+
           let alt;
           let edge;
           if (!directed && graph[v][u] > 0) {
