@@ -62,6 +62,7 @@ const playback = (props) => {
         id="playPause"
         className="button"
         onClick={() => handlePlay()}
+        disabled={currentStep >= nSteps - 1 && !updatedSincePlay}
       >
         { playing ? 'pause' : 'play' }
       </Button>
