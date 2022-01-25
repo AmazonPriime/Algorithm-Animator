@@ -12,7 +12,7 @@ const renderCode = (sections, codeSecNum) => sections.map((sec) => (
 
 const renderLog = (log) => log.map((msg) => (
   <span className="log-message">
-    {`> ${msg}`}
+    {`${msg.service} > ${msg.value}`}
   </span>
 ));
 

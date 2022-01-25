@@ -59,11 +59,24 @@ class GraphBuilder extends Component {
       speed,
       currentStep,
       steps,
+      logMessages,
+      currentAlgorithm,
     } = this.state;
     if (playing || initialise) {
+      if (initialise) {
+        this.setState({
+          logMessages: [
+            ...logMessages,
+            {
+              service: 'Animation',
+              value: `** Started ${currentAlgorithm.name} algorithm`,
+            },
+          ],
+        });
+      }
       setTimeout(() => this.runAnimation(), 250 / speed);
+      this.changeStep(1);
     }
-    this.changeStep(1);
     // stop when at end
     if (currentStep >= steps.length - 1 && !initialise) {
       this.setState({ playing: false });
@@ -309,7 +322,13 @@ class GraphBuilder extends Component {
       const animationStyles = highlightGraph(steps[currentStep], directed);
       this.setState({
         animationStyles,
-        logMessages: [...logMessages, steps[currentStep].logMessage],
+        logMessages: [
+          ...logMessages,
+          {
+            service: 'Animation',
+            value: steps[currentStep].logMessage,
+          },
+        ],
       });
     }
   }
