@@ -85,28 +85,48 @@ class GraphBuilder extends Component {
 
   changeAlgorithm(i) {
     if (i < algorithms.length && i !== -1) {
+      const { logMessages } = this.state;
       this.setState({
         currentAlgorithm: algorithms[i],
         currentPreset: '',
+        logMessages: [
+          ...logMessages,
+          {
+            service: 'User',
+            value: `Switched algorithm to ${algorithms[i].name}`,
+          },
+        ],
       });
       this.resetSteps();
     }
   }
 
   changePreset(i) {
-    const { currentAlgorithm } = this.state;
+    const { currentAlgorithm, logMessages } = this.state;
 
     if (i < currentAlgorithm.presets.length && i !== -1) {
       this.updateMatrix(currentAlgorithm.presets[i].matrix);
       this.setState({
         currentPreset: currentAlgorithm.presets[i].name,
+        logMessages: [
+          ...logMessages,
+          {
+            service: 'User',
+            value: `Changed graph to ${currentAlgorithm.presets[i].name} preset`,
+          },
+        ],
       });
       this.resetSteps();
     }
   }
 
   updateMatrix(m) {
-    const { sourceNode, destNode, directed } = this.state;
+    const {
+      sourceNode,
+      destNode,
+      directed,
+      logMessages,
+    } = this.state;
 
     for (let i = 0; i < m.length; i += 1) {
       if (m.length !== m[i].length) {
@@ -127,13 +147,25 @@ class GraphBuilder extends Component {
     this.setState({
       sourceNode: sourceNode >= m.length ? 0 : sourceNode,
       destNode: destNode >= m.length ? m.length - 1 : destNode,
+      logMessages: [
+        ...logMessages,
+        {
+          service: 'User',
+          value: 'Updated the graph',
+        },
+      ],
     });
 
     this.resetSteps();
   }
 
   addNode(pos = null) {
-    const { directedMatrix, undirectedMatrix, directed } = this.state;
+    const {
+      directedMatrix,
+      undirectedMatrix,
+      directed,
+      logMessages,
+    } = this.state;
 
     if (directed) {
       for (let i = 0; i < directedMatrix.length; i += 1) {
@@ -153,11 +185,27 @@ class GraphBuilder extends Component {
       });
     }
 
+    const vertex = directed ? directedMatrix.length : undirectedMatrix.length;
+    this.setState({
+      logMessages: [
+        ...logMessages,
+        {
+          service: 'User',
+          value: `Added a new node (${vertex - 1}) to graph`,
+        },
+      ],
+    });
+
     this.resetSteps();
   }
 
   removeNode(i) {
-    const { directedMatrix, undirectedMatrix, directed } = this.state;
+    const {
+      directedMatrix,
+      undirectedMatrix,
+      directed,
+      logMessages,
+    } = this.state;
 
     if (!ensureInteger(i) || i.length === 0) {
       return;
@@ -193,6 +241,13 @@ class GraphBuilder extends Component {
 
     this.setState({
       updated: true,
+      logMessages: [
+        ...logMessages,
+        {
+          service: 'User',
+          value: `Removed node ${i} from graph`,
+        },
+      ],
     });
     this.resetSteps();
   }
@@ -205,15 +260,34 @@ class GraphBuilder extends Component {
       undirectedMatrix,
       directed,
       weight,
+      logMessages,
     } = this.state;
 
     let weightValue = 1;
 
     if (sourceSelected.length === 0 || targetSelected.length === 0) {
+      this.setState({
+        logMessages: [
+          ...logMessages,
+          {
+            service: 'User',
+            value: 'Unable to create edges between the selected nodes',
+          },
+        ],
+      });
       return;
     }
 
     if (!ensureInteger(sourceSelected) || !ensureInteger(targetSelected)) {
+      this.setState({
+        logMessages: [
+          ...logMessages,
+          {
+            service: 'User',
+            value: 'Unable to create edges between the selected nodes',
+          },
+        ],
+      });
       return;
     }
 
@@ -224,6 +298,15 @@ class GraphBuilder extends Component {
     const matrix = directed ? directedMatrix : undirectedMatrix;
 
     if (sourceSelected >= matrix.length || targetSelected >= matrix.length) {
+      this.setState({
+        logMessages: [
+          ...logMessages,
+          {
+            service: 'User',
+            value: 'Unable to create edges between the selected nodes',
+          },
+        ],
+      });
       return;
     }
 
@@ -238,12 +321,24 @@ class GraphBuilder extends Component {
     this.setState({
       sourceSelected: '',
       targetSelected: '',
+      logMessages: [
+        ...logMessages,
+        {
+          service: 'User',
+          value: `Created an edge from ${sourceSelected} to ${targetSelected}`,
+        },
+      ],
     });
     this.resetSteps();
   }
 
   removeEdge(source, target) {
-    const { directedMatrix, undirectedMatrix, directed } = this.state;
+    const {
+      directedMatrix,
+      undirectedMatrix,
+      directed,
+      logMessages,
+    } = this.state;
 
     if (!ensureInteger(source) || !ensureInteger(target)) {
       return;
@@ -258,6 +353,16 @@ class GraphBuilder extends Component {
       undirectedMatrix[target][source] = 0;
     }
 
+    this.setState({
+      logMessages: [
+        ...logMessages,
+        {
+          service: 'User',
+          value: `Remove the edge from node ${source} to node ${target}`,
+        },
+      ],
+    });
+
     this.resetSteps();
   }
 
@@ -268,6 +373,7 @@ class GraphBuilder extends Component {
       directedMatrix,
       undirectedMatrix,
       directed,
+      logMessages,
     } = this.state;
     const { weighted } = currentAlgorithm;
 
@@ -286,6 +392,16 @@ class GraphBuilder extends Component {
     } else {
       undirectedMatrix[j][i] = weight;
     }
+
+    this.setState({
+      logMessages: [
+        ...logMessages,
+        {
+          service: 'User',
+          value: `Updated the weight of edge ${i} -> ${j} to be ${weight}`,
+        },
+      ],
+    });
 
     this.resetSteps();
   }
@@ -334,10 +450,29 @@ class GraphBuilder extends Component {
   }
 
   updateSourceDest(id, type) {
-    if (type === 's') { // source
-      this.setState({ sourceNode: id });
-    } else if (type === 'd') { // dest
-      this.setState({ destNode: id });
+    const { logMessages } = this.state;
+    if (type === 's' && id) { // source
+      this.setState({
+        sourceNode: id,
+        logMessages: [
+          ...logMessages,
+          {
+            service: 'User',
+            value: `Updated node ${id} to be source node`,
+          },
+        ],
+      });
+    } else if (type === 'd' && id) { // dest
+      this.setState({
+        destNode: id,
+        logMessages: [
+          ...logMessages,
+          {
+            service: 'User',
+            value: `Updated node ${id} to be target node`,
+          },
+        ],
+      });
     }
 
     this.resetSteps();
