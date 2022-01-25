@@ -42,6 +42,7 @@ class GraphBuilder extends Component {
       steps: [], // the steps for the animation
       currentStep: 0, // the index for the current step
       animationStyles: [], // list of the styles for the current step of animation
+      logMessages: [], // list of messages from animation and user actions
     };
   }
 
@@ -293,7 +294,12 @@ class GraphBuilder extends Component {
   }
 
   changeStep(v) {
-    const { steps, currentStep, directed } = this.state;
+    const {
+      steps,
+      currentStep,
+      directed,
+      logMessages,
+    } = this.state;
     if (v === 1 && currentStep + 1 < steps.length) {
       this.setState({ currentStep: currentStep + 1 });
     } else if (v === -1 && currentStep - 1 >= 0) {
@@ -301,7 +307,10 @@ class GraphBuilder extends Component {
     }
     if (steps[currentStep]) {
       const animationStyles = highlightGraph(steps[currentStep], directed);
-      this.setState({ animationStyles });
+      this.setState({
+        animationStyles,
+        logMessages: [...logMessages, steps[currentStep].logMessage],
+      });
     }
   }
 
@@ -347,6 +356,7 @@ class GraphBuilder extends Component {
       steps,
       updatedSincePlay,
       animationStyles,
+      logMessages,
     } = this.state;
 
     const { weighted } = currentAlgorithm;
@@ -442,6 +452,7 @@ class GraphBuilder extends Component {
           <CodeViewer
             code={currentAlgorithm.pseudocode}
             codeSection={codeSection}
+            log={logMessages}
           />
           <Legend />
         </div>

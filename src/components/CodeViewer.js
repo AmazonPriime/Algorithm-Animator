@@ -11,8 +11,8 @@ const renderCode = (sections, codeSecNum) => sections.map((sec) => (
 ));
 
 const renderLog = (log) => log.map((msg) => (
-  <span>
-    {`>> ${msg}`}
+  <span className="log-message">
+    {`> ${msg}`}
   </span>
 ));
 
@@ -45,6 +45,9 @@ const codeViewer = (props) => {
 
   const parsedCode = parseCodeSections(code);
   const logMessages = log && log.length > 0 ? renderLog(log) : '';
+  if (log.length > 0) {
+    logMessages.reverse();
+  }
 
   return (
     <div className={expanded ? 'code-container-expanded expanded' : 'code-container'}>
@@ -62,9 +65,11 @@ const codeViewer = (props) => {
       </div>
 
       <div id="log" className="tabcontent">
-        <pre>
+        <pre className="log">
           <code>
-            {logMessages}
+            {logMessages.length > 0
+              ? logMessages
+              : 'Messages are logged here!'}
           </code>
         </pre>
       </div>

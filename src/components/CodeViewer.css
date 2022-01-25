@@ -59,6 +59,15 @@
   color: red;
 }
 
+.log {
+  max-height: 15em !important;
+  overflow: scroll;
+}
+
+.log-message {
+  display: block;
+}
+
 /* Pseudo tab is default so give it style */
 #pseudo {
   display: block;
