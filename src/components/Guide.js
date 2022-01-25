@@ -4,11 +4,15 @@ import Button from 'react-bootstrap/Button';
 import Accordion from 'react-bootstrap/Accordion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWeightHanging, faMapMarkerAlt, faSearch } from '@fortawesome/free-solid-svg-icons';
+import addingNodes from '../assets/adding_nodes.gif';
+import removingNodes from '../assets/removing_nodes.gif';
+import addingRemovingEdges from '../assets/adding_removing_edges.gif';
+import updatingWeight from '../assets/updating_edge_weight.gif';
 import config from '../constant/config';
 import './Guide.css';
 
 const guide = (props) => (
-  <div id="about">
+  <div id="guide" className="guide">
     <Modal.Header closeButton>
       Guide
     </Modal.Header>
@@ -29,11 +33,18 @@ const guide = (props) => (
             <b>Adding nodes to the graph</b>
             <p>Double click on any empty space on the graph to add a node.</p>
 
+            <img src={addingNodes} alt="Example of adding nodes to graph as a gif." />
+
             <b>Removing nodes from the graph</b>
             <p>Click and hold on any node to remove it from the graph.</p>
 
+            <img src={removingNodes} alt="Example of removing nodes from a graph as a gif." />
+
             <b>Adding edges between nodes</b>
             <p>Click on one node to select as a source, then another as the target.</p>
+
+            <img src={addingRemovingEdges} alt="Example of adding and removing edges from a graph as a gif." />
+            <span style={{ display: 'block' }}>* shows adding and removing edges</span>
 
             <b>Removing an edge between nodes</b>
             <p>Click and hold on any edge to remove it form the graph</p>
@@ -49,6 +60,8 @@ const guide = (props) => (
               { ' ' }
               field then double click on an edge.
             </p>
+
+            <img src={updatingWeight} alt="Example of updating edge weight on graph as a gif." />
           </Accordion.Body>
         </Accordion.Item>
         <Accordion.Item eventKey="1">
