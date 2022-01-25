@@ -417,7 +417,11 @@ class GraphBuilder extends Component {
     } = this.state;
 
     const matrix = directed ? directedMatrix : undirectedMatrix;
-    const steps = currentAlgorithm.algorithm(matrix, sourceNode, destNode, directed);
+    let source = sourceNode;
+    if (sourceNode === '' || sourceNode >= matrix.length) {
+      source = 0;
+    }
+    const steps = currentAlgorithm.algorithm(matrix, source, destNode, directed);
 
     this.setState({ steps });
   }
@@ -429,6 +433,7 @@ class GraphBuilder extends Component {
       directed,
       logMessages,
     } = this.state;
+
     if (v === 1 && currentStep + 1 < steps.length) {
       this.setState({ currentStep: currentStep + 1 });
     } else if (v === -1 && currentStep - 1 >= 0) {
@@ -450,30 +455,43 @@ class GraphBuilder extends Component {
   }
 
   updateSourceDest(id, type) {
-    const { logMessages } = this.state;
-    if (type === 's' && id) { // source
-      this.setState({
-        sourceNode: id,
-        logMessages: [
-          ...logMessages,
-          {
-            service: 'User',
-            value: `Updated node ${id} to be source node`,
-          },
-        ],
-      });
-    } else if (type === 'd' && id) { // dest
-      this.setState({
-        destNode: id,
-        logMessages: [
-          ...logMessages,
-          {
-            service: 'User',
-            value: `Updated node ${id} to be target node`,
-          },
-        ],
-      });
+    const {
+      logMessages,
+      directedMatrix,
+      undirectedMatrix,
+      directed,
+    } = this.state;
+    let typeStr = '';
+    if (type === 's') { // source
+      this.setState({ sourceNode: id });
+      typeStr = 'source';
+    } else if (type === 'd') { // dest
+      this.setState({ destNode: id });
+      typeStr = 'target';
     }
+
+    const matrix = directed ? directedMatrix : undirectedMatrix;
+
+    let message = `Updated ${typeStr} to node ${id}`;
+    if (id >= matrix.length) {
+      message = `Node ${id} does not exist on graph`;
+    } else if (id === '') {
+      if (type === 's') {
+        message = 'Invalid node will default source to 0';
+      } else if (type === 'd') {
+        message = 'Invalid node setting target to none';
+      }
+    }
+
+    this.setState({
+      logMessages: [
+        ...logMessages,
+        {
+          service: 'User',
+          value: `${message}`,
+        },
+      ],
+    });
 
     this.resetSteps();
   }

@@ -43,7 +43,7 @@ class CreateTools extends Component {
     const { numNodes } = this.props;
     const newValue = ensureInteger(value);
     setFunc(newValue);
-    let error;
+    let error = '';
     if (!ignoreCheck) {
       error = newValue >= numNodes ? config.invalidNodeError.replace('{numNodes}', numNodes) : '';
     } else {
