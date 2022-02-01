@@ -21,13 +21,13 @@ Some MVP features for the project include; playback features (play/pause/step/sp
 
 ### Features (✓ *done* | ✘ *not done*)
 * MVP Features
-    * (✘) Playback Controls
-      * (✘) play
-      * (✘) pause
-      * (✘) step forward
-      * (✘) step backwards
-      * (✘) speed multiplier
-    * (✘) Code Animation
+    * (✓) Playback Controls
+      * (✓) play
+      * (✓) pause
+      * (✓) step forward
+      * (✓) step backwards
+      * (✓) speed multiplier
+    * (✓) Code Animation
     * (✓) Pre-defined Inputs
     * (✓) Custom UI Input
       * (✓) add nodes
@@ -37,9 +37,9 @@ Some MVP features for the project include; playback features (play/pause/step/sp
     * (✓) Randomised Input
 * Extra Features
     * (✘) Custom File Imports
-    * (✘) Algorithm Details
-      * (✘) general explanation
-      * (✘) time complexity explanation
+    * (✓) Algorithm Details
+      * (✓) general explanation
+      * (✓) time complexity explanation
     * (✘) Animation of Additional Languages
       * (✘) python
       * (✘) java
