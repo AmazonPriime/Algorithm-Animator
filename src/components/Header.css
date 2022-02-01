@@ -38,6 +38,7 @@
   display: flex;
   gap: 0.45em;
   margin-right: 1em;
+  display: none;
 }
 
 .header .mode-icons .selected {
