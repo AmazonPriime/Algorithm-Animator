@@ -13,6 +13,25 @@
   width: 520px;
 }
 
+@media (max-width: 780px) {
+  .code-container {
+    width: 400px;
+  }
+}
+
+@media (max-width: 520px) {
+  .code-container {
+    width: 300px;
+  }
+}
+
+@media (max-width: 425px) {
+  .code-container {
+    width: 240px;
+  }
+}
+
+
 .code-container-expanded {
   border-radius: 15px;
   border: 1px solid var(--color-text-light);

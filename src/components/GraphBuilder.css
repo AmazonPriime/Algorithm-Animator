@@ -12,7 +12,7 @@
   flex-grow: 1;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 520px) {
   .graph-builder .controls {
     flex-direction: column;
   }
