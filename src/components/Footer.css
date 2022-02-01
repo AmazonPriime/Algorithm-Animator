@@ -10,6 +10,19 @@
   z-index: 99;
 }
 
+@media (max-width: 460px) {
+  .footer {
+    font-size: 0.9em;
+  }
+}
+
+@media (max-width: 420px) {
+  .footer {
+    font-size: 0.75em;
+  }
+}
+
+
 .footer .developer {
   font-weight: bold;
   text-decoration: none;
