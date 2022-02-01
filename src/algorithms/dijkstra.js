@@ -16,7 +16,49 @@ export default {
       ],
     },
   ],
-  description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue urna at est viverra finibus. Proin a pulvinar orci, quis lacinia eros. In eget ornare odio, at vestibulum nulla. Integer feugiat augue ut neque accumsan, a cursus purus suscipit. Praesent at ullamcorper nibh, sed ullamcorper nibh. Donec finibus tortor non nisl fermentum, eu scelerisque elit consectetur. Fusce bibendum gravida risus, a malesuada massa euismod et. Nullam volutpat sed metus non pharetra. Donec egestas nisl in nunc feugiat egestas. Quisque commodo aliquet facilisis. Nulla facilisi. Suspendisse sit amet fringilla purus. Aliquam et ante ut sem sagittis rhoncus. Praesent ligula diam, consectetur vel egestas vel, elementum ac est. Nunc at felis nec velit fringilla ultrices. In ultrices tempus orci et blandit. Cras commodo quam hendrerit vulputate efficitur. Integer mattis dictum arcu. Sed vitae sem tempor, cursus arcu eu, maximus sem. Nunc dictum nisi a nisi gravida, in mollis odio consequat. Integer facilisis sit amet nunc quis consectetur.
+  description: `
+  ##### Description [[1](https://brilliant.org/wiki/dijkstras-short-path-finder/)]
+  One algorithm for finding the shortest path from a starting node to a target node in a
+  weighted graph is Dijkstra’s algorithm. The algorithm creates a tree of shortest paths
+  from the starting vertex, the source, to all other points in the graph.
+
+  Dijkstra’s algorithm, published in 1959 and named after its creator Dutch computer scientist
+  Edsger Dijkstra, can be applied on a weighted graph. The graph can either be directed or
+  undirected. One stipulation to using the algorithm is that the graph needs to have a
+  nonnegative weight on every edge.
+
+  ##### Time and space complexity [[2](https://iq.opengenus.org/time-and-space-complexity-of-dijkstra-algorithm/)]
+  Using the approach below, using an unsorted array, we search through all vertices to find the
+  closest within the graph. This means that our initial time complexity will be \`O(n)\` for this search.
+  This will bring our total time complexity to \`O(V^2)\` where \`V\` is the number of vertices in the graph.
+  Space complexity will be \`O(V)\` where \`V\` is number of vertices in graph, it is worse case scenario
+  if it is a complete graph and every edge has to be visited.
+
+  ##### Dijkstra Pseudocode
+  \`\`\`
+  function Dijkstra(Graph, source):
+    create vertex set Q
+    for each vertex v in Graph:
+        dist[v] ← INFINITY
+        prev[v] ← UNDEFINED
+        add v to Q
+    dist[source] ← 0
+    while Q is not empty:
+        u ← vertex in Q with min dist[u]
+        remove u from Q
+        for each neighbor v of u still in Q:
+            alt ← dist[u] + length(u, v)
+            if alt < dist[v]:
+                dist[v] ← alt
+                prev[v] ← u
+     return dist[], prev[]
+  \`\`\`
+
+  ---
+
+  Sources
+  * [1] [https://brilliant.org/wiki/dijkstras-short-path-finder/](https://brilliant.org/wiki/dijkstras-short-path-finder/)
+  * [2] [https://iq.opengenus.org/time-and-space-complexity-of-dijkstra-algorithm/](https://iq.opengenus.org/time-and-space-complexity-of-dijkstra-algorithm/)
 `,
   pseudocode: `function Dijkstra(Graph, source):
     {{0}}
