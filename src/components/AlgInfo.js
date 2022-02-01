@@ -14,6 +14,7 @@ const algInfo = (props) => {
         { name }
       </Modal.Header>
       <Modal.Body>
+        {/* eslint-disable-next-line */}
         <div dangerouslySetInnerHTML={{ __html: md.render(description) }} />
       </Modal.Body>
       <Modal.Footer>
