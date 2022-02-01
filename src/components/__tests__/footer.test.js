@@ -17,7 +17,7 @@ test('has correct link for developer homepage', () => {
   const { container } = render(<Footer />);
   const getById = queryByAttribute.bind(null, 'id');
   const anchorElement = getById(container, 'developer');
-  expect(anchorElement).toHaveAttribute('href', config.developerUrl);
+  expect(anchorElement).toHaveAttribute('href', config.developerWebsite);
 });
 
 test('start to current year displays correctly', () => {

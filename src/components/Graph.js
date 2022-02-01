@@ -3,6 +3,7 @@ import CytoscapeComponent from 'react-cytoscapejs';
 import Cytoscape from 'cytoscape';
 import coseBilkent from 'cytoscape-cose-bilkent';
 import config from '../constant/config';
+import { fixColourCode } from '../util/util';
 import './Graph.css';
 
 Cytoscape.use(coseBilkent);
@@ -42,14 +43,25 @@ const graph = (props) => {
     }
   };
 
-  const addGraphStyle = (id, colour) => {
-    config.graphStyles.push({
-      selector: `node[id = '${id}']`,
-      style: {
-        borderColor: colour,
-        fontWeight: 'bold',
-      },
-    });
+  const addGraphStyle = (id, colour, parent = false) => {
+    if (!parent) {
+      config.graphStyles.push({
+        selector: `node[id = '${id}']`,
+        style: {
+          borderColor: colour,
+          fontWeight: 'bold',
+        },
+      });
+    } else {
+      config.graphStyles.push({
+        selector: `node[id = '${id}p']`,
+        style: {
+          borderColor: colour,
+          borderWidth: 2,
+          fontWeight: 'bold',
+        },
+      });
+    }
   };
 
   const selectors = config.graphStyles.map((v) => v.selector);
@@ -57,12 +69,12 @@ const graph = (props) => {
     deleteGraphStyle(i);
   }
 
-  const sourceColour = rs.getPropertyValue('--color-source').substring(1);
-  const destColour = rs.getPropertyValue('--color-target').substring(1);
-  const selectedColour = rs.getPropertyValue('--color-selected').substring(1);
+  const sourceColour = fixColourCode(rs.getPropertyValue('--color-source').substring(1));
+  const destColour = fixColourCode(rs.getPropertyValue('--color-target').substring(1));
+  const selectedColour = fixColourCode(rs.getPropertyValue('--color-selected').substring(1));
 
-  addGraphStyle(source, sourceColour);
-  addGraphStyle(dest, destColour);
+  addGraphStyle(source, sourceColour, true);
+  addGraphStyle(dest, destColour, true);
   addGraphStyle(sourceSelected, selectedColour);
   addGraphStyle(targetSelected, selectedColour);
 

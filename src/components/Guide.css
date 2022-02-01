@@ -1,0 +1,6 @@
+.guide img {
+  display: block;
+  border: 1px solid black;
+  border-radius: 15px;
+  height: 275px;
+}

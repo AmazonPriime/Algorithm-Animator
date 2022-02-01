@@ -2,6 +2,14 @@ export function randomNumber(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
+// fix issues where the # sign isn't there
+export function fixColourCode(code) {
+  if (code[0] !== '#') {
+    return `#${code}`;
+  }
+  return code;
+}
+
 export function randomMatix(n = -1) {
   const matrix = [];
   let nNodes = n;
@@ -131,8 +139,8 @@ export function parseCodeSections(code) {
 export function highlightGraph(step) {
   const styles = []; // array to store the new edge and node styles
   const rs = getComputedStyle(document.querySelector(':root'));
-  const visited = rs.getPropertyValue('--color-visited').substring(1);
-  const current = rs.getPropertyValue('--color-current').substring(1);
+  const visited = fixColourCode(rs.getPropertyValue('--color-visited').substring(1));
+  const current = fixColourCode(rs.getPropertyValue('--color-current').substring(1));
   // add node styles
   for (let i = 0; i < step.visitedNodes.length; i += 1) {
     if (step.visitedNodes[i]) {
@@ -194,7 +202,7 @@ export function extractMin(queue, dist) {
 export function genPathEdgeStles(path, directed, colour = '--color-path', width = 3) {
   const styles = [];
   const rs = getComputedStyle(document.querySelector(':root'));
-  const colourStr = rs.getPropertyValue(colour).substring(1);
+  const colourStr = fixColourCode(rs.getPropertyValue(colour).substring(1));
   if (path.length > 0) {
     for (let i = 0; i < path.length; i += 1) {
       const pathVertices = path[i].split(' ');
@@ -262,4 +270,5 @@ export default {
   genPathEdgeStles,
   flattenMatrix,
   convertPrev,
+  fixColourCode,
 };

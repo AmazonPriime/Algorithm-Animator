@@ -37,7 +37,7 @@ class Footer extends Component {
       <div className="footer" id="footer">
         <a
           className="developer"
-          href={config.developerUrl}
+          href={config.developerWebsite}
           target="__blank"
           rel="noopener noreferrer"
           id="developer"
