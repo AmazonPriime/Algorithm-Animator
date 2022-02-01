@@ -15,7 +15,56 @@ export default {
       ],
     },
   ],
-  description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue urna at est viverra finibus. Proin a pulvinar orci, quis lacinia eros. In eget ornare odio, at vestibulum nulla. Integer feugiat augue ut neque accumsan, a cursus purus suscipit. Praesent at ullamcorper nibh, sed ullamcorper nibh. Donec finibus tortor non nisl fermentum, eu scelerisque elit consectetur. Fusce bibendum gravida risus, a malesuada massa euismod et. Nullam volutpat sed metus non pharetra. Donec egestas nisl in nunc feugiat egestas. Quisque commodo aliquet facilisis. Nulla facilisi. Suspendisse sit amet fringilla purus. Aliquam et ante ut sem sagittis rhoncus. Praesent ligula diam, consectetur vel egestas vel, elementum ac est. Nunc at felis nec velit fringilla ultrices. In ultrices tempus orci et blandit. Cras commodo quam hendrerit vulputate efficitur. Integer mattis dictum arcu. Sed vitae sem tempor, cursus arcu eu, maximus sem. Nunc dictum nisi a nisi gravida, in mollis odio consequat. Integer facilisis sit amet nunc quis consectetur.
+  description: `
+  ##### Description [[1](https://brilliant.org/wiki/breadth-first-search-bfs/)]
+  Breadth-first search (BFS) is an important graph search algorithm that is used to solve
+  many problems including finding the shortest path in a graph and solving puzzle games
+  (such as Rubik's Cubes). Many problems in computer science can be thought of in terms of graphs.
+  For example, analyzing networks, mapping routes, and scheduling are graph problems.
+  Graph search algorithms like breadth-first search are useful for analyzing and solving graph
+  problems.
+
+  ##### Time and space complexity [[2](https://en.wikipedia.org/wiki/Breadth-first_search)]
+  The time complexity can be expressed as \`O(|V|+|E|)\`, since every vertex and
+  every edge will be explored in the worst case. \`|V|\` is the number of vertices and \`|E|\` is
+  the number of edges in the graph. Note that \`O(|E|)\` may vary between \`O(1)\` and \`O(|V|^2)\`,
+  depending on how sparse the input graph is.
+
+  When the number of vertices in the graph is known ahead of time, and additional data structures
+  are used to determine which vertices have already been added to the queue, the space complexity
+  can be expressed as \`O(|V|)\`, where \`|V|\` is the number of vertices. This is in addition to
+  the space required for the graph itself, which may vary depending on the graph representation
+  used by an implementation of the algorithm.
+
+  When working with graphs that are too large to store explicitly (or infinite), it is more
+  practical to describe the complexity of breadth-first search in different terms: to find the
+  nodes that are at distance d from the start node (measured in number of edge traversals), BFS
+  takes \`O(b^(d + 1))\` time and memory, where b is the "branching factor" of the graph
+  (the average out-degree).
+
+  ##### BFS Pseudocode
+  \`\`\`
+  procedure BFS(G, root) is
+    let Q be a queue
+    label root as explored
+    Q.enqueue(root)
+    if source is the goal then
+        return source
+    while Q is not empty do
+        v := Q.dequeue()
+        for all edges from v to w in G.adjacentEdges(v) do
+            if w is not labeled as explored then
+                label w as explored
+                Q.enqueue(w)
+                if w is the goal then
+                    return w
+  \`\`\`
+
+  ---
+  
+  Sources
+  * [1] [https://brilliant.org/wiki/breadth-first-search-bfs/](https://brilliant.org/wiki/breadth-first-search-bfs/)
+  * [2] [https://en.wikipedia.org/wiki/Breadth-first_search](https://en.wikipedia.org/wiki/Breadth-first_search)
 `,
   pseudocode: `procedure BFS(G, root) is
     {{0}}
