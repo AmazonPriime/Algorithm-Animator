@@ -580,7 +580,7 @@ class GraphBuilder extends Component {
             algorithmObj={currentAlgorithm}
             selectAlgorithm={(i) => this.changeAlgorithm(i)}
             algorithms={algorithms.map((v) => v.name)}
-            setDirected={(v) => this.setState({ directed: v })}
+            setDirected={(v) => this.setState({ directed: v, updated: true })}
             directed={directed}
           />
           <Playback

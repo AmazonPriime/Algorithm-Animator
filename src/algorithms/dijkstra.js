@@ -6,13 +6,13 @@ export default {
   notDirectional: false,
   presets: [
     {
-      name: 'DIJKSTRA PRESET 1',
+      name: '5 Nodes',
       matrix: [
+        [0, 1, 0, 0, 0], // eslint-disable-line
         [0, 0, 1, 0, 0], // eslint-disable-line
-        [1, 0, 1, 1, 0], // eslint-disable-line
-        [0, 1, 0, 0, 0], // eslint-disable-line
-        [0, 1, 0, 0, 0], // eslint-disable-line
-        [1, 0, 0, 1, 0], // eslint-disable-line
+        [0, 0, 0, 1, 0], // eslint-disable-line
+        [0, 0, 0, 0, 1], // eslint-disable-line
+        [1, 0, 0, 0, 0], // eslint-disable-line
       ],
     },
   ],
