@@ -50,7 +50,7 @@ const codeViewer = (props) => {
   }
 
   return (
-    <div className={expanded ? 'code-container-expanded expanded' : 'code-container'}>
+    <div id="codeviewer" className={expanded ? 'code-container-expanded expanded' : 'code-container'}>
       <div className="tab">
         <button type="button" className="tablinks active" onClick={(e) => changeTab(e, 'pseudo')}>Pseudo</button>
         <button type="button" className="tablinks" onClick={(e) => changeTab(e, 'log')}>Log</button>
@@ -88,6 +88,7 @@ const codeViewer = (props) => {
 codeViewer.defaultProps = {
   code: '',
   codeSection: -1,
+  log: [],
 };
 
 export default codeViewer;

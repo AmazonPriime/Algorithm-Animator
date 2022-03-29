@@ -86,7 +86,7 @@ class AlgorithmSelector extends Component {
             type="checkbox"
             label="directed"
             checked={directed}
-            disabled={algorithmObj.notDirectional}
+            disabled={algorithmObj ? algorithmObj.notDirectional : false}
             onClick={() => setDirected(!directed)}
           />
         </Form.Group>
