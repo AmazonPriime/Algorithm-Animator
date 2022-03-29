@@ -64,6 +64,44 @@ Some MVP features for the project include; playback features (play/pause/step/sp
 
 **installation of [Yarn Package Manager](https://yarnpkg.com/) is required*
 
+### Adding Algorithm
+To add an algorithm first create a JavaScript and copy in the template below.
+* The description string supports the use of [markdown syntax](https://www.markdownguide.org/cheat-sheet/)
+* Preset graphs as formatted as [adjacency matrices](https://www.geeksforgeeks.org/graph-and-its-representations/)
+* Creating the pseudocode you can encapsulate differnt sections with `{{0}} {{/0}}`
+   * This allows for them to be highlighted during animation as a section number can be provided to a step
+```JavaScript
+import { createStep } from '../util/util';
+
+export default {
+  name: '',
+  weighted: false,
+  notDirectional: false,
+  presets: [
+    {
+      name: '5 Nodes',
+      matrix: [
+        [0, 1, 0, 0, 0], // eslint-disable-line
+        [0, 0, 1, 0, 0], // eslint-disable-line
+        [0, 0, 0, 1, 0], // eslint-disable-line
+        [0, 0, 0, 0, 1], // eslint-disable-line
+        [1, 0, 0, 0, 0], // eslint-disable-line
+      ],
+    },
+  ],
+  description: ``,
+  pseudocode: ``,
+  algorithm: (graph, source, dest, directed) => {
+    const steps = []; // list to store each 'step' of the algorithm
+    //
+    // algorithm goes here
+    // create steps using the createStep() function
+    //
+    return steps;
+  },
+};
+```
+
 ### Technologies
 * Node.js
     * JavaScript runtime environment that allows you run JavaScript code outside of the web browser
