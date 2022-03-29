@@ -16,7 +16,7 @@ const renderLegend = (legends) => legends.map((legend) => (
 const legend = () => {
   const [expanded, setExpanded] = useState(true);
   return (
-    <div className={expanded ? 'legend-container expanded' : 'legend-container'}>
+    <div id="legend" className={expanded ? 'legend-container expanded' : 'legend-container'}>
       <button
         className="legend-title"
         onClick={() => setExpanded(!expanded)}
